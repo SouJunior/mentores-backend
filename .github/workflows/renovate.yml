@@ -6,8 +6,10 @@ jobs:
   renovate:
     runs-on: ubuntu-latest
     steps:
+
       - name: Checkout the repository
         uses: actions/checkout@v2
+
       - uses: renovatebot/renovate@27.23.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
