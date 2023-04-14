@@ -10,7 +10,7 @@ import { UserModule } from './modules/user/user.module';
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
-      type: 'mysql',
+      type: 'postgres',
       host: process.env.DATABASE_HOST,
       port: Number(process.env.DATABASE_PORT),
       username: process.env.DATABASE_USERNAME,
@@ -19,7 +19,7 @@ import { UserModule } from './modules/user/user.module';
       synchronize: true,
       logging: true,
       migrationsRun: true,
-      entities: ['dist/src/database/entities/*.entity.js'],
+      entities: ['dist/database/entities/*.entity.js'],
     }),
     UserModule,
   ],

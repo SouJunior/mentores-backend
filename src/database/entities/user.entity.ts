@@ -1,27 +1,32 @@
 import {
-  Entity,
   Column,
-  PrimaryGeneratedColumn,
   CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('user')
+enum StatusEnum {
+  ACTIVE = 'ACTIVE',
+  ARCHIVED = 'ARCHIVED',
+}
+
+@Entity('users')
 export class UserEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
-  firstName: string;
+  fullName: string;
 
   @Column()
-  lastName: string;
+  dateOfBirth: Date;
 
   @Column()
   email: string;
 
-  @Column({ default: true })
-  isActive: boolean;
+  @Column({ default: false })
+  mailConfirm: boolean;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -29,12 +34,16 @@ export class UserEntity {
   @UpdateDateColumn({ update: true })
   updatedAt: Date;
 
+  @Column({ default: StatusEnum.ACTIVE })
+  status: StatusEnum;
+
   constructor(user?: Partial<UserEntity>) {
     this.id = user?.id;
-    this.firstName = user?.firstName;
-    this.lastName = user?.lastName;
+    this.fullName = user?.fullName;
+    this.dateOfBirth = user?.dateOfBirth;
     this.email = user?.email;
-    this.isActive = user?.isActive;
+    this.mailConfirm = user?.mailConfirm;
+    this.status = user?.status;
     this.createdAt = user?.createdAt;
     this.updatedAt = user?.updatedAt;
   }

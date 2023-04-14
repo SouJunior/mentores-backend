@@ -1,10 +1,17 @@
 import { Injectable } from '@nestjs/common';
-import { UserRepository } from './repository/user.repository';
 import { UserEntity } from 'src/database/entities/user.entity';
+import { CreateUserDto } from './dtos/create-user.dto';
+import { UserRepository } from './repository/user.repository';
 
 @Injectable()
 export class UserService {
   constructor(private userRepository: UserRepository) {}
+
+  async createUser(data: CreateUserDto): Promise<{ message: string }> {
+    await this.userRepository.createNewUser(data);
+
+    return { message: 'Create user successfully' };
+  }
 
   async getAllUsers(): Promise<UserEntity[]> {
     return this.userRepository.findAllUsers();
@@ -14,15 +21,10 @@ export class UserService {
     return id;
   }
 
-  createUser(): string {
-    return 'ok';
-  }
-
   updateUser(): string {
     return 'ok';
   }
 
-  //ver se precisa
   deleteUser(): string {
     return 'ok';
   }
