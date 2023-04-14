@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { UserEntity } from '../../../database/entities/user.entity';
 import { handleError } from '../../../shared/utils/handle-error.util';
 import { CreateUserDto } from '../dtos/create-user.dto';
+import { StatusEnum } from '../enum/status.enum';
 
 @Injectable()
 export class UserRepository {
@@ -28,5 +29,19 @@ export class UserRepository {
         },
       })
       .catch(handleError);
+  }
+
+  async findUserById(id: string): Promise<UserEntity> {
+    return this.userRepository.findOne({ where: { id } }).catch(handleError);
+  }
+
+  async desativateUserById(id: string): Promise<UserEntity> {
+    const user = await this.userRepository
+      .findOne({ where: { id } })
+      .catch(handleError);
+
+    user.status = StatusEnum.ARCHIVED;
+
+    return this.userRepository.save(user);
   }
 }

@@ -1,16 +1,19 @@
 import {
   Body,
   Controller,
-  Delete,
   Get,
+  HttpStatus,
   Param,
+  Patch,
   Post,
   Put,
 } from '@nestjs/common';
-import { ApiParam, ApiTags } from '@nestjs/swagger';
-import { UserEntity } from '../../database/entities/user.entity';
-import GetEntity from '../../shared/pipes/pipe-entity.pipe';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { BadRequestSwagger } from '../../shared/Swagger/bad-request.swagger';
+import { NotFoundSwagger } from '../../shared/Swagger/not-found.swagger';
 import { CreateUserDto } from './dtos/create-user.dto';
+import { GetByParamDto } from './dtos/get-by-param.dto';
+import { UpdateUserDto } from './dtos/update-user.dto';
 import { UserService } from './user.service';
 
 @ApiTags('User')
@@ -19,6 +22,19 @@ export class UserController {
   constructor(private userService: UserService) {}
 
   @Post()
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: 'Exemplo do retorno de sucesso da rota',
+    type: NotFoundSwagger,
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Modelo de erro',
+    type: BadRequestSwagger,
+  })
+  @ApiOperation({
+    summary: 'Rota para cadastrar usuário plataforma',
+  })
   async createUser(@Body() createUserDto: CreateUserDto) {
     return this.userService.createUser(createUserDto);
   }
@@ -28,26 +44,21 @@ export class UserController {
     return this.userService.getAllUsers();
   }
 
-  @ApiParam({
-    type: 'string',
-    name: 'id',
-    example: 'be9cafb2-9eb7-44b9-b265-77b8d19c1bdb',
-  })
   @Get(':id')
-  getUserById(
-    @Param('id', new GetEntity(UserEntity))
-    user: UserEntity,
+  getUserById(@Param() { id }: GetByParamDto) {
+    return this.userService.findUserById(id);
+  }
+
+  @Put(':id')
+  updateLoggedUser(
+    @Param() { id }: GetByParamDto,
+    @Body() data: UpdateUserDto,
   ) {
-    return user;
+    return this.userService.updateLoggedUser(id, data);
   }
 
-  @Put()
-  updateUser() {
-    return this.userService.updateUser();
-  }
-
-  @Delete()
-  deleteUser() {
-    return this.userService.deleteUser();
+  @Patch(':id')
+  desactivateLoggedUser(@Param() { id }: GetByParamDto) {
+    return this.userService.desactivateLoggedUser(id);
   }
 }
