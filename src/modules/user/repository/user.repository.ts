@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserEntity } from '../../../database/entities/user.entity';
+import { StatusEnum } from '../../../shared/enums/status.enum';
 import { handleError } from '../../../shared/utils/handle-error.util';
 import { CreateUserDto } from '../dtos/create-user.dto';
-import { StatusEnum } from '../enum/status.enum';
 
 @Injectable()
 export class UserRepository {
@@ -43,5 +43,11 @@ export class UserRepository {
     user.status = StatusEnum.ARCHIVED;
 
     return this.userRepository.save(user);
+  }
+
+  async updateAccessAttempts(user: UserEntity): Promise<void> {
+    await this.userRepository.save(user);
+
+    return;
   }
 }

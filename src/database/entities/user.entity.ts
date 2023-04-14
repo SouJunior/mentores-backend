@@ -23,10 +23,19 @@ export class UserEntity {
   dateOfBirth: Date;
 
   @Column()
+  password: string;
+
+  @Column()
   email: string;
 
   @Column({ default: false })
   mailConfirm: boolean;
+
+  @Column({ default: 0 })
+  accessAttempt: number;
+
+  @Column({ nullable: true })
+  code: string;
 
   @CreateDateColumn()
   createdAt: Date;

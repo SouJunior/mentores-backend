@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
 import { UserEntity } from 'src/database/entities/user.entity';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
@@ -16,6 +17,11 @@ export class UserService {
     if (userAlreadyExists) {
       throw new BadRequestException('User already exists');
     }
+
+    data.password = await bcrypt.hash(data.password, 10);
+
+    delete data.passwordConfirmation;
+
     await this.userRepository.createNewUser(data);
 
     return { message: 'Create user successfully' };

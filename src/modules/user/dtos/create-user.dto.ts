@@ -1,14 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
-  Equals,
   IsDateString,
   IsEmail,
   IsNotEmpty,
   IsString,
   Matches,
   MaxLength,
-  ValidateIf,
 } from 'class-validator';
+import { Match } from '../decorators/match.decorator';
 
 export class CreateUserDto {
   @IsString()
@@ -56,19 +55,11 @@ export class CreateUserDto {
 
   @IsNotEmpty()
   @IsString()
-  @Matches(
-    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()\-_=+{};:,<.>])[a-zA-Z\d!@#$%^&*()\-_=+{};:,<.>.]{1,8}$/,
-    {
-      message:
-        'Senha inválida. Deve conter no máximo 8 caracteres, uma letra maiúscula, uma letra minúscula, um número e um caractere especial.',
-    },
-  )
   @ApiProperty({
     description: 'Confirmação de senha',
     example: 'Abcd@123',
   })
-  @ValidateIf((_, value) => value)
-  @Equals((property) => property.password, {
+  @Match('password', {
     message: 'Senhas precisam ser idênticas',
   })
   passwordConfirmation: string;
