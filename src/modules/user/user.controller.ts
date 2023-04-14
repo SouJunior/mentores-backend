@@ -8,7 +8,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiExcludeEndpoint, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { BadRequestSwagger } from '../../shared/Swagger/bad-request.swagger';
 import { NotFoundSwagger } from '../../shared/Swagger/not-found.swagger';
 import { CreateUserDto } from './dtos/create-user.dto';
@@ -39,16 +39,19 @@ export class UserController {
     return this.userService.createUser(createUserDto);
   }
 
+  @ApiExcludeEndpoint()
   @Get()
   async getAllUsers() {
     return this.userService.getAllUsers();
   }
 
+  @ApiExcludeEndpoint()
   @Get(':id')
   getUserById(@Param() { id }: GetByParamDto) {
     return this.userService.findUserById(id);
   }
 
+  @ApiExcludeEndpoint()
   @Put(':id')
   updateLoggedUser(
     @Param() { id }: GetByParamDto,
@@ -57,6 +60,7 @@ export class UserController {
     return this.userService.updateLoggedUser(id, data);
   }
 
+  @ApiExcludeEndpoint()
   @Patch(':id')
   desactivateLoggedUser(@Param() { id }: GetByParamDto) {
     return this.userService.desactivateLoggedUser(id);

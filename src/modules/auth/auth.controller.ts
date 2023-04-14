@@ -10,6 +10,7 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import {
   ApiBearerAuth,
+  ApiExcludeEndpoint,
   ApiOperation,
   ApiResponse,
   ApiTags,
@@ -47,6 +48,7 @@ export class AuthController {
     return res.status(status).send(data);
   }
 
+  @ApiExcludeEndpoint()
   @Get('/user-logged')
   @UseGuards(AuthGuard())
   @ApiResponse({

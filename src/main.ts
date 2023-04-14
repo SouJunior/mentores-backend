@@ -20,7 +20,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('Mentores-Backend')
     .setDescription('Documentação das rotas da API Mentores Backend.')
-    .setVersion('1.0.0')
+    .setVersion('1.0.1')
     .addBearerAuth()
     .build();
 
