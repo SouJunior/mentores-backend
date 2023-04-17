@@ -30,7 +30,6 @@ export class CreateUserDto {
   @IsString()
   @IsEmail()
   @MaxLength(100)
-  // @EmailNotRegistered({ message: 'email already registered' })
   @IsNotEmpty()
   @ApiProperty({
     required: true,

@@ -1,52 +1,44 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { UserEntity } from '../../../database/entities/user.entity';
-import { StatusEnum } from '../../../shared/enums/status.enum';
+import { PrismaClient } from '@prisma/client';
 import { handleError } from '../../../shared/utils/handle-error.util';
 import { CreateUserDto } from '../dtos/create-user.dto';
+import { UserEntity } from '../entity/user.entity';
 
 @Injectable()
-export class UserRepository {
-  constructor(
-    @InjectRepository(UserEntity)
-    private userRepository: Repository<UserEntity>,
-  ) {}
-
+export class UserRepository extends PrismaClient {
   async createNewUser(data: CreateUserDto): Promise<UserEntity> {
-    return this.userRepository.save(data);
+    return this.user.create({ data }).catch(handleError);
   }
 
   async findAllUsers(): Promise<UserEntity[]> {
-    return this.userRepository.find().catch(handleError);
+    return this.user.findMany().catch(handleError);
   }
 
   async findUserByEmail(email: string): Promise<UserEntity> {
-    return this.userRepository
-      .findOne({
+    return this.user.findUnique({ where: { email } }).catch(handleError);
+  }
+
+  async findUserById(id: string): Promise<UserEntity> {
+    return this.user.findUnique({ where: { id } }).catch(handleError);
+  }
+
+  async desativateUserById(id: string): Promise<UserEntity> {
+    return this.user
+      .update({
         where: {
-          email,
+          id,
+        },
+        data: {
+          deleted: true,
         },
       })
       .catch(handleError);
   }
 
-  async findUserById(id: string): Promise<UserEntity> {
-    return this.userRepository.findOne({ where: { id } }).catch(handleError);
-  }
-
-  async desativateUserById(id: string): Promise<UserEntity> {
-    const user = await this.userRepository
-      .findOne({ where: { id } })
-      .catch(handleError);
-
-    user.status = StatusEnum.ARCHIVED;
-
-    return this.userRepository.save(user);
-  }
-
   async updateAccessAttempts(user: UserEntity): Promise<void> {
-    await this.userRepository.save(user);
+    await this.user
+      .update({ where: { id: user.id }, data: user })
+      .catch(handleError);
 
     return;
   }

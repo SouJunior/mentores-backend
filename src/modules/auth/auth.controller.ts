@@ -16,12 +16,12 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Response } from 'express';
-import { UserEntity } from '../../database/entities/user.entity';
 import { BadRequestSwagger } from '../../shared/Swagger/bad-request.swagger';
 import { UnauthorizedSwagger } from '../../shared/Swagger/unauthorized.swagger';
 import { AuthService } from './auth.service';
 import { LoggedUser } from './decorator/logged-user.decorator';
 import { UserLoginDto } from './dtos/user-login.dto';
+import { UserEntity } from '../user/entity/user.entity';
 
 @Controller('auth')
 @ApiTags('Auth')

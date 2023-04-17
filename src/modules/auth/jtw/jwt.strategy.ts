@@ -2,7 +2,6 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { UserRepository } from 'src/modules/user/repository/user.repository';
-import { handleError } from '../../../shared/utils/handle-error.util';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -15,11 +14,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: { email: string }) {
-    let user: any = {};
-
-    user = await this.userRepository
-      .findUserByEmail(payload.email)
-      .catch(handleError);
+    const user = await this.userRepository.findUserByEmail(payload.email);
 
     if (!user) {
       throw new UnauthorizedException('User not found or not authorized!');
