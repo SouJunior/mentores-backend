@@ -8,6 +8,7 @@ import {
   MaxLength,
 } from 'class-validator';
 import { Match } from '../decorators/match.decorator';
+import { Transform } from 'class-transformer';
 
 export class CreateUserDto {
   @IsString()
@@ -31,6 +32,7 @@ export class CreateUserDto {
   @IsEmail()
   @MaxLength(100)
   @IsNotEmpty()
+  @Transform(({ value }) => value.toLowerCase())
   @ApiProperty({
     required: true,
     example: 'fulano.de.tal@dominio.com',

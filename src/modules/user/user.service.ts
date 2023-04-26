@@ -10,13 +10,13 @@ export class UserService {
   constructor(private userRepository: UserRepository) {}
 
   async createUser(data: CreateUserDto): Promise<{ message: string }> {
-    // const userAlreadyExists = await this.userRepository.findUserByEmail(
-    //   data.email,
-    // );
+    const userAlreadyExists = await this.userRepository.findUserByEmail(
+      data.email,
+    );
 
-    // if (userAlreadyExists) {
-    //   throw new BadRequestException('User already exists');
-    // }
+    if (userAlreadyExists) {
+      throw new BadRequestException('User already exists');
+    }
 
     data.password = await bcrypt.hash(data.password, 10);
 
