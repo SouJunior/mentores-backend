@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
 import {
   IsDateString,
   IsEmail,
@@ -8,7 +9,6 @@ import {
   MaxLength,
 } from 'class-validator';
 import { Match } from '../decorators/match.decorator';
-import { Transform } from 'class-transformer';
 
 export class CreateUserDto {
   @IsString()
@@ -24,7 +24,7 @@ export class CreateUserDto {
   @IsNotEmpty()
   @ApiProperty({
     required: true,
-    example: '2023-04-06T01:48:41.314Z',
+    example: '2023-04-06',
   })
   dateOfBirth: Date;
 

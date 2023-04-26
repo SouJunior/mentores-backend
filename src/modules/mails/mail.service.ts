@@ -9,7 +9,7 @@ export class MailService {
 
   async sendEmailConfirmation(user: UserEntity): Promise<void> {
     const { email, fullName, code } = user;
-    const url = `http://localhost:3333/recovery-password?token=${code}`;
+    const url = `http://localhost:3333/recoveryPassword?token=${code}`;
 
     await this.mailerService.sendMail({
       to: email,
@@ -27,7 +27,7 @@ export class MailService {
   async sendCreationConfirmation(user: UserEntity) {
     const { email, fullName, code } = user;
 
-    const url = `http://localhost:3333/userconfirmation?token=${code}`;
+    const url = `http://localhost:3333/emailConfirmation?token=${code}`;
 
     await this.mailerService.sendMail({
       to: email,
