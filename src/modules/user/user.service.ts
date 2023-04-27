@@ -31,8 +31,20 @@ export class UserService {
     return this.userRepository.findAllUsers();
   }
 
-  async findUserById(id: string): Promise<UserEntity> {
-    return this.userRepository.findUserById(id);
+  async findUserById(id: string): Promise<any> {
+    const user = await this.userRepository.findUserById(id);
+
+    if (!user) {
+      return {
+        status: 404,
+        data: { message: 'User not found' },
+      };
+    }
+
+    return {
+      status: 200,
+      data: user,
+    };
   }
 
   updateLoggedUser(id: string, data: UpdateUserDto): string {

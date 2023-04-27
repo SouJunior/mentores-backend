@@ -15,18 +15,18 @@ import { AuthGuard } from '@nestjs/passport';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @SwaggerLogin()
   @Post('/login')
+  @SwaggerLogin()
   async login(@Body() loginData: UserLoginDto, @Res() res: Response) {
     const { status, data } = await this.authService.execute(loginData);
 
     return res.status(status).send(data);
   }
 
+  @Get('/user-logged')
   @SwaggerLogged()
   @ApiBearerAuth()
   @UseGuards(AuthGuard())
-  @Get('/user-logged')
   async userLogged(@LoggedUser() user: UserEntity) {
     return user;
   }

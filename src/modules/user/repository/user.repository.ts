@@ -18,8 +18,20 @@ export class UserRepository extends PrismaClient {
     return this.user.findUnique({ where: { email } }).catch(handleError);
   }
 
-  async findUserById(id: string): Promise<UserEntity> {
-    return this.user.findUnique({ where: { id } }).catch(handleError);
+  async findUserById(id: string): Promise<any> {
+    return this.user
+      .findUnique({
+        where: { id },
+        select: {
+          id: true,
+          fullName: true,
+          dateOfBirth: true,
+          email: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+      })
+      .catch(handleError);
   }
 
   async desativateUserById(id: string): Promise<UserEntity> {
