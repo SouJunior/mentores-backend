@@ -1,70 +1,32 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpStatus,
-  Post,
-  Res,
-  UseGuards,
-} from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
-import {
-  ApiBearerAuth,
-  ApiExcludeEndpoint,
-  ApiOperation,
-  ApiResponse,
-  ApiTags,
-} from '@nestjs/swagger';
+import { Body, Controller, Get, Post, Res, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
-import { BadRequestSwagger } from '../../shared/Swagger/bad-request.swagger';
-import { UnauthorizedSwagger } from '../../shared/Swagger/unauthorized.swagger';
+import { SwaggerLogged } from '../../shared/Swagger/decorators/auth/logged.swagger.decorator';
+
+import { SwaggerLogin } from '../../shared/Swagger/decorators/auth/login.swagger.decorator';
+import { UserEntity } from '../user/entity/user.entity';
 import { AuthService } from './auth.service';
 import { LoggedUser } from './decorator/logged-user.decorator';
 import { UserLoginDto } from './dtos/user-login.dto';
-import { UserEntity } from '../user/entity/user.entity';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('auth')
 @ApiTags('Auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
+  @SwaggerLogin()
   @Post('/login')
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'Exemplo do retorno de sucesso da rota',
-    type: '',
-  })
-  @ApiResponse({
-    status: HttpStatus.BAD_REQUEST,
-    description: 'Modelo de erro',
-    type: BadRequestSwagger,
-  })
-  @ApiOperation({
-    summary: 'Rota para fazer login na plataforma',
-  })
   async login(@Body() loginData: UserLoginDto, @Res() res: Response) {
     const { status, data } = await this.authService.execute(loginData);
 
     return res.status(status).send(data);
   }
 
-  @ApiExcludeEndpoint()
-  @Get('/user-logged')
-  @UseGuards(AuthGuard())
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'Exemplo do retorno de sucesso da rota',
-    type: '',
-  })
-  @ApiResponse({
-    status: HttpStatus.UNAUTHORIZED,
-    description: 'Modelo de erro',
-    type: UnauthorizedSwagger,
-  })
-  @ApiOperation({
-    summary: 'Retorna usuário logado',
-  })
+  @SwaggerLogged()
   @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+  @Get('/user-logged')
   async userLogged(@LoggedUser() user: UserEntity) {
     return user;
   }
