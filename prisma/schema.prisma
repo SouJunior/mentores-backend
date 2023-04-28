@@ -7,13 +7,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model tb_users {
+model Users {
   id             String   @id
   fullName       String
   dateOfBirth    DateTime
   password       String
   email          String   @unique
-  emailConfirmed Boolean  @default(true)
+  emailConfirmed Boolean  @default(false)
   accessAttempt  Int?     @default(0)
   code           String?
   createdAt      DateTime @default(now())
