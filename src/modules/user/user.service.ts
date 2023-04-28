@@ -21,6 +21,7 @@ export class UserService {
     data.password = await bcrypt.hash(data.password, 10);
 
     delete data.passwordConfirmation;
+    delete data.emailConfirm;
 
     await this.userRepository.createNewUser(data);
 
