@@ -39,6 +39,20 @@ export class CreateUserDto {
   })
   email: string;
 
+  @IsString()
+  @IsEmail()
+  @MaxLength(100)
+  @IsNotEmpty()
+  @Transform(({ value }) => value.toLowerCase())
+  @ApiProperty({
+    required: true,
+    example: 'fulano.de.tal@dominio.com',
+  })
+  @Match('email', {
+    message: 'Os emails precisam ser iguais',
+  })
+  emailConfirm: string;
+
   @IsNotEmpty()
   @IsString()
   @Matches(

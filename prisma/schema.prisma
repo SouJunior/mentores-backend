@@ -7,19 +7,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id             String   @id @default(uuid())
+model tb_users {
+  id             String   @id
   fullName       String
   dateOfBirth    DateTime
   password       String
   email          String   @unique
-  emailConfirmed Boolean  @default(false)
+  emailConfirmed Boolean  @default(true)
   accessAttempt  Int?     @default(0)
   code           String?
   createdAt      DateTime @default(now())
-  updatedAt      DateTime @default(now()) @updatedAt
+  updatedAt      DateTime @default(now())
   deleted        Boolean  @default(false)
 
   @@index([id])
-  @@map("tb_users")
 }
