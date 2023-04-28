@@ -7,19 +7,19 @@ import { UserEntity } from '../entity/user.entity';
 @Injectable()
 export class UserRepository extends PrismaClient {
   async createNewUser(data: CreateUserDto): Promise<UserEntity> {
-    return this.user.create({ data }).catch(handleError);
+    return this.users.create({ data }).catch(handleError);
   }
 
   async findAllUsers(): Promise<UserEntity[]> {
-    return this.user.findMany().catch(handleError);
+    return this.users.findMany().catch(handleError);
   }
 
   async findUserByEmail(email: string): Promise<UserEntity> {
-    return this.user.findUnique({ where: { email } }).catch(handleError);
+    return this.users.findUnique({ where: { email } }).catch(handleError);
   }
 
   async findUserById(id: string): Promise<any> {
-    return this.user
+    return this.users
       .findUnique({
         where: { id },
         select: {
@@ -35,7 +35,7 @@ export class UserRepository extends PrismaClient {
   }
 
   async desativateUserById(id: string): Promise<UserEntity> {
-    return this.user
+    return this.users
       .update({
         where: {
           id,
@@ -48,7 +48,7 @@ export class UserRepository extends PrismaClient {
   }
 
   async updateAccessAttempts(user: UserEntity): Promise<void> {
-    await this.user
+    await this.users
       .update({ where: { id: user.id }, data: user })
       .catch(handleError);
 
