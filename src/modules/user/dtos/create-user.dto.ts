@@ -49,7 +49,7 @@ export class CreateUserDto {
     example: 'fulano.de.tal@dominio.com',
   })
   @Match('email', {
-    message: 'Os emails precisam ser iguais',
+    message: 'The emails dont match',
   })
   emailConfirm: string;
 
@@ -57,10 +57,6 @@ export class CreateUserDto {
   @IsString()
   @Matches(
     /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()\-_=+{};:,<.>])[a-zA-Z\d!@#$%^&*()\-_=+{};:,<.>.]{1,8}$/,
-    {
-      message:
-        'Senha inválida. Deve conter no máximo 8 caracteres, uma letra maiúscula, uma letra minúscula, um número e um caractere especial.',
-    },
   )
   @ApiProperty({
     description: 'Senha de Login',
@@ -75,7 +71,7 @@ export class CreateUserDto {
     example: 'Abcd@123',
   })
   @Match('password', {
-    message: 'Senhas precisam ser idênticas',
+    message: 'The password dont match',
   })
   passwordConfirmation: string;
 }
