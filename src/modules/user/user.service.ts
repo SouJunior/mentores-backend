@@ -10,6 +10,8 @@ export class UserService {
   constructor(private userRepository: UserRepository) {}
 
   async createUser(data: CreateUserDto): Promise<{ message: string }> {
+    data.dateOfBirth = new Date(data.dateOfBirth);
+
     const userAlreadyExists = await this.userRepository.findUserByEmail(
       data.email,
     );
