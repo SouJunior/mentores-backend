@@ -13,7 +13,7 @@ services:
       - POSTGRES_DB=mentores_backend
     volumes:
       - pgdata:/data/postgres
-  app:
+  mentores_backend:
     build: .
     container_name: mentores_backend
     restart: always
@@ -28,7 +28,7 @@ services:
     env_file:
       - .env
     environment:
-      - TYPEORM_HOST=database_soujunior
+      - DATABASE_URL=postgresql://docker:ignite@mentores_backend:3306/mentores_backend?reconnect=true
 
 volumes:
   pgdata:

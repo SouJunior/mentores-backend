@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { UserEntity } from 'src/database/entities/user.entity';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
+import { UserEntity } from './entity/user.entity';
 import { UserRepository } from './repository/user.repository';
 
 @Injectable()
@@ -10,6 +10,8 @@ export class UserService {
   constructor(private userRepository: UserRepository) {}
 
   async createUser(data: CreateUserDto): Promise<{ message: string }> {
+    data.dateOfBirth = new Date(data.dateOfBirth);
+
     const userAlreadyExists = await this.userRepository.findUserByEmail(
       data.email,
     );
@@ -21,6 +23,7 @@ export class UserService {
     data.password = await bcrypt.hash(data.password, 10);
 
     delete data.passwordConfirmation;
+    delete data.emailConfirm;
 
     await this.userRepository.createNewUser(data);
 
@@ -31,8 +34,20 @@ export class UserService {
     return this.userRepository.findAllUsers();
   }
 
-  async findUserById(id: string): Promise<UserEntity> {
-    return this.userRepository.findUserById(id);
+  async findUserById(id: string): Promise<any> {
+    const user = await this.userRepository.findUserById(id);
+
+    if (!user) {
+      return {
+        status: 404,
+        data: { message: 'User not found' },
+      };
+    }
+
+    return {
+      status: 200,
+      data: user,
+    };
   }
 
   updateLoggedUser(id: string, data: UpdateUserDto): string {

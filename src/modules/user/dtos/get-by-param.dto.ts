@@ -7,7 +7,7 @@ export class GetByParamDto {
   @IsNotEmpty()
   @ApiProperty({
     required: true,
-    example: '4edeaf86-49e0-4e48-a0a2-39c883f559ae',
+    example: '2046f12a-37b3-4d17-b210-8b604e632f7e',
   })
   id: string;
 }

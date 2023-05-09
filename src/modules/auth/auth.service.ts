@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 
-import { StatusEnum } from '../../shared/enums/status.enum';
 import { UserRepository } from '../user/repository/user.repository';
 import { UserLoginDto } from './dtos/user-login.dto';
 
@@ -16,7 +15,7 @@ export class AuthService {
   async execute({ email, password }: UserLoginDto) {
     const user = await this.userRepository.findUserByEmail(email);
 
-    if (!user?.mailConfirm || !user || user.status === StatusEnum.ARCHIVED) {
+    if (!user?.emailConfirmed || !user || user.deleted === true) {
       return {
         status: 400,
         data: { message: 'E-mail ou senha inválidos' },
@@ -73,8 +72,8 @@ export class AuthService {
 
     delete user.password;
     delete user.code;
-    delete user.mailConfirm;
-    delete user.status;
+    delete user.emailConfirmed;
+    delete user.deleted;
     delete user.accessAttempt;
 
     return {

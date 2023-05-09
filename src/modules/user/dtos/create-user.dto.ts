@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
 import {
   IsDateString,
   IsEmail,
@@ -23,29 +24,39 @@ export class CreateUserDto {
   @IsNotEmpty()
   @ApiProperty({
     required: true,
-    example: '2023-04-06T01:48:41.314Z',
+    example: '2023-04-06',
   })
   dateOfBirth: Date;
 
   @IsString()
   @IsEmail()
   @MaxLength(100)
-  // @EmailNotRegistered({ message: 'email already registered' })
   @IsNotEmpty()
+  @Transform(({ value }) => value.toLowerCase())
   @ApiProperty({
     required: true,
     example: 'fulano.de.tal@dominio.com',
   })
   email: string;
 
+  @IsString()
+  @IsEmail()
+  @MaxLength(100)
+  @IsNotEmpty()
+  @Transform(({ value }) => value.toLowerCase())
+  @ApiProperty({
+    required: true,
+    example: 'fulano.de.tal@dominio.com',
+  })
+  @Match('email', {
+    message: 'The emails dont match',
+  })
+  emailConfirm: string;
+
   @IsNotEmpty()
   @IsString()
   @Matches(
     /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()\-_=+{};:,<.>])[a-zA-Z\d!@#$%^&*()\-_=+{};:,<.>.]{1,8}$/,
-    {
-      message:
-        'Senha inválida. Deve conter no máximo 8 caracteres, uma letra maiúscula, uma letra minúscula, um número e um caractere especial.',
-    },
   )
   @ApiProperty({
     description: 'Senha de Login',
@@ -60,7 +71,7 @@ export class CreateUserDto {
     example: 'Abcd@123',
   })
   @Match('password', {
-    message: 'Senhas precisam ser idênticas',
+    message: 'The password dont match',
   })
   passwordConfirmation: string;
 }
