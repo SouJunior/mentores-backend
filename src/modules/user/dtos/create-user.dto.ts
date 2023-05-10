@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import {
-  IsDateString,
+  IsDate,
   IsEmail,
   IsNotEmpty,
   IsString,
@@ -21,9 +21,11 @@ export class CreateUserDto {
   })
   fullName: string;
 
-  @IsDateString()
-  @IsNotEmpty()
-  @MaxDate(new Date())
+  @Transform(({ value }) => new Date(value))
+  @IsDate()
+  @MaxDate(new Date(), {
+    message: 'The date must be before the current date',
+  })
   @ApiProperty({
     required: true,
     example: '2023-04-06',
