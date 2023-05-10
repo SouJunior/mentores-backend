@@ -6,6 +6,7 @@ import {
   IsNotEmpty,
   IsString,
   Matches,
+  MaxDate,
   MaxLength,
 } from 'class-validator';
 import { Match } from '../decorators/match.decorator';
@@ -22,6 +23,7 @@ export class CreateUserDto {
 
   @IsDateString()
   @IsNotEmpty()
+  @MaxDate(new Date())
   @ApiProperty({
     required: true,
     example: '2023-04-06',
