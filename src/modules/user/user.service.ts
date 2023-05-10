@@ -27,7 +27,7 @@ export class UserService {
 
     await this.userRepository.createNewUser(data);
 
-    return { message: 'Create user successfully' };
+    return { message: 'User created successfully' };
   }
 
   async getAllUsers(): Promise<UserEntity[]> {
@@ -51,12 +51,12 @@ export class UserService {
   }
 
   updateLoggedUser(id: string, data: UpdateUserDto): string {
-    return 'Funcionalidade ainda em desenvolvimento';
+    return 'Feature still in development';
   }
 
   async desactivateLoggedUser(id: string): Promise<{ message: string }> {
     await this.userRepository.desativateUserById(id);
 
-    return { message: 'User desactivated successfully' };
+    return { message: 'User deactivated successfully' };
   }
 }
