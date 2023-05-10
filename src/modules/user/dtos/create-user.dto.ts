@@ -12,26 +12,30 @@ import { Match } from '../decorators/match.decorator';
 
 export class CreateUserDto {
   @IsString()
-  @IsNotEmpty()
-  @MaxLength(100)
+  @IsNotEmpty({ message: "the 'fullName' field must not be empty" })
+  @MaxLength(100, { message: 'Maximum of 100 characters exceeded' })
   @ApiProperty({
     required: true,
     example: 'Fulano de tal',
   })
   fullName: string;
 
-  @IsDateString()
-  @IsNotEmpty()
+  @IsDateString(undefined, {
+    message: 'Only strings are allowed in this field',
+  })
+  @IsNotEmpty({ message: "the 'dateOfBirth' field must not be empty" })
   @ApiProperty({
     required: true,
     example: '2023-04-06',
   })
   dateOfBirth: Date;
 
-  @IsString()
-  @IsEmail()
-  @MaxLength(100)
-  @IsNotEmpty()
+  @IsString({ message: 'Only strings are allowed in this field' })
+  @IsEmail(undefined, {
+    message: 'Invalid e-mail format',
+  })
+  @MaxLength(100, { message: 'Maximum of 100 characters exceeded' })
+  @IsNotEmpty({ message: "the 'email' field must not be empty" })
   @Transform(({ value }) => value.toLowerCase())
   @ApiProperty({
     required: true,
@@ -39,10 +43,12 @@ export class CreateUserDto {
   })
   email: string;
 
-  @IsString()
-  @IsEmail()
-  @MaxLength(100)
-  @IsNotEmpty()
+  @IsString({ message: 'Only strings are allowed in this field' })
+  @IsEmail(undefined, {
+    message: 'Invalid e-mail format',
+  })
+  @MaxLength(100, { message: 'Maximum of 100 characters exceeded' })
+  @IsNotEmpty({ message: "the 'emailConfirm' field must not be empty" })
   @Transform(({ value }) => value.toLowerCase())
   @ApiProperty({
     required: true,
@@ -53,10 +59,14 @@ export class CreateUserDto {
   })
   emailConfirm: string;
 
-  @IsNotEmpty()
-  @IsString()
+  @IsNotEmpty({ message: "the 'password' field must not be empty" })
+  @IsString({ message: 'Only strings are allowed in this field' })
   @Matches(
     /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()\-_=+{};:,<.>])[a-zA-Z\d!@#$%^&*()\-_=+{};:,<.>.]{1,8}$/,
+    {
+      message:
+        'Password must have a maximum of 8 characters, a capital letter, a number and a symbol',
+    },
   )
   @ApiProperty({
     description: 'Senha de Login',
@@ -64,14 +74,14 @@ export class CreateUserDto {
   })
   password: string;
 
-  @IsNotEmpty()
+  @IsNotEmpty({ message: "the 'passwordConfirmation' field must not be empty" })
   @IsString()
   @ApiProperty({
     description: 'Confirmação de senha',
     example: 'Abcd@123',
   })
   @Match('password', {
-    message: 'The password dont match',
+    message: 'The password does not match with the password confirmation',
   })
   passwordConfirmation: string;
 }

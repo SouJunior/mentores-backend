@@ -18,7 +18,7 @@ export class AuthService {
     if (!user?.emailConfirmed || !user || user.deleted === true) {
       return {
         status: 400,
-        data: { message: 'E-mail ou senha inválidos' },
+        data: { message: 'Invalid e-mail or password' },
       };
     }
 
@@ -27,7 +27,7 @@ export class AuthService {
         status: 400,
         data: {
           message:
-            "Seu acesso à conta continua bloqueado, pois você não redefiniu sua senha após as cinco tentativas de acesso incorretas. Por favor, clique em 'Esqueci minha senha' para realizar a recuperação.",
+            "Your account access is still blocked, because you dont redefined your password after five incorrect tries, please, click on 'Forgot my password' to begin the account restoration.",
         },
       };
     }
@@ -41,7 +41,7 @@ export class AuthService {
         status: 400,
         data: {
           message:
-            "Você digitou a senha incorretamente e será bloqueado após cinco tentativas. Para cadastrar um nova senha clique 'Esqueci minha senha'",
+            "You typed the password incorrectly and will be blocked in five tries. To register a new password click on 'Forgot my password'",
         },
       };
     }
@@ -53,7 +53,7 @@ export class AuthService {
         status: 400,
         data: {
           message:
-            "Por questões de segurança, bloqueamos sua conta após você ter atingido a quantidade máxima de tentativas de acesso. Para cadastrar uma nova senha, clique em 'Esqueci minha senha'.",
+            "For security reasons, we blocked your account after you exceeded the maximum amount of access tries. To register a new password click on 'Forgot my password'",
         },
       };
     }
@@ -63,7 +63,7 @@ export class AuthService {
       await this.userRepository.updateAccessAttempts(user);
       return {
         status: 400,
-        data: { message: 'E-mail ou senha inválidos' },
+        data: { message: 'Invalid e-mail or password' },
       };
     }
 
