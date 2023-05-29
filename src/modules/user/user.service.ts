@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, NotFoundException, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
@@ -48,6 +48,24 @@ export class UserService {
       status: 200,
       data: user,
     };
+  }
+
+  async findUserByNameAndRole(fullName?: string, role?: string): Promise<UserEntity[]> {
+
+    let users: UserEntity[];
+
+    if(fullName && role)
+      users = await this.userRepository.findUserByNameAndRole(fullName, role);
+
+    if(fullName)
+      users = await this.userRepository.findByName(fullName);
+
+    if(role)
+      users = await this.userRepository.findByRole(role);
+
+    if (!users || users.length === 0) { throw new NotFoundException("user not found"); }
+
+    return users;
   }
 
   updateLoggedUser(id: string, data: UpdateUserDto): string {
