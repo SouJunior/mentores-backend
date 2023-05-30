@@ -1,11 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import {
-  IsDateString,
+  IsDate,
   IsEmail,
   IsNotEmpty,
   IsString,
   Matches,
+  MaxDate,
   MaxLength,
 } from 'class-validator';
 import { Match } from '../decorators/match.decorator';
@@ -20,10 +21,12 @@ export class CreateUserDto {
   })
   fullName: string;
 
-  @IsDateString(undefined, {
-    message: 'Only strings are allowed in this field',
+
+  @Transform(({ value }) => new Date(value))
+  @IsDate()
+  @MaxDate(new Date(), {
+    message: 'The date must be before the current date',
   })
-  @IsNotEmpty({ message: "the 'dateOfBirth' field must not be empty" })
   @ApiProperty({
     required: true,
     example: '2023-04-06',
