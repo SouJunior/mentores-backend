@@ -14,7 +14,7 @@ import {
 import { ApiExcludeEndpoint, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { SwaggerCreateUser } from '../../shared/Swagger/decorators/user/create-user.swagger.decorator';
-import { SwaggerGetUser } from '../../shared/Swagger/decorators/user/get-user.swagger.decorator';
+import { SwaggerGetUser, SwaggerGetUserByNameAndRole } from '../../shared/Swagger/decorators/user/get-user.swagger.decorator';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { GetByParamDto } from './dtos/get-by-param.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
@@ -38,7 +38,7 @@ export class UserController {
   }
 
   @Get('search')
-  @SwaggerGetUser()
+  @SwaggerGetUserByNameAndRole()
   async findByNameAndRole(
     @Res() res: Response,
     @Query('fullName') fullName?: string,

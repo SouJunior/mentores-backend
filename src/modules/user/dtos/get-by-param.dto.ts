@@ -10,7 +10,9 @@ export class GetByParamDto {
     example: '2046f12a-37b3-4d17-b210-8b604e632f7e',
   })
   id: string;
+}
 
+export class GetByNameAndRoleDto {
   @IsString()
   @IsNotEmpty()
   @ApiProperty({
