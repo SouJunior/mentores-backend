@@ -4,6 +4,7 @@ import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UserEntity } from './entity/user.entity';
 import { UserRepository } from './repository/user.repository';
+import { IRepositoryResponse } from './@Types/user.types';
 
 @Injectable()
 export class UserService {
@@ -50,22 +51,20 @@ export class UserService {
     };
   }
 
-  async findUserByNameAndRole(fullName?: string, role?: string): Promise<UserEntity[]> {
+  async findUserByNameAndRole(fullName?: string, role?: string): Promise<IRepositoryResponse> {
 
-    let users: UserEntity[];
+    let result: IRepositoryResponse;
 
     if(fullName && role)
-      users = await this.userRepository.findUserByNameAndRole(fullName, role);
+      result = await this.userRepository.findUserByNameAndRole(fullName, role);
 
-    if(fullName)
-      users = await this.userRepository.findByName(fullName);
+    if(fullName && !role)
+      result = await this.userRepository.findByName(fullName);
 
-    if(role)
-      users = await this.userRepository.findByRole(role);
+    if(role && !fullName)
+      result = await this.userRepository.findByRole(role);
 
-    if (!users || users.length === 0) { throw new NotFoundException("user not found"); }
-
-    return users;
+    return result;
   }
 
   updateLoggedUser(id: string, data: UpdateUserDto): string {
