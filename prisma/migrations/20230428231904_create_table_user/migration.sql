@@ -6,6 +6,7 @@ CREATE TABLE "Users" (
     "password" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "emailConfirmed" BOOLEAN NOT NULL DEFAULT false,
+    "role" TEXT NOT NULL,
     "accessAttempt" INTEGER DEFAULT 0,
     "code" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
