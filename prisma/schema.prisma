@@ -14,7 +14,6 @@ model Users {
   password       String
   email          String   @unique
   emailConfirmed Boolean  @default(false)
-  role           String
   accessAttempt  Int?     @default(0)
   code           String?
   createdAt      DateTime @default(now())

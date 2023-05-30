@@ -21,7 +21,6 @@ export class CreateUserDto {
   })
   fullName: string;
 
-
   @Transform(({ value }) => new Date(value))
   @IsDate()
   @MaxDate(new Date(), {
@@ -61,15 +60,6 @@ export class CreateUserDto {
     message: 'The emails dont match',
   })
   emailConfirm: string;
-
-  @IsString()
-  @IsNotEmpty({ message: "the 'role' field must not be empty" })
-  @MaxLength(100, { message: 'Maximum of 100 characters exceeded' })
-  @ApiProperty({
-    required: true,
-    example: 'Mentor frontend',
-  })
-  role: string;
 
   @IsNotEmpty({ message: "the 'password' field must not be empty" })
   @IsString({ message: 'Only strings are allowed in this field' })

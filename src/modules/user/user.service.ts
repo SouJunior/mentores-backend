@@ -1,10 +1,10 @@
-import { BadRequestException, NotFoundException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
+import { MailService } from '../mails/mail.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UserEntity } from './entity/user.entity';
 import { UserRepository } from './repository/user.repository';
-import { MailService } from '../mails/mail.service';
 
 @Injectable()
 export class UserService {
@@ -31,7 +31,7 @@ export class UserService {
 
     const newUser = await this.userRepository.createNewUser(data);
 
-    // await this.mailService.sendCreationConfirmation(newUser);
+    await this.mailService.sendCreationConfirmation(newUser);
 
     return { message: 'User created successfully' };
   }
@@ -54,24 +54,6 @@ export class UserService {
       status: 200,
       data: user,
     };
-  }
-
-  async findUserByNameAndRole(fullName?: string, role?: string): Promise<UserEntity[]> {
-
-    let users: UserEntity[];
-
-    if(fullName && role)
-      users = await this.userRepository.findUserByNameAndRole(fullName, role);
-
-    if(fullName)
-      users = await this.userRepository.findByName(fullName);
-
-    if(role)
-      users = await this.userRepository.findByRole(role);
-
-    if (!users || users.length === 0) { throw new NotFoundException("user not found"); }
-
-    return users;
   }
 
   updateLoggedUser(id: string, data: UpdateUserDto): string {

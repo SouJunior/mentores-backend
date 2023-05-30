@@ -2,14 +2,11 @@ import {
   Body,
   Controller,
   Get,
-  HttpStatus,
   Param,
   Patch,
   Post,
   Put,
-  Query,
   Res,
-  BadRequestException,
 } from '@nestjs/common';
 import { ApiExcludeEndpoint, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
@@ -35,20 +32,6 @@ export class UserController {
   @Get()
   async getAllUsers() {
     return this.userService.getAllUsers();
-  }
-
-  @Get('search')
-  @SwaggerGetUser()
-  async findByNameAndRole(
-    @Res() res: Response,
-    @Query('fullName') fullName?: string,
-    @Query('role') role?: string,
-  ) {
-    if (!fullName && !role) { throw new BadRequestException('need at least fullName or role'); }
-
-    const data = await this.userService.findUserByNameAndRole(fullName, role);
-
-    return res.status(HttpStatus.OK).send(data);
   }
 
   @Get([':id'])

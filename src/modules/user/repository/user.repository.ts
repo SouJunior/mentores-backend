@@ -3,12 +3,11 @@ import { PrismaClient } from '@prisma/client';
 import { handleError } from '../../../shared/utils/handle-error.util';
 import { CreateUserDto } from '../dtos/create-user.dto';
 import { UserEntity } from '../entity/user.entity';
-import Prisma from 'prisma';
 
 @Injectable()
 export class UserRepository extends PrismaClient {
   async createNewUser(data: CreateUserDto): Promise<UserEntity> {
-    return this.users.create({ data });
+    return this.users.create({ data }).catch(handleError);
   }
 
   async findAllUsers(): Promise<UserEntity[]> {
@@ -28,7 +27,6 @@ export class UserRepository extends PrismaClient {
           fullName: true,
           dateOfBirth: true,
           email: true,
-          role: true,
           createdAt: true,
           updatedAt: true,
         },
@@ -37,23 +35,7 @@ export class UserRepository extends PrismaClient {
   }
 
   async findByName(fullName: string): Promise<UserEntity[]> {
-    return this.users
-      .findMany({where: { fullName }})
-      .catch(handleError)
-  }
-
-  async findByRole(role: string): Promise<UserEntity[]> {
-    return this.users
-      .findMany({where: { role }})
-      .catch(handleError)
-  }
-
-  async findUserByNameAndRole(
-    fullName: string,
-    role: string,
-  ): Promise<UserEntity[]> {
-
-    return this.users.findMany({ where:{ fullName, role } }).catch(handleError);
+    return this.users.findMany({ where: { fullName } }).catch(handleError);
   }
 
   async desativateUserById(id: string): Promise<UserEntity> {
