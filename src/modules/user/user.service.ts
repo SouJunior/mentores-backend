@@ -31,7 +31,7 @@ export class UserService {
 
     const newUser = await this.userRepository.createNewUser(data);
 
-    await this.mailService.sendCreationConfirmation(newUser);
+    // await this.mailService.sendCreationConfirmation(newUser);
 
     return { message: 'User created successfully' };
   }
