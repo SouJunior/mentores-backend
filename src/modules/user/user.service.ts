@@ -51,18 +51,18 @@ export class UserService {
     };
   }
 
-  async findUserByNameAndRole(fullName?: string, role?: string): Promise<IRepositoryResponse> {
+  async findUserByNameAndSpecialty(fullName?: string, specialty?: string): Promise<IRepositoryResponse> {
 
     let result: IRepositoryResponse;
 
-    if(fullName && role)
-      result = await this.userRepository.findUserByNameAndRole(fullName, role);
+    if(fullName && specialty)
+      result = await this.userRepository.findUserByNameAndSpecialty(fullName, specialty);
 
-    if(fullName && !role)
+    if(fullName && !specialty)
       result = await this.userRepository.findByName(fullName);
 
-    if(role && !fullName)
-      result = await this.userRepository.findByRole(role);
+    if(specialty && !fullName)
+      result = await this.userRepository.findBySpecialty(specialty);
 
     return result;
   }
@@ -76,4 +76,10 @@ export class UserService {
 
     return { message: 'User deactivated successfully' };
   }
+
+  async activateUser(id: string): Promise<{ message: string }> {
+    await this.userRepository.activateUser(id)
+
+    return { message: "User activated successfully"}
+    }
 }

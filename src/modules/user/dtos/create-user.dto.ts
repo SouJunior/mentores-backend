@@ -60,13 +60,13 @@ export class CreateUserDto {
   emailConfirm: string;
 
   @IsString()
-  @IsNotEmpty({ message: "the 'role' field must not be empty" })
+  @IsNotEmpty({ message: "the 'specialty' field must not be empty" })
   @MaxLength(100, { message: 'Maximum of 100 characters exceeded' })
   @ApiProperty({
     required: true,
     example: 'Mentor frontend',
   })
-  role: string;
+  specialty: string;
 
   @IsNotEmpty({ message: "the 'password' field must not be empty" })
   @IsString({ message: 'Only strings are allowed in this field' })

@@ -5,7 +5,7 @@ export class UserEntity {
   password: string;
   email: string;
   emailConfirmed?: boolean;
-  role: string;
+  specialty?: string;
   accessAttempt?: number;
   code?: string;
   createdAt?: string | Date;

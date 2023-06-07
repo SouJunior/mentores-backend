@@ -14,3 +14,8 @@ export class BadRequestOnlyMessageSwagger {
   @ApiProperty({ example: 'E-mail ou senha inválidos' })
   message: string;
 }
+
+export class BadRequestGetUserByNameAndSpecialty {
+  @ApiProperty({ example: 'Name and/or specialty not found' })
+  message: string;
+}

@@ -28,7 +28,7 @@ export class UserRepository extends PrismaClient {
           fullName: true,
           dateOfBirth: true,
           email: true,
-          role: true,
+          specialty: true,
           createdAt: true,
           updatedAt: true,
         },
@@ -52,37 +52,39 @@ export class UserRepository extends PrismaClient {
     };
   }
 
-  async findByRole(role: string): Promise<IRepositoryResponse> {
-    const usersByRole = await this.users.findMany({ where: { role } });
+  async findBySpecialty(specialty: string): Promise<IRepositoryResponse> {
+    const usersBySpecialty = await this.users.findMany({
+      where: { specialty },
+    });
 
-    if (!usersByRole.length) {
+    if (!usersBySpecialty.length) {
       return {
-        message: 'There is no user with that role.',
+        message: 'There is no user with that specialty.',
       };
     }
 
     return {
-      result: usersByRole,
+      result: usersBySpecialty,
       message: 'User(s) found',
     };
   }
 
-  async findUserByNameAndRole(
+  async findUserByNameAndSpecialty(
     fullName: string,
-    role: string,
+    specialty: string,
   ): Promise<IRepositoryResponse> {
-    const usersByNameAndRole = await this.users.findMany({
-      where: { fullName, role },
+    const usersByNameAndSpecialty = await this.users.findMany({
+      where: { fullName, specialty },
     });
 
-    if (!usersByNameAndRole.length) {
+    if (!usersByNameAndSpecialty.length) {
       return {
-        message: 'There is no user with that name nor role.',
+        message: 'There is no user with that name nor specialty.',
       };
     }
 
     return {
-      result: usersByNameAndRole,
+      result: usersByNameAndSpecialty,
       message: 'User(s) found',
     };
   }
@@ -104,6 +106,17 @@ export class UserRepository extends PrismaClient {
     await this.users
       .update({ where: { id: user.id }, data: user })
       .catch(handleError);
+
+    return;
+  }
+
+  async activateUser(userId: string): Promise<void> {
+    await this.users.update({
+      where: { id: userId },
+      data: {
+        emailConfirmed: true,
+      },
+    });
 
     return;
   }

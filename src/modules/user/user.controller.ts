@@ -14,7 +14,10 @@ import {
 import { ApiExcludeEndpoint, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { SwaggerCreateUser } from '../../shared/Swagger/decorators/user/create-user.swagger.decorator';
-import { SwaggerGetUser } from '../../shared/Swagger/decorators/user/get-user.swagger.decorator';
+import {
+  SwaggerGetUser,
+  SwaggerGetUserByNameAndSpecialty,
+} from '../../shared/Swagger/decorators/user/get-user.swagger.decorator';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { GetByParamDto } from './dtos/get-by-param.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
@@ -38,15 +41,20 @@ export class UserController {
   }
 
   @Get('search')
-  @SwaggerGetUser()
-  async findByNameAndRole(
+  @SwaggerGetUserByNameAndSpecialty()
+  async findByNameAndSpecialty(
     @Res() res: Response,
     @Query('fullName') fullName?: string,
-    @Query('role') role?: string,
+    @Query('specialty') specialty?: string,
   ) {
-    if (!fullName && !role) { throw new BadRequestException('need at least fullName or role'); }
+    if (!fullName && !specialty) {
+      throw new BadRequestException('need at least fullName or specialty');
+    }
 
-    const data = await this.userService.findUserByNameAndRole(fullName, role);
+    const data = await this.userService.findUserByNameAndSpecialty(
+      fullName,
+      specialty,
+    );
 
     return res.status(HttpStatus.OK).send(data);
   }
@@ -75,5 +83,12 @@ export class UserController {
   @Patch(':id')
   desactivateLoggedUser(@Param() { id }: GetByParamDto) {
     return this.userService.desactivateLoggedUser(id);
+  }
+
+  @ApiExcludeEndpoint()
+  @Patch('activateUser/:id')
+  activateUser(@Param() { id }: GetByParamDto) {
+
+    return this.userService.activateUser(id);
   }
 }

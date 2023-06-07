@@ -13,11 +13,28 @@ export class UserLogged {
   @ApiProperty({ example: 'fulano.de.tal@dominio.com' })
   email: string;
 
+  @ApiProperty({ example: 'true' })
+  emailConfirmed: boolean;
+
+  @ApiProperty({ example: 'Mentor backend' })
+  role: string;
+
+  @ApiProperty({ example: '0' })
+  accessAtempt: number;
+
+  @ApiProperty({ example: 'null' })
+  code: number;
+
   @ApiProperty({ example: '2023-04-24T03:48:29.030Z' })
   createdAt: string;
 
   @ApiProperty({ example: '2023-04-25T23:29:26.885Z' })
   updatedAt: string;
+}
+
+export class loggedUserMessage {
+  @ApiProperty({ example: 'User(s) have been found' })
+  message: string;
 }
 
 export class LoginSuccessSwagger {
