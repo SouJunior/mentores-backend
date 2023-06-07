@@ -5,10 +5,14 @@ import { UpdateUserDto } from './dtos/update-user.dto';
 import { UserEntity } from './entity/user.entity';
 import { UserRepository } from './repository/user.repository';
 import { IRepositoryResponse } from './@Types/user.types';
+import { MailService } from '../mails/mail.service';
 
 @Injectable()
 export class UserService {
-  constructor(private userRepository: UserRepository) {}
+  constructor(
+    private userRepository: UserRepository,
+    private mailService: MailService,
+  ) {}
 
   async createUser(data: CreateUserDto): Promise<{ message: string }> {
     data.dateOfBirth = new Date(data.dateOfBirth);
@@ -26,7 +30,9 @@ export class UserService {
     delete data.passwordConfirmation;
     delete data.emailConfirm;
 
-    await this.userRepository.createNewUser(data);
+    const newUser = await this.userRepository.createNewUser(data);
+
+    // await this.mailService.sendCreationConfirmation(newUser);
 
     return { message: 'User created successfully' };
   }
