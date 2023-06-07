@@ -1,7 +1,7 @@
 import { applyDecorators, HttpStatus } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import {
-  BadRequestGetUserByNameAndRole,
+  BadRequestGetUserByNameAndSpecialty,
   BadRequestOnlyMessageSwagger,
 } from '../../bad-request.swagger';
 import { UserLogged } from '../auth/classes/login-success.swagger';
@@ -24,7 +24,7 @@ export function SwaggerGetUser() {
   );
 }
 
-export function SwaggerGetUserByNameAndRole() {
+export function SwaggerGetUserByNameAndSpecialty() {
   return applyDecorators(
     ApiResponse({
       status: HttpStatus.OK,
@@ -35,7 +35,7 @@ export function SwaggerGetUserByNameAndRole() {
     ApiResponse({
       status: HttpStatus.BAD_REQUEST,
       description: 'Modelo de erro',
-      type: BadRequestGetUserByNameAndRole,
+      type: BadRequestGetUserByNameAndSpecialty,
     }),
     ApiOperation({
       summary: 'Rota para buscar o usuario por nome ou cargo',

@@ -15,7 +15,7 @@ export class BadRequestOnlyMessageSwagger {
   message: string;
 }
 
-export class BadRequestGetUserByNameAndRole {
-  @ApiProperty({ example: 'Name and/or role not found' })
+export class BadRequestGetUserByNameAndSpecialty {
+  @ApiProperty({ example: 'Name and/or specialty not found' })
   message: string;
 }

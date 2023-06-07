@@ -12,7 +12,7 @@ export class GetByParamDto {
   id: string;
 }
 
-export class GetByNameAndRoleDto {
+export class GetByNameAndSpecialtyDto {
   @IsString()
   @IsNotEmpty()
   @ApiProperty({
@@ -27,5 +27,5 @@ export class GetByNameAndRoleDto {
     required: true,
     example: 'Mentor backend',
   })
-  role: string;
+  specialty: string;
 }
