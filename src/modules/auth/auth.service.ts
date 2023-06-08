@@ -36,7 +36,7 @@ export class AuthService {
 
     if (user.accessAttempt === 3) {
       user.accessAttempt += 1;
-      await this.userRepository.updateAccessAttempts(user);
+      await this.userRepository.updateUser(user);
       return {
         status: 400,
         data: {
@@ -48,7 +48,7 @@ export class AuthService {
 
     if (user.accessAttempt === 4) {
       user.accessAttempt += 1;
-      await this.userRepository.updateAccessAttempts(user);
+      await this.userRepository.updateUser(user);
       return {
         status: 400,
         data: {
@@ -60,7 +60,7 @@ export class AuthService {
 
     if (!passwordIsValid) {
       user.accessAttempt += 1;
-      await this.userRepository.updateAccessAttempts(user);
+      await this.userRepository.updateUser(user);
       return {
         status: 400,
         data: { message: 'Invalid e-mail or password' },
@@ -68,7 +68,7 @@ export class AuthService {
     }
 
     user.accessAttempt = 0;
-    await this.userRepository.updateAccessAttempts(user);
+    await this.userRepository.updateUser(user);
 
     delete user.password;
     delete user.code;

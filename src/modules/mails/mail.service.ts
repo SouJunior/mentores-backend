@@ -28,7 +28,7 @@ export class MailService {
   async sendCreationConfirmation(user: UserEntity) {
     const { email, fullName, code } = user;
 
-    const url = `http://localhost:3333/emailConfirmation?token=${code}`;
+    const url = `http://localhost:3333/emailConfirmation?code=${code}&email${email}`;
 
     await this.mailerService
       .sendMail({

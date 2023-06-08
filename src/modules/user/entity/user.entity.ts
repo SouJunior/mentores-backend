@@ -5,6 +5,7 @@ export class UserEntity {
   password: string;
   email: string;
   emailConfirmed?: boolean;
+  specialty: string;
   accessAttempt?: number;
   code?: string;
   createdAt?: string | Date;

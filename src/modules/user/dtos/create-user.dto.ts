@@ -1,9 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Transform } from 'class-transformer';
+import { Exclude, Transform } from 'class-transformer';
 import {
   IsDate,
   IsEmail,
   IsNotEmpty,
+  IsOptional,
   IsString,
   Matches,
   MaxDate,
@@ -61,6 +62,15 @@ export class CreateUserDto {
   })
   emailConfirm: string;
 
+  @IsString()
+  @IsNotEmpty({ message: "the 'specialty' field must not be empty" })
+  @MaxLength(100, { message: 'Maximum of 100 characters exceeded' })
+  @ApiProperty({
+    required: true,
+    example: 'Mentor frontend',
+  })
+  specialty: string;
+
   @IsNotEmpty({ message: "the 'password' field must not be empty" })
   @IsString({ message: 'Only strings are allowed in this field' })
   @Matches(
@@ -86,4 +96,8 @@ export class CreateUserDto {
     message: 'The password does not match with the password confirmation',
   })
   passwordConfirmation: string;
+
+  @Exclude()
+  @IsOptional()
+  code: string;
 }

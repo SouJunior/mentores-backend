@@ -27,6 +27,7 @@ export class UserRepository extends PrismaClient {
           fullName: true,
           dateOfBirth: true,
           email: true,
+          specialty: true,
           createdAt: true,
           updatedAt: true,
         },
@@ -36,6 +37,19 @@ export class UserRepository extends PrismaClient {
 
   async findByName(fullName: string): Promise<UserEntity[]> {
     return this.users.findMany({ where: { fullName } }).catch(handleError);
+  }
+
+  async findByRole(specialty: string): Promise<UserEntity[]> {
+    return this.users.findMany({ where: { specialty } }).catch(handleError);
+  }
+
+  async findUserByNameAndRole(
+    fullName: string,
+    specialty: string,
+  ): Promise<UserEntity[]> {
+    return this.users
+      .findMany({ where: { fullName, specialty } })
+      .catch(handleError);
   }
 
   async desativateUserById(id: string): Promise<UserEntity> {
@@ -51,7 +65,7 @@ export class UserRepository extends PrismaClient {
       .catch(handleError);
   }
 
-  async updateAccessAttempts(user: UserEntity): Promise<void> {
+  async updateUser(user: UserEntity): Promise<void> {
     await this.users
       .update({ where: { id: user.id }, data: user })
       .catch(handleError);
