@@ -7,14 +7,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Users {
+model users {
   id             String   @id @default(uuid())
   fullName       String
   dateOfBirth    DateTime
   password       String
   email          String   @unique
   emailConfirmed Boolean  @default(false)
-  role           String
+  specialty      String?
   accessAttempt  Int?     @default(0)
   code           String?
   createdAt      DateTime @default(now())

@@ -25,5 +25,5 @@ export class GetByParamDto {
     required: true,
     example: 'Mentor backend',
   })
-  role: string;
+  specialty: string;
 }

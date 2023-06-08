@@ -1,16 +1,23 @@
-import { BadRequestException, NotFoundException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
+import { GenerateCodeUtil } from '../../shared/utils/generate-code.util';
+import { MailService } from '../mails/mail.service';
+import { ActiveUserDto } from './dtos/active-user.dto';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UserEntity } from './entity/user.entity';
 import { UserRepository } from './repository/user.repository';
-import { MailService } from '../mails/mail.service';
 
 @Injectable()
 export class UserService {
   constructor(
     private userRepository: UserRepository,
     private mailService: MailService,
+    private generateCodeUtil: GenerateCodeUtil,
   ) {}
 
   async createUser(data: CreateUserDto): Promise<{ message: string }> {
@@ -25,13 +32,14 @@ export class UserService {
     }
 
     data.password = await bcrypt.hash(data.password, 10);
+    data.code = this.generateCodeUtil.create();
 
     delete data.passwordConfirmation;
     delete data.emailConfirm;
 
     const newUser = await this.userRepository.createNewUser(data);
 
-    // await this.mailService.sendCreationConfirmation(newUser);
+    await this.mailService.sendCreationConfirmation(newUser);
 
     return { message: 'User created successfully' };
   }
@@ -56,20 +64,25 @@ export class UserService {
     };
   }
 
-  async findUserByNameAndRole(fullName?: string, role?: string): Promise<UserEntity[]> {
-
+  async findUserByNameAndRole(
+    fullName?: string,
+    specialty?: string,
+  ): Promise<UserEntity[]> {
     let users: UserEntity[];
 
-    if(fullName && role)
-      users = await this.userRepository.findUserByNameAndRole(fullName, role);
+    if (fullName && specialty)
+      users = await this.userRepository.findUserByNameAndRole(
+        fullName,
+        specialty,
+      );
 
-    if(fullName)
-      users = await this.userRepository.findByName(fullName);
+    if (fullName) users = await this.userRepository.findByName(fullName);
 
-    if(role)
-      users = await this.userRepository.findByRole(role);
+    if (specialty) users = await this.userRepository.findByRole(specialty);
 
-    if (!users || users.length === 0) { throw new NotFoundException("user not found"); }
+    if (!users || users.length === 0) {
+      throw new NotFoundException('user not found');
+    }
 
     return users;
   }
@@ -82,5 +95,26 @@ export class UserService {
     await this.userRepository.desativateUserById(id);
 
     return { message: 'User deactivated successfully' };
+  }
+
+  async activeUser({ code, email }: ActiveUserDto) {
+    const userExists = await this.userRepository.findUserByEmail(email);
+
+    if (userExists || userExists.code != code) {
+      return {
+        status: 404,
+        data: { message: 'User not found' },
+      };
+    }
+
+    userExists.code = null;
+    userExists.emailConfirmed = true;
+
+    await this.userRepository.updateUser(userExists);
+
+    return {
+      status: 200,
+      data: { message: 'Email confirmed successfully' },
+    };
   }
 }
