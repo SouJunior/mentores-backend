@@ -7,7 +7,7 @@ import { UserEntity } from '../entity/user.entity';
 @Injectable()
 export class UserRepository extends PrismaClient {
   async createNewUser(data: CreateUserDto): Promise<UserEntity> {
-    return this.users.create({ data });
+    return this.users.create({ data }).catch(handleError);
   }
 
   async findAllUsers(): Promise<UserEntity[]> {

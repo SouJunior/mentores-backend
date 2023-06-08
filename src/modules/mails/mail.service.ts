@@ -1,5 +1,6 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
+import { handleError } from '../../shared/utils/handle-error.util';
 import { UserEntity } from '../user/entity/user.entity';
 import { EmailTemplateType } from './types/email-template.type';
 
@@ -29,15 +30,18 @@ export class MailService {
 
     const url = `http://localhost:3333/emailConfirmation?code=${code}&email${email}`;
 
-    await this.mailerService.sendMail({
-      to: email,
-      subject: 'Usuário criado!',
-      template: './create',
-      context: {
-        name: fullName,
-        url,
-      },
-    });
+    await this.mailerService
+      .sendMail({
+        to: email,
+        subject: 'Confirme sua conta - SouJunior!',
+        template: './confirmEmail',
+        context: {
+          name: fullName,
+          url,
+          email,
+        },
+      })
+      .catch(handleError);
 
     return;
   }
