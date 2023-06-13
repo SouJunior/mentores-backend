@@ -11,6 +11,7 @@ export class MailService {
   async sendEmailConfirmation(user: UserEntity): Promise<void> {
     const { email, fullName, code } = user;
     const url = `http://localhost:3333/recoveryPassword?token=${code}`;
+    return; // remover depois que for resolvido
 
     await this.mailerService.sendMail({
       to: email,
@@ -30,6 +31,8 @@ export class MailService {
 
     const url = `http://localhost:3333/emailConfirmation?code=${code}&email${email}`;
 
+    return; // remover depois que for resolvido
+
     await this.mailerService
       .sendMail({
         to: email,
@@ -47,6 +50,7 @@ export class MailService {
   }
 
   async sendMail({ subject, template, context, email }: EmailTemplateType) {
+    return; // remover depois que for resolvido
     await this.mailerService.sendMail({
       to: email,
       subject,
