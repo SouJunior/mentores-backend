@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   Get,
@@ -46,10 +45,6 @@ export class UserController {
     @Query('fullName') fullName?: string,
     @Query('role') specialty?: string,
   ) {
-    if (!fullName && !specialty) {
-      throw new BadRequestException('need at least fullName or role');
-    }
-
     const data = await this.userService.findUserByNameAndRole(
       fullName,
       specialty,

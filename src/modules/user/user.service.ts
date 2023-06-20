@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { GenerateCodeUtil } from '../../shared/utils/generate-code.util';
 import { MailService } from '../mails/mail.service';
@@ -68,21 +64,10 @@ export class UserService {
     fullName?: string,
     specialty?: string,
   ): Promise<UserEntity[]> {
-    let users: UserEntity[];
-
-    if (fullName && specialty)
-      users = await this.userRepository.findUserByNameAndRole(
-        fullName,
-        specialty,
-      );
-
-    if (fullName) users = await this.userRepository.findByName(fullName);
-
-    if (specialty) users = await this.userRepository.findByRole(specialty);
-
-    if (!users || users.length === 0) {
-      throw new NotFoundException('user not found');
-    }
+    const users = await this.userRepository.findUserByNameAndRole(
+      fullName,
+      specialty,
+    );
 
     return users;
   }

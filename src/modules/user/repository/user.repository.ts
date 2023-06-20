@@ -35,21 +35,21 @@ export class UserRepository extends PrismaClient {
       .catch(handleError);
   }
 
-  async findByName(fullName: string): Promise<UserEntity[]> {
-    return this.users.findMany({ where: { fullName } }).catch(handleError);
-  }
-
-  async findByRole(specialty: string): Promise<UserEntity[]> {
-    return this.users.findMany({ where: { specialty } }).catch(handleError);
-  }
-
   async findUserByNameAndRole(
-    fullName: string,
-    specialty: string,
+    fullName?: string,
+    specialty?: string,
   ): Promise<UserEntity[]> {
-    return this.users
-      .findMany({ where: { fullName, specialty } })
+    const users = await this.users
+      .findMany({
+        where: {
+          deleted: false,
+          fullName: fullName ? { contains: fullName } : undefined,
+          specialty: specialty ? { contains: specialty } : undefined,
+        },
+      })
       .catch(handleError);
+
+    return users;
   }
 
   async desativateUserById(id: string): Promise<UserEntity> {
