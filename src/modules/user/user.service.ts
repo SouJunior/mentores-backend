@@ -85,7 +85,7 @@ export class UserService {
   async activeUser({ code, email }: ActiveUserDto) {
     const userExists = await this.userRepository.findUserByEmail(email);
 
-    if (userExists || userExists.code != code) {
+    if (!userExists || userExists.code != code) {
       return {
         status: 404,
         data: { message: 'User not found' },
