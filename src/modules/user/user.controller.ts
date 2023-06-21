@@ -18,6 +18,7 @@ import { SwaggerGetUser } from '../../shared/Swagger/decorators/user/get-user.sw
 import { ActiveUserDto } from './dtos/active-user.dto';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { GetByParamDto } from './dtos/get-by-param.dto';
+import { SearchUserDto } from './dtos/search-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UserService } from './user.service';
 
@@ -42,8 +43,7 @@ export class UserController {
   @SwaggerGetUser()
   async findByNameAndRole(
     @Res() res: Response,
-    @Query('fullName') fullName?: string,
-    @Query('role') specialty?: string,
+    @Query() { fullName, specialty }: SearchUserDto,
   ) {
     const data = await this.userService.findUserByNameAndRole(
       fullName,
