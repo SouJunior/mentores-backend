@@ -43,8 +43,12 @@ export class UserRepository extends PrismaClient {
       .findMany({
         where: {
           deleted: false,
-          fullName: fullName ? { contains: fullName } : undefined,
-          specialty: specialty ? { contains: specialty } : undefined,
+          fullName: fullName
+            ? { contains: fullName, mode: 'insensitive' }
+            : undefined,
+          specialty: specialty
+            ? { contains: specialty, mode: 'insensitive' }
+            : undefined,
         },
       })
       .catch(handleError);
