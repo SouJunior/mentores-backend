@@ -9,14 +9,16 @@ import {
   Put,
   Query,
   Res,
-  BadRequestException,
 } from '@nestjs/common';
 import { ApiExcludeEndpoint, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
+import { SwaggerConfirmEmail } from '../../shared/Swagger/decorators/user/confirm-email.swagger.decorator';
 import { SwaggerCreateUser } from '../../shared/Swagger/decorators/user/create-user.swagger.decorator';
 import { SwaggerGetUser } from '../../shared/Swagger/decorators/user/get-user.swagger.decorator';
+import { ActiveUserDto } from './dtos/active-user.dto';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { GetByParamDto } from './dtos/get-by-param.dto';
+import { SearchUserDto } from './dtos/search-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UserService } from './user.service';
 
@@ -41,12 +43,12 @@ export class UserController {
   @SwaggerGetUser()
   async findByNameAndRole(
     @Res() res: Response,
-    @Query('fullName') fullName?: string,
-    @Query('role') role?: string,
+    @Query() { fullName, specialty }: SearchUserDto,
   ) {
-    if (!fullName && !role) { throw new BadRequestException('need at least fullName or role'); }
-
-    const data = await this.userService.findUserByNameAndRole(fullName, role);
+    const data = await this.userService.findUserByNameAndRole(
+      fullName,
+      specialty,
+    );
 
     return res.status(HttpStatus.OK).send(data);
   }
@@ -71,9 +73,16 @@ export class UserController {
     return this.userService.updateLoggedUser(id, data);
   }
 
+  @Patch('active')
+  @SwaggerConfirmEmail()
+  async activeUser(@Query() queryData: ActiveUserDto, @Res() res: Response) {
+    const { data, status } = await this.userService.activeUser(queryData);
+    return res.status(status).send(data);
+  }
+
   @ApiExcludeEndpoint()
   @Patch(':id')
-  desactivateLoggedUser(@Param() { id }: GetByParamDto) {
+  async desactivateLoggedUser(@Param() { id }: GetByParamDto) {
     return this.userService.desactivateLoggedUser(id);
   }
 }

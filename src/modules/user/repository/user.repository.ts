@@ -3,12 +3,11 @@ import { PrismaClient } from '@prisma/client';
 import { handleError } from '../../../shared/utils/handle-error.util';
 import { CreateUserDto } from '../dtos/create-user.dto';
 import { UserEntity } from '../entity/user.entity';
-import Prisma from 'prisma';
 
 @Injectable()
 export class UserRepository extends PrismaClient {
   async createNewUser(data: CreateUserDto): Promise<UserEntity> {
-    return this.users.create({ data });
+    return this.users.create({ data }).catch(handleError);
   }
 
   async findAllUsers(): Promise<UserEntity[]> {
@@ -28,7 +27,7 @@ export class UserRepository extends PrismaClient {
           fullName: true,
           dateOfBirth: true,
           email: true,
-          role: true,
+          specialty: true,
           createdAt: true,
           updatedAt: true,
         },
@@ -36,24 +35,25 @@ export class UserRepository extends PrismaClient {
       .catch(handleError);
   }
 
-  async findByName(fullName: string): Promise<UserEntity[]> {
-    return this.users
-      .findMany({where: { fullName }})
-      .catch(handleError)
-  }
-
-  async findByRole(role: string): Promise<UserEntity[]> {
-    return this.users
-      .findMany({where: { role }})
-      .catch(handleError)
-  }
-
   async findUserByNameAndRole(
-    fullName: string,
-    role: string,
+    fullName?: string,
+    specialty?: string,
   ): Promise<UserEntity[]> {
+    const users = await this.users
+      .findMany({
+        where: {
+          deleted: false,
+          fullName: fullName
+            ? { contains: fullName, mode: 'insensitive' }
+            : undefined,
+          specialty: specialty
+            ? { contains: specialty, mode: 'insensitive' }
+            : undefined,
+        },
+      })
+      .catch(handleError);
 
-    return this.users.findMany({ where:{ fullName, role } }).catch(handleError);
+    return users;
   }
 
   async desativateUserById(id: string): Promise<UserEntity> {
@@ -69,7 +69,7 @@ export class UserRepository extends PrismaClient {
       .catch(handleError);
   }
 
-  async updateAccessAttempts(user: UserEntity): Promise<void> {
+  async updateUser(user: UserEntity): Promise<void> {
     await this.users
       .update({ where: { id: user.id }, data: user })
       .catch(handleError);
