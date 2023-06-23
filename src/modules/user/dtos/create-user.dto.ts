@@ -63,7 +63,7 @@ export class CreateUserDto {
   emailConfirm: string;
 
   @IsString()
-  @IsNotEmpty({ message: "the 'specialty' field must not be empty" })
+  @IsOptional()
   @MaxLength(100, { message: 'Maximum of 100 characters exceeded' })
   @ApiProperty({
     required: true,
