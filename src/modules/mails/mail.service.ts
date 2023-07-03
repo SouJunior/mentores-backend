@@ -30,7 +30,7 @@ export class MailService {
   async sendCreationConfirmation(user: UserEntity) {
     const { email, fullName, code } = user;
 
-    const url = `http://localhost:3333/emailConfirmation?code=${code}&email=${email}`;
+    const url = `https://mentoria-online.vercel.app/LoginPage?code=${code}&email=${email}`;
 
     await this.mailerService
       .sendMail({
