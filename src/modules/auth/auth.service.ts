@@ -34,7 +34,7 @@ export class AuthService {
 
     const passwordIsValid = await bcrypt.compare(password, user.password);
 
-    if (user.accessAttempt === 3) {
+    if (user.accessAttempt === 3 && !passwordIsValid) {
       user.accessAttempt += 1;
       await this.userRepository.updateUser(user);
       return {
@@ -46,7 +46,7 @@ export class AuthService {
       };
     }
 
-    if (user.accessAttempt === 4) {
+    if (user.accessAttempt === 4 && !passwordIsValid) {
       user.accessAttempt += 1;
       await this.userRepository.updateUser(user);
       return {
