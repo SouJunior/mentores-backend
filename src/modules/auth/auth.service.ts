@@ -22,6 +22,12 @@ export class AuthService {
       };
     }
 
+    const passwordIsValid = await bcrypt.compare(password, user.password);
+
+    if (!passwordIsValid) {
+      user.accessAttempt += 1;
+      await this.userRepository.updateUser(user);
+
     if (user.accessAttempt === 5) {
       return {
         status: 400,
@@ -31,8 +37,6 @@ export class AuthService {
         },
       };
     }
-
-    const passwordIsValid = await bcrypt.compare(password, user.password);
 
     if (user.accessAttempt === 3) {
       user.accessAttempt += 1;
@@ -57,14 +61,10 @@ export class AuthService {
         },
       };
     }
-
-    if (!passwordIsValid) {
-      user.accessAttempt += 1;
-      await this.userRepository.updateUser(user);
-      return {
-        status: 400,
-        data: { message: 'Invalid e-mail or password' },
-      };
+    return {
+      status: 400,
+      data: { message: 'Invalid e-mail or password' },
+    };
     }
 
     user.accessAttempt = 0;
