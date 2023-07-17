@@ -17,14 +17,14 @@ export class AuthService {
 
     if (!user?.emailConfirmed || !user || user.deleted === true) {
       return {
-        status: 400,
+        status: 401,
         data: { message: 'Invalid e-mail or password' },
       };
     }
 
     if (user.accessAttempt === 5) {
       return {
-        status: 400,
+        status: 403,
         data: {
           message:
             "Your account access is still blocked, because you dont redefined your password after five incorrect tries, please, click on 'Forgot my password' to begin the account restoration.",
@@ -38,7 +38,7 @@ export class AuthService {
       user.accessAttempt += 1;
       await this.userRepository.updateUser(user);
       return {
-        status: 400,
+        status: 401,
         data: {
           message:
             "You typed the password incorrectly and will be blocked in five tries. To register a new password click on 'Forgot my password'",
@@ -50,7 +50,7 @@ export class AuthService {
       user.accessAttempt += 1;
       await this.userRepository.updateUser(user);
       return {
-        status: 400,
+        status: 401,
         data: {
           message:
             "For security reasons, we blocked your account after you exceeded the maximum amount of access tries. To register a new password click on 'Forgot my password'",
@@ -62,7 +62,7 @@ export class AuthService {
       user.accessAttempt += 1;
       await this.userRepository.updateUser(user);
       return {
-        status: 400,
+        status: 401,
         data: { message: 'Invalid e-mail or password' },
       };
     }
