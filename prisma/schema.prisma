@@ -23,3 +23,11 @@ model users {
 
   @@index([id])
 }
+
+model testimony {
+  id             String @id @default(uuid())
+  userName       String
+  description    String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @default(now())
+}
