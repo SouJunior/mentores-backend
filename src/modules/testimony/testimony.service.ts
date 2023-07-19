@@ -81,4 +81,16 @@ export class TestimonyService {
 
     return { message: 'Testimony updated successfully' };
   }
+
+  async deleteTestimony(id: string): Promise<{ message: string}> {
+      const testimonyExists = await this.testimonyRepository.findTestimonyById(id);
+
+      if (!testimonyExists) {
+        return { message: "There are no testimony with that id"}
+      }
+
+      await this.testimonyRepository.deleteTestimony(id);
+    
+    return { message: "Testimony deleted successfully"}
+  }
 }
