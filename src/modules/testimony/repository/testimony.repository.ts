@@ -17,6 +17,12 @@ export class TestimonyRepository extends PrismaClient {
     return this.testimony.update({ where: { id }, data }).catch(handleError);
   }
 
+  async deleteTestimony(id: string): Promise<{ message: string}> {
+     this.testimony.delete({ where: { id }}).catch(handleError);
+
+    return { message: "Testimony deleted sucessfully"}
+  }
+
   async findTestimonyByUser(userName: string): Promise<TestimonyEntity> {
     return this.testimony
       .findFirst({
