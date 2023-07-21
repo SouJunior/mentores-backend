@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { TestimonyRepository } from './repository/testimony.repository';
 import { CreateTestimonyDto } from './dto/create-testimony.dto';
+import { dataFormatter, dateFormatter } from './utils/formatters.utils';
 
 @Injectable()
 export class TestimonyService {
@@ -9,28 +10,7 @@ export class TestimonyService {
   async createTestimony(
     data: CreateTestimonyDto,
   ): Promise<{ message: string }> {
-    data.userName.trim();
-    data.userName[1].toUpperCase();
-
-    const testimonyText = data.description.split(' ');
-
-    let count = 0;
-    for (let i = 0; i < testimonyText.length; i++) {
-      if (testimonyText[i]) {
-        count = count + 1;
-        if (count === 1) {
-          data.description =
-            testimonyText[i][0].toUpperCase() +
-            testimonyText[i].slice(1, testimonyText.length) +
-            ' ';
-        }
-        if (count > 1) {
-          data.description += testimonyText[i] + ' ';
-        }
-      }
-    }
-
-    console.log(data.description[0].toUpperCase());
+    dataFormatter(data);
 
     this.testimonyRepository.createNewTestimony(data);
 
@@ -53,32 +33,28 @@ export class TestimonyService {
       testimonyExists.userName !== data.userName ||
       testimonyExists.description !== data.description
     ) {
-      data.userName.trim();
-      data.userName[1].toUpperCase();
-
-      const testimonyText = data.description.split(' ');
-
-      let count = 0;
-      for (let i = 0; i < testimonyText.length; i++) {
-        if (testimonyText[i]) {
-          count = count + 1;
-          if (count === 1) {
-            data.description =
-              testimonyText[i][0].toUpperCase() +
-              testimonyText[i].slice(1, testimonyText.length) +
-              ' ';
-          }
-          if (count > 1) {
-            data.description += testimonyText[i] + ' ';
-          }
-        }
-      }
+      dataFormatter(data);
     }
 
-    testimonyExists.updatedAt = new Date();
+    const formattedDate = dateFormatter();
+
+    testimonyExists.updatedAt = formattedDate;
 
     await this.testimonyRepository.editTestimony(id, data);
 
     return { message: 'Testimony updated successfully' };
+  }
+  async deleteTestimony(id: string): Promise<{ message: string }> {
+    const testimonyExists = await this.testimonyRepository.findTestimonyById(
+      id,
+    );
+
+    if (!testimonyExists) {
+      return { message: 'There are no testimony with that id' };
+    }
+
+    await this.testimonyRepository.deleteTestimony(id);
+
+    return { message: 'Testimony deleted successfully' };
   }
 }
