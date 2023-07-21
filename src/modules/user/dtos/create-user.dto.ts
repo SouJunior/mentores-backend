@@ -74,10 +74,10 @@ export class CreateUserDto {
   @IsNotEmpty({ message: "the 'password' field must not be empty" })
   @IsString({ message: 'Only strings are allowed in this field' })
   @Matches(
-    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()\-_=+{};:,<.>])[a-zA-Z\d!@#$%^&*()\-_=+{};:,<.>.]{1,8}$/,
+    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()\-_=+{};:,<.>])[a-zA-Z\d!@#$%^&*()\-_=+{};:,<.>.]{8,}$/,
     {
       message:
-        'Password must have a maximum of 8 characters, a capital letter, a number and a symbol',
+        'Password must have a minimum of 8 characters, a capital letter, a number and a symbol',
     },
   )
   @ApiProperty({
