@@ -5,7 +5,7 @@ import { CreateTestimonyDto } from './dto/create-testimony.dto';
 import { SwaggerCreateTestimony } from 'src/shared/Swagger/decorators/testimony/create-testimony.swagger.decorator';
 import { GetTestimonyByParamDto } from './dto/get-testimony-by-param.dto';
 import { SwaggerEditTestimony } from 'src/shared/Swagger/decorators/testimony/edit-testimony.swagger.decorator';
-import { SwaggerDeleteTestimony } from 'src/shared/Swagger/decorators/testimony/delete-testimony.swagger.decorator';
+import { SwaggerDeleteTestimony } from 'src/shared/Swagger/decorators/testimony/delete-testimony.swagger';
 
 @ApiTags('Testimony')
 @Controller('Testimony')
