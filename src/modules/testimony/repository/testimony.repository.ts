@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import { handleError } from '../../../shared/utils/handle-error.util';
 import { CreateTestimonyDto } from '../dto/create-testimony.dto';
 import { TestimonyEntity } from '../entity/testimony.entity';
-import { dateFormatter } from '../utils/formatters.utils';
+import { dateFormatter } from '../../../shared/utils/formatters.utils';
 
 @Injectable()
 export class TestimonyRepository extends PrismaClient {

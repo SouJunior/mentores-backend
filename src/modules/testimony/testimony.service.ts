@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { TestimonyRepository } from './repository/testimony.repository';
 import { CreateTestimonyDto } from './dto/create-testimony.dto';
-import { dataFormatter, dateFormatter } from './utils/formatters.utils';
+import {
+  dataFormatter,
+  dateFormatter,
+} from '../../shared/utils/formatters.utils';
 
 @Injectable()
 export class TestimonyService {
@@ -35,10 +38,6 @@ export class TestimonyService {
     ) {
       dataFormatter(data);
     }
-
-    const formattedDate = dateFormatter();
-
-    testimonyExists.updatedAt = formattedDate;
 
     await this.testimonyRepository.editTestimony(id, data);
 

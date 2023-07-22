@@ -1,7 +1,8 @@
-import { CreateTestimonyDto } from '../dto/create-testimony.dto';
+import { CreateTestimonyDto } from '../../modules/testimony/dto/create-testimony.dto';
 
 export const dataFormatter = (obj: CreateTestimonyDto) => {
-  obj.userName = obj.userName[0].toUpperCase() + obj.userName.slice(1, obj.userName.length);
+  obj.userName =
+    obj.userName[0].toUpperCase() + obj.userName.slice(1, obj.userName.length);
 
   const testimonyText = obj.description.split(' ');
 
@@ -23,13 +24,13 @@ export const dataFormatter = (obj: CreateTestimonyDto) => {
 };
 
 export const dateFormatter = () => {
-  const dateYear = new Date().getFullYear()
-  const dateMonth = new Date().getMonth()
-  const dateDay = new Date().getDate()
-  const dateHour = new Date().getHours()
-  const dateMinutes = new Date().getMinutes()
+  const dateYear = new Date().getFullYear();
+  const dateMonth = new Date().getMonth();
+  const dateDay = new Date().getDate();
+  const dateHour = new Date().getHours();
+  const dateMinutes = new Date().getMinutes();
 
-  const formattedDate = `${dateYear}/${dateMonth}/${dateDay} ${dateHour}:${dateMinutes}`
+  const formattedDate = `${dateYear}/${dateMonth}/${dateDay} ${dateHour}:${dateMinutes}`;
 
-  return formattedDate
-}
+  return formattedDate;
+};
