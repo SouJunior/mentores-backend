@@ -1,7 +1,7 @@
 export class TestimonyEntity {
-  id?: String
-  userName: String
-  description: String
-  createdAt?: String | Date
-  updatedAt?: String | Date
+  id?: string
+  userName: string
+  description: string
+  createdAt?: string
+  updatedAt?: string
 }

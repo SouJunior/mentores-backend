@@ -3,10 +3,12 @@ import { PrismaClient } from '@prisma/client';
 import { handleError } from '../../../shared/utils/handle-error.util';
 import { CreateUserDto } from '../dtos/create-user.dto';
 import { UserEntity } from '../entity/user.entity';
+import { dateFormatter } from 'src/shared/utils/formatters.utils';
 
 @Injectable()
 export class UserRepository extends PrismaClient {
   async createNewUser(data: CreateUserDto): Promise<UserEntity> {
+
     return this.users.create({ data }).catch(handleError);
   }
 
