@@ -10,7 +10,7 @@ export class MailService {
 
   async sendEmailConfirmation(user: UserEntity): Promise<void> {
     const { email, fullName, code } = user;
-    const url = `http://localhost:3333/recoveryPassword?token=${code}`;
+    const url = `${process.env.URL_CONFIRM_EMAIL}code=${code}&email=${email}`;
 
     await this.mailerService
       .sendMail({

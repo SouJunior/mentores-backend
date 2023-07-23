@@ -17,14 +17,20 @@ export class AuthService {
 
     if (!user?.emailConfirmed || !user || user.deleted === true) {
       return {
-        status: 401,
+        status: 400,
         data: { message: 'Invalid e-mail or password' },
       };
     }
 
+    const passwordIsValid = await bcrypt.compare(password, user.password);
+
+    if (!passwordIsValid) {
+      user.accessAttempt += 1;
+      await this.userRepository.updateUser(user);
+
     if (user.accessAttempt === 5) {
       return {
-        status: 403,
+        status: 400,
         data: {
           message:
             "Your account access is still blocked, because you dont redefined your password after five incorrect tries, please, click on 'Forgot my password' to begin the account restoration.",
@@ -32,13 +38,11 @@ export class AuthService {
       };
     }
 
-    const passwordIsValid = await bcrypt.compare(password, user.password);
-
-    if (user.accessAttempt === 3 && !passwordIsValid) {
+    if (user.accessAttempt === 3) {
       user.accessAttempt += 1;
       await this.userRepository.updateUser(user);
       return {
-        status: 401,
+        status: 400,
         data: {
           message:
             "You typed the password incorrectly and will be blocked in five tries. To register a new password click on 'Forgot my password'",
@@ -46,25 +50,21 @@ export class AuthService {
       };
     }
 
-    if (user.accessAttempt === 4 && !passwordIsValid) {
+    if (user.accessAttempt === 4) {
       user.accessAttempt += 1;
       await this.userRepository.updateUser(user);
       return {
-        status: 401,
+        status: 400,
         data: {
           message:
             "For security reasons, we blocked your account after you exceeded the maximum amount of access tries. To register a new password click on 'Forgot my password'",
         },
       };
     }
-
-    if (!passwordIsValid) {
-      user.accessAttempt += 1;
-      await this.userRepository.updateUser(user);
-      return {
-        status: 401,
-        data: { message: 'Invalid e-mail or password' },
-      };
+    return {
+      status: 400,
+      data: { message: 'Invalid e-mail or password' },
+    };
     }
 
     user.accessAttempt = 0;

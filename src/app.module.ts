@@ -7,6 +7,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { MailModule } from './modules/mails/mail.module';
+import { TestimonyModule } from './modules/testimony/testimony.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { MailModule } from './modules/mails/mail.module';
     UserModule,
     AuthModule,
     MailModule,
+    TestimonyModule
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],

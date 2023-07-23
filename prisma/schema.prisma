@@ -17,9 +17,17 @@ model users {
   specialty      String?
   accessAttempt  Int?     @default(0)
   code           String?
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @default(now())
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @default(now())
   deleted        Boolean  @default(false)
 
   @@index([id])
+}
+
+model testimony {
+  id             String @id @default(uuid())
+  userName       String
+  description    String
+  createdAt      String  @default("")
+  updatedAt      String  @default("")
 }
