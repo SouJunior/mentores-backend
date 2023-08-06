@@ -102,4 +102,24 @@ export class UserService {
       data: { message: 'Email confirmed successfully' },
     };
   }
+
+  async sendRestorationEmail(email: string): Promise<{ message: string, status: number}> {
+
+    const userExists = await this.userRepository.findUserByEmail(email);
+
+    if (!userExists) {
+      return {
+        status: 404,
+        message: 'User not found',
+      };
+    }
+
+    await this.mailService.sendRestorationEmail(email)
+
+    return {
+      status: 200,
+      message: "E-mail de recuperação enviado"
+    }
+  }
+
 }

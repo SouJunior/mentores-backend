@@ -21,6 +21,7 @@ import { GetByParamDto } from './dtos/get-by-param.dto';
 import { SearchUserDto } from './dtos/search-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UserService } from './user.service';
+import { SearchByEmailDto } from './dtos/search-by-email.dto';
 
 @ApiTags('User')
 @Controller('user')
@@ -84,5 +85,11 @@ export class UserController {
   @Patch(':id')
   async desactivateLoggedUser(@Param() { id }: GetByParamDto) {
     return this.userService.desactivateLoggedUser(id);
+  }
+
+  @ApiExcludeEndpoint()
+  @Post("restoreAccount/:email")
+  async restoreAccount(@Param() {email}: SearchByEmailDto) {
+    return this.userService.sendRestorationEmail(email);
   }
 }
