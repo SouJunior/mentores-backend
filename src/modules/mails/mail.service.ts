@@ -33,8 +33,6 @@ export class MailService {
 
     const url = `${URL_CONFIRM_EMAIL}code=${code}&email=${email}`;
 
-    console.log(email);
-
     try {
       await this.mailerService
         .sendMail({
@@ -55,15 +53,16 @@ export class MailService {
     return;
   }
 
-  async sendRestorationEmail(email: string) {
-    const url = process.env.URL_RESTORATION_EMAIL;
+  async sendRestorationEmail(userData: UserEntity) {
+    const { email, code } = userData;
+    const { URL_RESTORATION_EMAIL } = process.env;
 
-    console.log(email);
+    const url = `${URL_RESTORATION_EMAIL}code=${code}&email=${email}`;
 
     try {
       await this.mailerService
         .sendMail({
-          to: email,
+          to: userData.email,
           subject: 'Recuperação de conta - SouJunior!',
           template: './restoreEmail',
           context: {

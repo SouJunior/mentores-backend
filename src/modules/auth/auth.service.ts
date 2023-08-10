@@ -24,11 +24,14 @@ export class AuthService {
 
     const passwordIsValid = await bcrypt.compare(password, user.password);
 
-    if (!passwordIsValid) {
-      user.accessAttempt += 1;
+    if (!passwordIsValid || user.accessAttempt >= 4) {
+      
+      if (!passwordIsValid) {
+        user.accessAttempt += 1;
+      }
       await this.userRepository.updateUser(user);
 
-    if (user.accessAttempt === 5) {
+    if (user.accessAttempt >= 5) {
       return {
         status: 400,
         data: {
@@ -39,7 +42,6 @@ export class AuthService {
     }
 
     if (user.accessAttempt === 3) {
-      user.accessAttempt += 1;
       await this.userRepository.updateUser(user);
       return {
         status: 400,
@@ -51,7 +53,6 @@ export class AuthService {
     }
 
     if (user.accessAttempt === 4) {
-      user.accessAttempt += 1;
       await this.userRepository.updateUser(user);
       return {
         status: 400,
