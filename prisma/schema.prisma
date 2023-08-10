@@ -16,7 +16,7 @@ model users {
   emailConfirmed Boolean  @default(false)
   specialty      String?
   accessAttempt  Int?     @default(0)
-  code           String?
+  code           String? @unique
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @default(now())
   deleted        Boolean  @default(false)
