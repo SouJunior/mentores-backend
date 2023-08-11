@@ -54,18 +54,11 @@ export class AuthService {
 
     if (user.accessAttempt === 4) {
       await this.userRepository.updateUser(user);
+
       return {
         status: 400,
-        data: {
-          message:
-            "For security reasons, we blocked your account after you exceeded the maximum amount of access tries. To register a new password click on 'Forgot my password'",
-        },
+        data: { message: 'Invalid e-mail or password' },
       };
-    }
-    return {
-      status: 400,
-      data: { message: 'Invalid e-mail or password' },
-    };
     }
 
     user.accessAttempt = 0;
