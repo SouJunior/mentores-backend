@@ -7,6 +7,7 @@ import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UserEntity } from './entity/user.entity';
 import { UserRepository } from './repository/user.repository';
+import { UserPassConfirmationDto } from './dtos/userPassConfirmation.dto';
 
 @Injectable()
 export class UserService {
@@ -100,6 +101,65 @@ export class UserService {
     return {
       status: 200,
       data: { message: 'Email confirmed successfully' },
+    };
+  }
+
+  async sendRestorationEmail(email: string): Promise<{
+    message: string;
+    userData?: ActiveUserDto;
+  }> {
+    const userExists = await this.userRepository.findUserByEmail(email);
+
+    if (!userExists) {
+      return {
+        message: 'User not found',
+      };
+    }
+
+    userExists.code = this.generateCodeUtil.create();
+
+    await this.userRepository.updateUser(userExists);
+
+    await this.mailService.sendRestorationEmail(userExists);
+
+    return {
+      message: 'E-mail de recuperação enviado',
+      userData: { code: userExists.code, email: userExists.email },
+    };
+  }
+
+  async redefineUserPassword(
+    queryData : ActiveUserDto, passData: UserPassConfirmationDto
+  ): Promise<{ message: string }> {
+    const userExists = await this.userRepository.findUserByEmail(queryData.email);
+
+    if (!userExists) {
+      return {
+        message: 'User not found',
+      };
+    }
+
+    if (userExists.code != queryData.code) {
+      return {
+        message: 'The code is invalid',
+      };
+    }
+
+    if (passData.password !== passData.confirmPassword) {
+      return {
+        message: "The passwords don't match",
+      };
+    }
+
+    userExists.password = await bcrypt.hash(passData.password, 10);
+
+    userExists.code = null;
+    userExists.accessAttempt = 0
+
+    await this.userRepository.updateUser(userExists);
+
+    return {
+      message: 'The account was restored sucessfully',
     };
   }
 }

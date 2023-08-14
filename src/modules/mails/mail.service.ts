@@ -33,23 +33,51 @@ export class MailService {
 
     const url = `${URL_CONFIRM_EMAIL}code=${code}&email=${email}`;
 
-    await this.mailerService
-      .sendMail({
-        to: email,
-        subject: 'Confirme sua conta - SouJunior!',
-        template: './confirmEmail',
-        context: {
-          name: fullName,
-          url,
-          email,
-        },
-      })
-      .catch(handleError);
+    try {
+      await this.mailerService
+        .sendMail({
+          to: email,
+          subject: 'Confirme sua conta - SouJunior!',
+          template: './confirmEmail',
+          context: {
+            name: fullName,
+            url,
+            email,
+          },
+        })
+        .catch(handleError);
+    } catch (error) {
+      console.log(error.message);
+    }
 
     return;
   }
 
-  async sendMail({ subject, template, context, email }: EmailTemplateType) {
+  async sendRestorationEmail(userData: UserEntity) {
+    const { email, code } = userData;
+    const { URL_RESTORATION_EMAIL } = process.env;
+
+    const url = `${URL_RESTORATION_EMAIL}code=${code}&email=${email}`;
+
+    try {
+      await this.mailerService
+        .sendMail({
+          to: userData.email,
+          subject: 'Recuperação de conta - SouJunior!',
+          template: './restoreEmail',
+          context: {
+            url,
+          },
+        })
+        .catch(handleError);
+    } catch (error) {
+      console.log(error.message);
+    }
+
+    return;
+  }
+
+  async sendEmail({ subject, template, context, email }: EmailTemplateType) {
     return; // remover depois que for resolvido
     await this.mailerService.sendMail({
       to: email,

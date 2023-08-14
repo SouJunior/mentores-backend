@@ -24,43 +24,37 @@ export class AuthService {
 
     const passwordIsValid = await bcrypt.compare(password, user.password);
 
-    if (!passwordIsValid) {
-      user.accessAttempt += 1;
+    if (!passwordIsValid || user.accessAttempt >= 4) {
+      
+      if (!passwordIsValid) {
+        user.accessAttempt += 1;
+      }
       await this.userRepository.updateUser(user);
 
-      if (user.accessAttempt === 5) {
-        return {
-          status: 403,
-          data: {
-            message:
-              "Your account access is still blocked, because you don't redefined your password after five incorrect tries, please, click on 'Forgot my password' to begin the account restoration.",
-          },
-        };
-      }
+    if (user.accessAttempt >= 5) {
+      return {
+        status: 400,
+        data: {
+          message:
+            "Your account access is still blocked, because you dont redefined your password after five incorrect tries, please, click on 'Forgot my password' to begin the account restoration.",
+        },
+      };
+    }
 
-      if (user.accessAttempt === 3) {
-        user.accessAttempt += 1;
-        await this.userRepository.updateUser(user);
-        return {
-          status: 400,
-          data: {
-            message:
-              "You typed the password incorrectly and will be blocked in five tries. To register a new password click on 'Forgot my password'",
-          },
-        };
-      }
+    if (user.accessAttempt === 3) {
+      await this.userRepository.updateUser(user);
+      return {
+        status: 400,
+        data: {
+          message:
+            "You typed the password incorrectly and will be blocked in five tries. To register a new password click on 'Forgot my password'",
+        },
+      };
+    }
 
-      if (user.accessAttempt === 4) {
-        user.accessAttempt += 1;
-        await this.userRepository.updateUser(user);
-        return {
-          status: 400,
-          data: {
-            message:
-              "For security reasons, we blocked your account after you exceeded the maximum amount of access tries. To register a new password click on 'Forgot my password'",
-          },
-        };
-      }
+    if (user.accessAttempt === 4) {
+      await this.userRepository.updateUser(user);
+
       return {
         status: 400,
         data: { message: 'Invalid e-mail or password' },
