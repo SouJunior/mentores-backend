@@ -1,7 +1,7 @@
 import { applyDecorators, HttpStatus } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { NotFoundSwagger } from '../../not-found.swagger';
-import { BadRequestSwagger } from '../../bad-request.swagger';
+import { NotFoundSwagger } from '../../not-foundEmail.swagger';
+import { BadRequestSwagger } from '../../bad-requestEmail.swagger';
 
 export function SwaggerDeleteTestimony() {
   return applyDecorators(

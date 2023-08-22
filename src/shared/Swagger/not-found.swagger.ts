@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
 export class NotFoundSwagger {
-  @ApiProperty()
+  @ApiProperty({ example: 404 })
   message: string;
 }

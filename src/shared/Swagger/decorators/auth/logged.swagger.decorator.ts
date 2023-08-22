@@ -1,6 +1,6 @@
 import { applyDecorators, HttpStatus } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { NotFoundSwagger } from '../../not-found.swagger';
+import { NotFoundSwagger } from '../../not-foundEmail.swagger';
 import { UnauthorizedSwagger } from '../../unauthorized.swagger';
 import { UserLogged } from './classes/login-success.swagger';
 
