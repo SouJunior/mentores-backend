@@ -69,7 +69,6 @@ export class AuthService {
           data: { message: 'Invalid e-mail or password' },
         };
       }
-
       user.accessAttempt = 0;
       await this.userRepository.updateUser(user);
 
