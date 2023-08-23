@@ -59,7 +59,7 @@ export class AuthService {
       };
     }
 
-    return;
+    return { status: 200, data: '' };
   }
 
   async invalidPassword(user: UserEntity) {
