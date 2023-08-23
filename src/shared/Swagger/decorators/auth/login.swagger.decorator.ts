@@ -1,6 +1,6 @@
 import { HttpStatus, applyDecorators } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { BadRequestOnlyMessageSwagger } from '../../bad-request.swagger';
+import { BadRequestOnlyMessageSwagger } from '../../bad-requestEmail.swagger';
 import { LoginSuccessSwagger } from './classes/login-success.swagger';
 import { ForbiddenSwagger } from '../../forbidden.swagger';
 

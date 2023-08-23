@@ -24,6 +24,7 @@ import { UserService } from './user.service';
 import { SearchByEmailDto } from './dtos/search-by-email.dto';
 import { SwaggerRestoreAccount } from 'src/shared/Swagger/decorators/user/restore-account.swagger.decorator';
 import { UserPassConfirmationDto } from './dtos/userPassConfirmation.dto';
+import { SwaggerRestoreAccountEmail } from 'src/shared/Swagger/decorators/user/classes/restoreAccountEmail.swagger';
 
 @ApiTags('User')
 @Controller('user')
@@ -89,15 +90,18 @@ export class UserController {
     return this.userService.desactivateLoggedUser(id);
   }
 
-  @ApiExcludeEndpoint()
-  @Post("restoreAccount/:email")
-  async restoreAccount(@Param() {email}: SearchByEmailDto) {
+  @SwaggerRestoreAccountEmail()
+  @Post('restoreAccount/:email')
+  async restoreAccount(@Param() { email }: SearchByEmailDto) {
     return this.userService.sendRestorationEmail(email);
   }
 
   @Patch('restoreAccount/redefinePass')
   @SwaggerRestoreAccount()
-  async redefineUserPassword(@Query() queryData: ActiveUserDto, @Body() passData: UserPassConfirmationDto) {
-  return this.userService.redefineUserPassword(queryData, passData);
+  async redefineUserPassword(
+    @Query() queryData: ActiveUserDto,
+    @Body() passData: UserPassConfirmationDto,
+  ) {
+    return this.userService.redefineUserPassword(queryData, passData);
   }
 }
