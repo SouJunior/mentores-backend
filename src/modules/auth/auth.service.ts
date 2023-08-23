@@ -15,10 +15,20 @@ export class AuthService {
   async execute({ email, password }: UserLoginDto) {
     const user = await this.userRepository.findUserByEmail(email);
 
-    if (!user?.emailConfirmed || !user || user.deleted === true) {
+    if (!user || user.deleted == true) {
       return {
         status: 400,
         data: { message: 'Invalid e-mail or password' },
+      };
+    }
+
+    if (!user.emailConfirmed) {
+      return {
+        status: 400,
+        data: {
+          message:
+            'Your account is not activated yet. Check your e-mail inbox for instructions',
+        },
       };
     }
 
