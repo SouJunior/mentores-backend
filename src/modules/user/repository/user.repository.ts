@@ -76,6 +76,4 @@ export class UserRepository extends PrismaClient {
 
     return;
   }
-
-  async;
 }
