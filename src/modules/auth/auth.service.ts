@@ -69,22 +69,23 @@ export class AuthService {
           data: { message: 'Invalid e-mail or password' },
         };
       }
-      user.accessAttempt = 0;
-      await this.userRepository.updateUser(user);
-
-      delete user.password;
-      delete user.code;
-      delete user.emailConfirmed;
-      delete user.deleted;
-      delete user.accessAttempt;
-
-      return {
-        status: 200,
-        data: {
-          token: this.jwt.sign({ email }),
-          user,
-        },
-      };
     }
+
+    user.accessAttempt = 0;
+    await this.userRepository.updateUser(user);
+
+    delete user.password;
+    delete user.code;
+    delete user.emailConfirmed;
+    delete user.deleted;
+    delete user.accessAttempt;
+
+    return {
+      status: 200,
+      data: {
+        token: this.jwt.sign({ email }),
+        user,
+      },
+    };
   }
 }
