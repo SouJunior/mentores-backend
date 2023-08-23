@@ -69,6 +69,11 @@ export class AuthService {
           data: { message: 'Invalid e-mail or password' },
         };
       }
+
+      return {
+        status: 400,
+        data: { message: 'Invalid e-mail or password' },
+      };
     }
 
     user.accessAttempt = 0;
