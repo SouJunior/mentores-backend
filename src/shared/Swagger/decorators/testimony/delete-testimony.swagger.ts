@@ -1,19 +1,19 @@
 import { applyDecorators, HttpStatus } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { NotFoundSwagger } from '../../not-foundEmail.swagger';
-import { BadRequestSwagger } from '../../bad-requestEmail.swagger';
+import { NotFoundEmailSwagger } from '../../not-foundEmail.swagger';
+import { BadRequestEmailSwagger } from '../../bad-requestEmail.swagger';
 
 export function SwaggerDeleteTestimony() {
   return applyDecorators(
     ApiResponse({
       status: HttpStatus.CREATED,
       description: 'Exemplo do retorno de sucesso da rota',
-      type: NotFoundSwagger,
+      type: NotFoundEmailSwagger,
     }),
     ApiResponse({
       status: HttpStatus.BAD_REQUEST,
       description: 'Modelo de erro',
-      type: BadRequestSwagger,
+      type: BadRequestEmailSwagger,
     }),
     ApiOperation({
       summary: 'Rota para deletar depoimento',
