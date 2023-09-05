@@ -34,7 +34,6 @@ export class MailService {
     const url = `${URL_CONFIRM_EMAIL}code=${code}&email=${email}`;
 
     try {
-      console.log("antes de enviar o e-mail")
       await this.mailerService
         .sendMail({
           to: email,
@@ -47,7 +46,6 @@ export class MailService {
           },
         })
         .catch(handleError);
-        console.log("depois de enviar o e-mail")
     } catch (error) {
       console.log(error.message);
     }

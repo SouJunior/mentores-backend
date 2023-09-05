@@ -15,7 +15,6 @@ export class UserRepository extends PrismaClient {
   }
 
   async findUserByEmail(email: string): Promise<UserEntity> {
-    console.log(email)
     return this.users.findUnique({
       where: { email },
     })
