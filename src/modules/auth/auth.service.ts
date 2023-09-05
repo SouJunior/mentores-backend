@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 
@@ -16,13 +16,14 @@ export class AuthService {
 
   async execute({ email, password }: UserLoginDto) {
     const user = await this.userRepository.findUserByEmail(email);
-
-    const { data, status } = this.userInfoConfirm(user);
-    if (status) return { status, data };
-
+     this.userInfoConfirm(user);
+    
     const passwordIsValid = await bcrypt.compare(password, user.password);
-    if (!passwordIsValid) return this.invalidPassword(user);
 
+    if (!passwordIsValid) {
+      await this.invalidPassword(user);
+    }
+    
     user.accessAttempt = 0;
     await this.userRepository.updateUser(user);
 
@@ -43,23 +44,20 @@ export class AuthService {
 
   userInfoConfirm(user: UserEntity) {
     if (!user || user.deleted == true) {
-      return {
-        status: 400,
-        data: { message: 'Invalid e-mail or password' },
-      };
+
+      const message = "invalid e-mail or password"
+      throw new HttpException({ message }, HttpStatus.NOT_FOUND)
+
     }
 
     if (!user.emailConfirmed) {
-      return {
-        status: 400,
-        data: {
-          message:
-            'Your account is not activated yet. Check your e-mail inbox for instructions',
-        },
-      };
+
+      const message = 'Your account is not activated yet. Check your e-mail inbox for instructions'
+      throw new HttpException({ message }, HttpStatus.NOT_FOUND)
+
     }
 
-    return { status: 200, data: '' };
+    return;
   }
 
   async invalidPassword(user: UserEntity) {
@@ -73,9 +71,6 @@ export class AuthService {
     const message =
       accessAttemptMessage[accessAttempt + 1] || 'Invalid e-mail or password';
 
-    return {
-      status: 400,
-      data: message,
-    };
+    throw new HttpException({ message }, HttpStatus.NOT_FOUND)
   }
 }
