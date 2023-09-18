@@ -21,6 +21,9 @@ import { MailService } from './mail.service';
             user: process.env.MAIL_USER,
             pass: process.env.MAIL_PASSWORD,
           },
+          tls: {
+            rejectUnauthorized: false
+          }
         },
         defaults: {
           from: `no-reply <no-reply@mentores-backend.com>`,
