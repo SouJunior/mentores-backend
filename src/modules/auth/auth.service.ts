@@ -16,8 +16,9 @@ export class AuthService {
 
   async execute({ email, password }: UserLoginDto) {
     const user = await this.userRepository.findUserByEmail(email);
-     this.userInfoConfirm(user);
-    
+
+    this.userInfoConfirm(user);
+
     const passwordIsValid = await bcrypt.compare(password, user.password);
 
     if (!passwordIsValid) {
