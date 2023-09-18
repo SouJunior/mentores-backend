@@ -62,7 +62,7 @@ export class MailService {
     try {
       await this.mailerService
         .sendMail({
-          to: userData.email,
+          to: email,
           subject: 'Recuperação de conta - SouJunior!',
           template: './restoreEmail',
           context: {
