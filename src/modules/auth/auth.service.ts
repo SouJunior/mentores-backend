@@ -18,7 +18,7 @@ export class AuthService {
     const user = await this.userRepository.findUserByEmail(email);
 
     const { data, status } = this.userInfoConfirm(user);
-    if (status) return { status, data };
+    if (status !== 200) return { status, data };
 
     const passwordIsValid = await bcrypt.compare(password, user.password);
     if (!passwordIsValid) return this.invalidPassword(user);
