@@ -9,8 +9,9 @@ import {
   Put,
   Query,
   Res,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiExcludeEndpoint, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiExcludeEndpoint, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { SwaggerConfirmEmail } from '../../shared/Swagger/decorators/user/confirm-email.swagger.decorator';
 import { SwaggerCreateUser } from '../../shared/Swagger/decorators/user/create-user.swagger.decorator';
@@ -25,6 +26,9 @@ import { SearchByEmailDto } from './dtos/search-by-email.dto';
 import { SwaggerRestoreAccount } from 'src/shared/Swagger/decorators/user/restore-account.swagger.decorator';
 import { UserPassConfirmationDto } from './dtos/userPassConfirmation.dto';
 import { SwaggerRestoreAccountEmail } from 'src/shared/Swagger/decorators/user/classes/restoreAccountEmail.swagger';
+import { LoggedUser } from '../auth/decorator/logged-user.decorator';
+import { UserEntity } from './entity/user.entity';
+import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('User')
 @Controller('user')
@@ -68,13 +72,14 @@ export class UserController {
     return res.status(status).send(data);
   }
 
-  @ApiExcludeEndpoint()
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
   @Put(':id')
-  updateLoggedUser(
-    @Param() { id }: GetByParamDto,
+  updateUser(
+    @LoggedUser() user: UserEntity,
     @Body() data: UpdateUserDto,
   ) {
-    return this.userService.updateLoggedUser(id, data);
+    return this.userService.updateUser(user.id, data);
   }
 
   @Patch('active')

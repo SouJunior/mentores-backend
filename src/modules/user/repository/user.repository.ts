@@ -3,6 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import { handleError } from '../../../shared/utils/handle-error.util';
 import { CreateUserDto } from '../dtos/create-user.dto';
 import { UserEntity } from '../entity/user.entity';
+import { UpdateUserDto } from '../dtos/update-user.dto';
 
 @Injectable()
 export class UserRepository extends PrismaClient {
@@ -72,9 +73,9 @@ export class UserRepository extends PrismaClient {
       .catch(handleError);
   }
 
-  async updateUser(user: UserEntity): Promise<void> {
+  async updateUser(id: string, data: UpdateUserDto): Promise<void> {
     await this.users
-      .update({ where: { id: user.id }, data: user })
+      .update({ where: { id }, data})
       .catch(handleError);
 
     return;

@@ -25,7 +25,7 @@ export class AuthService {
     }
     
     user.accessAttempt = 0;
-    await this.userRepository.updateUser(user);
+    await this.userRepository.updateUser(user.id, user);
 
     delete user.password;
     delete user.code;
@@ -65,7 +65,7 @@ export class AuthService {
 
     if (accessAttempt < 5) {
       user.accessAttempt += 1;
-      await this.userRepository.updateUser(user);
+      await this.userRepository.updateUser(user.id, user);
     }
 
     const message =

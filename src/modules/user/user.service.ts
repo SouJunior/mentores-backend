@@ -8,6 +8,8 @@ import { UpdateUserDto } from './dtos/update-user.dto';
 import { UserEntity } from './entity/user.entity';
 import { UserRepository } from './repository/user.repository';
 import { UserPassConfirmationDto } from './dtos/userPassConfirmation.dto';
+import { CustomUsersNotFoundException } from './exceptions/notFound.exception';
+import { CustomUsersBadRequestException } from './exceptions/badRequest.exception';
 
 @Injectable()
 export class UserService {
@@ -73,8 +75,21 @@ export class UserService {
     return users;
   }
 
-  updateLoggedUser(id: string, data: UpdateUserDto): string {
-    return 'Feature still in development';
+  async updateUser(id: string, data: UpdateUserDto) {
+    const userExists = await this.userRepository.findUserById(id)
+
+    if (!userExists) {
+      throw new CustomUsersNotFoundException("There are no user with that id")
+    }
+
+    try {
+    await this.userRepository.updateUser(id, data)
+
+    return { message: "The user was updated successfully", status: 200}
+
+    } catch(error) {
+      throw new CustomUsersBadRequestException("Something went wrong in the database")
+    }
   }
 
   async desactivateLoggedUser(id: string): Promise<{ message: string }> {
@@ -96,7 +111,7 @@ export class UserService {
     userExists.code = null;
     userExists.emailConfirmed = true;
 
-    await this.userRepository.updateUser(userExists);
+    await this.userRepository.updateUser(userExists.id, userExists);
 
     return {
       status: 200,
@@ -118,7 +133,7 @@ export class UserService {
 
     userExists.code = this.generateCodeUtil.create();
 
-    await this.userRepository.updateUser(userExists);
+    await this.userRepository.updateUser(userExists.id, userExists);
 
     await this.mailService.sendRestorationEmail(userExists);
 
@@ -156,7 +171,7 @@ export class UserService {
     userExists.code = null;
     userExists.accessAttempt = 0
 
-    await this.userRepository.updateUser(userExists);
+    await this.userRepository.updateUser(userExists.id, userExists);
 
     return {
       message: 'The account was restored sucessfully',

@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
 
 export class GetByParamDto {
+  @IsOptional()
   @IsString()
   @IsUUID()
   @IsNotEmpty()
@@ -11,6 +12,7 @@ export class GetByParamDto {
   })
   id: string;
 
+  @IsOptional()
   @IsString()
   @IsNotEmpty()
   @ApiProperty({
@@ -19,6 +21,7 @@ export class GetByParamDto {
   })
   fullName: string;
 
+  @IsOptional()
   @IsString()
   @IsNotEmpty()
   @ApiProperty({
