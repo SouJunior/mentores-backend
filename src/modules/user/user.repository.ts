@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
-import { handleError } from '../../../shared/utils/handle-error.util';
-import { CreateUserDto } from '../dtos/create-user.dto';
-import { UserEntity } from '../entity/user.entity';
-import { UpdateUserDto } from '../dtos/update-user.dto';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UserEntity } from './entities/user.entity';
+import { handleError } from 'src/shared/utils/handle-error.util';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserRepository extends PrismaClient {
@@ -31,33 +31,11 @@ export class UserRepository extends PrismaClient {
           fullName: true,
           dateOfBirth: true,
           email: true,
-          specialty: true,
           createdAt: true,
           updatedAt: true,
         },
       })
       .catch(handleError);
-  }
-
-  async findUserByNameAndRole(
-    fullName?: string,
-    specialty?: string,
-  ): Promise<UserEntity[]> {
-    const users = await this.users
-      .findMany({
-        where: {
-          deleted: false,
-          fullName: fullName
-            ? { contains: fullName, mode: 'insensitive' }
-            : undefined,
-          specialty: specialty
-            ? { contains: specialty, mode: 'insensitive' }
-            : undefined,
-        },
-      })
-      .catch(handleError);
-
-    return users;
   }
 
   async desativateUserById(id: string): Promise<UserEntity> {

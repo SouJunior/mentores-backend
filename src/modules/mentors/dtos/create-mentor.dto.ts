@@ -1,18 +1,25 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude, Transform } from 'class-transformer';
 import {
+  ArrayMinSize,
+  IsArray,
   IsDate,
   IsEmail,
   IsNotEmpty,
   IsOptional,
   IsString,
+  IsUUID,
   Matches,
   MaxDate,
   MaxLength,
+  isNotEmpty,
+  isUUID,
 } from 'class-validator';
 import { Match } from '../decorators/match.decorator';
+import { HistoryEntity } from '../entities/history.entity';
 
-export class CreateUserDto {
+export class CreateMentorDto {
+
   @IsString()
   @IsNotEmpty({ message: "the 'fullName' field must not be empty" })
   @MaxLength(100, { message: 'Maximum of 100 characters exceeded' })
@@ -62,14 +69,15 @@ export class CreateUserDto {
   })
   emailConfirm: string;
 
-  @IsString()
-  @IsOptional()
-  @MaxLength(100, { message: 'Maximum of 100 characters exceeded' })
+  @IsArray()
+  @IsString({ each: true})
+  @ArrayMinSize(1)
+  @MaxLength(30, { each: true ,message: 'Maximum of 30 characters exceeded' })
   @ApiProperty({
     required: true,
-    example: 'Mentor frontend',
+    example: 'Frontend, backend, qa, dev ops',
   })
-  specialty: string;
+  specialties: string[];
 
   @IsNotEmpty({ message: "the 'password' field must not be empty" })
   @IsString({ message: 'Only strings are allowed in this field' })
@@ -100,4 +108,5 @@ export class CreateUserDto {
   @Exclude()
   @IsOptional()
   code: string;
+
 }

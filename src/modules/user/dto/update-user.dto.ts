@@ -1,10 +1,10 @@
 import { IsDate, IsEmail, IsNotEmpty, IsOptional, IsString, Matches, MaxDate, MaxLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { Match } from '../decorators/match.decorator';
+import { Match } from 'src/modules/mentors/decorators/match.decorator';
+
 
 export class UpdateUserDto {
-
   @IsString()
   @IsNotEmpty({ message: "the 'fullName' field must not be empty" })
   @MaxLength(100, { message: 'Maximum of 100 characters exceeded' })
@@ -67,4 +67,20 @@ export class UpdateUserDto {
   @IsOptional()
   passwordConfirmation?: string;
 
+  @IsOptional()
+  @IsString()
+  @ApiProperty({
+    description: 'Imagem do perfil',
+  })
+  profile?: string;
+
+  @IsOptional()
+  @IsString()
+  @ApiProperty({
+    description: 'Chave para remoção da imagem do perfil',
+  })
+  profileKey?: string;
+
+  @IsOptional()
+  file?: any;
 }
