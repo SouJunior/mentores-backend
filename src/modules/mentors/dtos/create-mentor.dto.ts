@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude, Transform } from 'class-transformer';
 import {
+  ArrayMaxSize,
   ArrayMinSize,
   IsArray,
   IsDate,
@@ -72,6 +73,7 @@ export class CreateMentorDto {
   @IsArray()
   @IsString({ each: true})
   @ArrayMinSize(1)
+  @ArrayMaxSize(6)
   @MaxLength(30, { each: true ,message: 'Maximum of 30 characters exceeded' })
   @ApiProperty({
     required: true,
