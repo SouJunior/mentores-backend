@@ -1,22 +1,22 @@
 import { applyDecorators, HttpStatus } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { BadRequestSwagger } from '../../bad-request.swagger';
-import { NotFoundSwagger } from '../../not-found.swagger';
+import { BadRequestOnlyMessageSwagger } from '../../bad-request.swagger';
+import { UserLogged } from '../auth/classes/login-success.swagger';
 
-export function SwaggerCreateUser() {
+export function SwaggerGetMentor() {
   return applyDecorators(
     ApiResponse({
-      status: HttpStatus.CREATED,
+      status: HttpStatus.OK,
       description: 'Exemplo do retorno de sucesso da rota',
-      type: NotFoundSwagger,
+      type: UserLogged,
     }),
     ApiResponse({
       status: HttpStatus.BAD_REQUEST,
       description: 'Modelo de erro',
-      type: BadRequestSwagger,
+      type: BadRequestOnlyMessageSwagger,
     }),
     ApiOperation({
-      summary: 'Rota para cadastrar usuário plataforma',
+      summary: 'Rota para buscar o usuario pelo ID',
     }),
   );
 }

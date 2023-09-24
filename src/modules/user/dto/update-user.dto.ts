@@ -1,18 +1,10 @@
+import { IsDate, IsEmail, IsNotEmpty, IsOptional, IsString, Matches, MaxDate, MaxLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { Exclude, Transform } from 'class-transformer';
-import {
-  IsDate,
-  IsEmail,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  Matches,
-  MaxDate,
-  MaxLength,
-} from 'class-validator';
-import { Match } from '../decorators/match.decorator';
+import { Transform } from 'class-transformer';
+import { Match } from 'src/modules/mentors/decorators/match.decorator';
 
-export class CreateUserDto {
+
+export class UpdateUserDto {
   @IsString()
   @IsNotEmpty({ message: "the 'fullName' field must not be empty" })
   @MaxLength(100, { message: 'Maximum of 100 characters exceeded' })
@@ -22,6 +14,7 @@ export class CreateUserDto {
   })
   fullName: string;
 
+  @IsNotEmpty({ message: "The dateOfBirth field must not be empty"})
   @Transform(({ value }) => new Date(value))
   @IsDate()
   @MaxDate(new Date(), {
@@ -31,7 +24,7 @@ export class CreateUserDto {
     required: true,
     example: '2023-04-06',
   })
-  dateOfBirth: Date;
+  dateOfBirth: Date | string;
 
   @IsString({ message: 'Only strings are allowed in this field' })
   @IsEmail(undefined, {
@@ -46,31 +39,6 @@ export class CreateUserDto {
   })
   email: string;
 
-  @IsString({ message: 'Only strings are allowed in this field' })
-  @IsEmail(undefined, {
-    message: 'Invalid e-mail format',
-  })
-  @MaxLength(100, { message: 'Maximum of 100 characters exceeded' })
-  @IsNotEmpty({ message: "the 'emailConfirm' field must not be empty" })
-  @Transform(({ value }) => value.toLowerCase())
-  @ApiProperty({
-    required: true,
-    example: 'fulano.de.tal@dominio.com',
-  })
-  @Match('email', {
-    message: 'The emails dont match',
-  })
-  emailConfirm: string;
-
-  @IsString()
-  @IsOptional()
-  @MaxLength(100, { message: 'Maximum of 100 characters exceeded' })
-  @ApiProperty({
-    required: true,
-    example: 'Mentor frontend',
-  })
-  specialty: string;
-
   @IsNotEmpty({ message: "the 'password' field must not be empty" })
   @IsString({ message: 'Only strings are allowed in this field' })
   @Matches(
@@ -84,7 +52,8 @@ export class CreateUserDto {
     description: 'Senha de Login',
     example: 'Abcd@123',
   })
-  password: string;
+  @IsOptional()
+  password?: string;
 
   @IsNotEmpty({ message: "the 'passwordConfirmation' field must not be empty" })
   @IsString()
@@ -95,9 +64,23 @@ export class CreateUserDto {
   @Match('password', {
     message: 'The password does not match with the password confirmation',
   })
-  passwordConfirmation: string;
-
-  @Exclude()
   @IsOptional()
-  code: string;
+  passwordConfirmation?: string;
+
+  @IsOptional()
+  @IsString()
+  @ApiProperty({
+    description: 'Imagem do perfil',
+  })
+  profile?: string;
+
+  @IsOptional()
+  @IsString()
+  @ApiProperty({
+    description: 'Chave para remoção da imagem do perfil',
+  })
+  profileKey?: string;
+
+  @IsOptional()
+  file?: any;
 }
