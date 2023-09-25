@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import { ArrayMinSize, IsArray, IsNotEmpty, IsOptional, IsString, IsUUID, MaxLength } from 'class-validator';
 
 export class GetByParamDto {
+  @IsOptional()
   @IsString()
   @IsUUID()
   @IsNotEmpty()
@@ -11,6 +12,7 @@ export class GetByParamDto {
   })
   id: string;
 
+  @IsOptional()
   @IsString()
   @IsNotEmpty()
   @ApiProperty({
@@ -19,11 +21,14 @@ export class GetByParamDto {
   })
   fullName: string;
 
-  @IsString()
-  @IsNotEmpty()
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true})
+  @ArrayMinSize(1)
+  @MaxLength(30, { each: true ,message: 'Maximum of 30 characters exceeded' })
   @ApiProperty({
     required: true,
-    example: 'Mentor backend',
+    example: 'Frontend, backend, qa, dev ops',
   })
-  specialty: string;
+  specialties: string[];
 }

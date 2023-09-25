@@ -4,10 +4,10 @@ import { Response } from 'express';
 import { SwaggerLogged } from '../../shared/Swagger/decorators/auth/logged.swagger.decorator';
 
 import { SwaggerLogin } from '../../shared/Swagger/decorators/auth/login.swagger.decorator';
-import { UserEntity } from '../user/entity/user.entity';
+import { MentorEntity } from '../mentors/entities/mentor.entity';
 import { AuthService } from './auth.service';
-import { LoggedUser } from './decorator/logged-user.decorator';
-import { UserLoginDto } from './dtos/user-login.dto';
+import { LoggedMentor } from './decorator/logged-mentor.decorator';
+import { InfoLoginDto} from './dtos/info-login.dto';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('auth')
@@ -17,7 +17,7 @@ export class AuthController {
 
   @Post('/login')
   @SwaggerLogin()
-  async login(@Body() loginData: UserLoginDto, @Res() res: Response) {
+  async login(@Body() loginData: InfoLoginDto, @Res() res: Response) {
     const { status, data } = await this.authService.execute(loginData);
 
     return res.status(status).send(data);
@@ -27,7 +27,7 @@ export class AuthController {
   @SwaggerLogged()
   @ApiBearerAuth()
   @UseGuards(AuthGuard())
-  async userLogged(@LoggedUser() user: UserEntity) {
-    return user;
+  async userLogged(@LoggedMentor() mentor: MentorEntity) {
+    return mentor;
   }
 }

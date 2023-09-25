@@ -7,14 +7,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model users {
+model mentors {
   id             String   @id @default(uuid())
+  history        history?
   fullName       String
   dateOfBirth    DateTime
   password       String
   email          String   @unique
   emailConfirmed Boolean  @default(false)
-  specialty      String?
+  specialties    String[]
+  profile        String?
+  profileKey     String?
   accessAttempt  Int?     @default(0)
   code           String? @unique
   createdAt      DateTime   @default(now())
@@ -22,6 +25,35 @@ model users {
   deleted        Boolean  @default(false)
 
   @@index([id])
+}
+
+model users {
+  id             String   @id @default(uuid())
+  fullName       String
+  dateOfBirth    DateTime
+  password       String
+  email          String   @unique
+  emailConfirmed Boolean  @default(false)
+  profile        String?
+  profileKey     String?
+  accessAttempt  Int?     @default(0)
+  code           String? @unique
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @default(now())
+  deleted       Boolean  @default(false)
+  history       history[]
+
+  @@index([id])
+}
+
+model history {
+  id             String   @id @default(uuid())
+  mentee_id      String   @unique
+  mentor_id      String   @unique
+  users          users    @relation(fields: [mentee_id], references: [id])
+  mentors        mentors  @relation(fields: [mentor_id], references: [id])
+  duration       String?
+  happened_at    String   @default("")
 }
 
 model testimony {

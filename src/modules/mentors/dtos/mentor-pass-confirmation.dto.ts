@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, Matches } from 'class-validator';
 import { Match } from '../decorators/match.decorator';
 
-export class UserPassConfirmationDto {
+export class MentorPassConfirmationDto {
   @IsNotEmpty({ message: "the 'password' field must not be empty" })
   @IsString({ message: 'Only strings are allowed in this field' })
   @Matches(
