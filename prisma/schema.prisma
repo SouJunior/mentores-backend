@@ -16,6 +16,7 @@ model mentors {
   email          String   @unique
   emailConfirmed Boolean  @default(false)
   specialties    String[]
+  registerComplete Boolean @default(false)
   profile        String?
   profileKey     String?
   accessAttempt  Int?     @default(0)
