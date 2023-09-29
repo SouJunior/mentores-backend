@@ -70,17 +70,6 @@ export class CreateMentorDto {
   })
   emailConfirm: string;
 
-  @IsArray()
-  @IsString({ each: true})
-  @ArrayMinSize(1)
-  @ArrayMaxSize(6)
-  @MaxLength(30, { each: true ,message: 'Maximum of 30 characters exceeded' })
-  @ApiProperty({
-    required: true,
-    example: 'Frontend, backend, qa, dev ops',
-  })
-  specialties: string[];
-
   @IsNotEmpty({ message: "the 'password' field must not be empty" })
   @IsString({ message: 'Only strings are allowed in this field' })
   @Matches(
