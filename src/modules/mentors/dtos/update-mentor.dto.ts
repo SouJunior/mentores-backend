@@ -1,10 +1,11 @@
-import { IsDate, IsEmail, IsNotEmpty, IsOptional, IsString, Matches, MaxDate, MaxLength } from 'class-validator';
+import { ArrayMaxSize, ArrayMinSize, IsArray, IsDate, IsEmail, IsNotEmpty, IsOptional, IsString, Matches, MaxDate, MaxLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { Match } from '../decorators/match.decorator';
 
 export class UpdateMentorDto {
 
+  @IsOptional()
   @IsString()
   @IsNotEmpty({ message: "the 'fullName' field must not be empty" })
   @MaxLength(100, { message: 'Maximum of 100 characters exceeded' })
@@ -12,8 +13,9 @@ export class UpdateMentorDto {
     required: true,
     example: 'Fulano de tal',
   })
-  fullName: string;
+  fullName?: string;
 
+  @IsOptional()
   @IsNotEmpty({ message: "The dateOfBirth field must not be empty"})
   @Transform(({ value }) => new Date(value))
   @IsDate()
@@ -24,8 +26,9 @@ export class UpdateMentorDto {
     required: true,
     example: '2023-04-06',
   })
-  dateOfBirth: Date | string;
+  dateOfBirth?: Date | string;
 
+  @IsOptional()
   @IsString({ message: 'Only strings are allowed in this field' })
   @IsEmail(undefined, {
     message: 'Invalid e-mail format',
@@ -37,7 +40,19 @@ export class UpdateMentorDto {
     required: true,
     example: 'fulano.de.tal@dominio.com',
   })
-  email: string;
+  email?: string;
+
+  @IsArray()
+  @IsOptional()
+  @IsString({ each: true})
+  @ArrayMinSize(1)
+  @ArrayMaxSize(6)
+  @MaxLength(30, { each: true ,message: 'Maximum of 30 characters exceeded' })
+  @ApiProperty({
+    required: true,
+    example: 'Frontend, backend, qa, dev ops',
+  })
+  specialties?: string[];
 
   @IsNotEmpty({ message: "the 'password' field must not be empty" })
   @IsString({ message: 'Only strings are allowed in this field' })
