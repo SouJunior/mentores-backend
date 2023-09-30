@@ -11,9 +11,11 @@ export class SearchMentorDto {
   fullName: string;
 
   @IsOptional()
-  @IsArray()
-  @IsString({ each: true})
-  @ArrayMinSize(1)
-  @MaxLength(30, { each: true ,message: 'Maximum of 30 characters exceeded' })
-  specialties: string[];
+  @IsString()
+  @MaxLength(30, {message: 'Maximum of 30 characters exceeded' })
+  @ApiProperty({
+    required: false,
+    example: 'Backend',
+  })
+  specialty: string;
 }

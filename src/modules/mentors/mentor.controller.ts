@@ -33,6 +33,7 @@ import { MentorEntity } from './entities/mentor.entity';
 import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { SwaggerUpdateMentorById } from 'src/shared/Swagger/decorators/mentor/update-mentor-by-id.swagger';
+import { GetByIdDto } from './dtos/get-by-id.dto copy';
 
 @ApiTags('mentor')
 @Controller('mentor')
@@ -55,12 +56,11 @@ export class MentorController {
   @SwaggerGetMentor()
   async findByNameAndRole(
     @Res() res: Response,
-    @Query() { fullName, specialties }: SearchMentorDto, specialty: string
+    @Query() { fullName, specialty }: SearchMentorDto
   ) {
     const data = await this.mentorService.findMentorByNameAndRole(
       fullName,
       specialty,
-      specialties
     );
 
     return res.status(HttpStatus.OK).send(data);
@@ -69,7 +69,7 @@ export class MentorController {
   @Get([':id'])
   @SwaggerGetMentor()
   async getMentorById(
-    @Param() { id }: Partial<GetByParamDto>,
+    @Param() { id }: GetByIdDto,
     @Res() res: Response,
   ) {
     const { status, data } = await this.mentorService.findMentorById(id);
@@ -82,10 +82,10 @@ export class MentorController {
   @SwaggerUpdateMentorById()
   @Put(':id')
   async updateMentor(
-    @LoggedMentor() Mentor: MentorEntity,
+    @LoggedMentor() mentor: MentorEntity,
     @Body() data: UpdateMentorDto,
   ) {
-    return await this.mentorService.updateMentor(Mentor.id, data);
+    return await this.mentorService.updateMentor(mentor.id, data);
   }
 
   @ApiBearerAuth()
@@ -106,7 +106,7 @@ export class MentorController {
 
   @ApiExcludeEndpoint()
   @Patch(':id')
-  async desactivateLoggedMentor(@Param() { id }: GetByParamDto) {
+  async desactivateLoggedMentor(@Param() { id }: GetByIdDto) {
     return this.mentorService.desactivateLoggedMentor(id);
   }
 

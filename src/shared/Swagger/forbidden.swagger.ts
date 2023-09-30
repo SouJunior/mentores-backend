@@ -3,6 +3,6 @@ export class ForbiddenSwagger {
   @ApiProperty({ example: 403 })
   statusCode: number;
 
-  @ApiProperty({ example: 'Credenciais bloqueadas' })
+  @ApiProperty({ example: 'Blocked credentials' })
   message: string;
 }
