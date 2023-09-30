@@ -1,14 +1,14 @@
 import { applyDecorators, HttpStatus } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { NotFoundSwagger } from '../../not-found.swagger';
 import { BadRequestSwagger } from '../../bad-request.swagger';
+import { SuccessSwagger } from '../../success.swagger';
 
 export function SwaggerEditTestimony() {
   return applyDecorators(
     ApiResponse({
-      status: HttpStatus.CREATED,
+      status: HttpStatus.OK,
       description: 'Exemplo do retorno de sucesso da rota',
-      type: NotFoundSwagger,
+      type: SuccessSwagger,
     }),
     ApiResponse({
       status: HttpStatus.BAD_REQUEST,

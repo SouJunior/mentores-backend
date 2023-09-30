@@ -25,6 +25,7 @@ export class UpdateMentorDto {
   @ApiProperty({
     required: true,
     example: '2023-04-06',
+    type: "Date"
   })
   dateOfBirth?: Date | string;
 
@@ -50,6 +51,7 @@ export class UpdateMentorDto {
   @MaxLength(30, { each: true ,message: 'Maximum of 30 characters exceeded' })
   @ApiProperty({
     required: true,
+    type: "String array",
     example: 'Frontend, backend, qa, dev ops',
   })
   specialties?: string[];

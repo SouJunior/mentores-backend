@@ -1,23 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude, Transform } from 'class-transformer';
 import {
-  ArrayMaxSize,
-  ArrayMinSize,
-  IsArray,
   IsDate,
   IsEmail,
   IsNotEmpty,
   IsOptional,
   IsString,
-  IsUUID,
   Matches,
   MaxDate,
   MaxLength,
-  isNotEmpty,
-  isUUID,
 } from 'class-validator';
 import { Match } from '../decorators/match.decorator';
-import { HistoryEntity } from '../entities/history.entity';
 
 export class CreateMentorDto {
 

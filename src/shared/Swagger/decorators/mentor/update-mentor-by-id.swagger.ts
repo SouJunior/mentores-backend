@@ -6,18 +6,6 @@ import { BadRequestSwagger } from "../../bad-request.swagger";
 
 export function SwaggerUpdateMentorById() {
     return applyDecorators(
-        ApiBody({
-            description: 'Upload images',
-            schema: {
-              type: 'object',
-              properties: {
-                file: {
-                  type: 'string',
-                  format: 'binary',
-                },
-              },
-            },
-          }),
           ApiResponse({
             status: HttpStatus.OK,
             description: 'Exemplo do retorno de sucesso da rota',
@@ -35,6 +23,7 @@ export function SwaggerUpdateMentorById() {
           }),
           ApiOperation({
             summary: 'Atualizar uma usuário por id.',
-          })
+            description: "Todos os campos são opcionais"
+          }),
     )
 }

@@ -10,7 +10,7 @@ import { MentorPassConfirmationDto } from './dtos/mentor-pass-confirmation.dto';
 import { CustomMentorsNotFoundException } from './exceptions/notFound.exception';
 import { CustomMentorsBadRequestException } from './exceptions/badRequest.exception';
 import { FileUploadService } from '../upload/upload.service';
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 
 @Injectable()
 export class MentorService {
@@ -68,14 +68,12 @@ export class MentorService {
   async findMentorByNameAndRole(
     fullName?: string,
     specialty?: string,
-    specialties?: string[]
   ): Promise<MentorEntity[]> {
     const users = await this.mentorRepository.findMentorByNameAndRole(
       fullName,
       specialty,
-      specialties
     );
-
+    
     return users;
   }
 
