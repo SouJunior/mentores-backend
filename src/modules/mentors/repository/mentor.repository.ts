@@ -42,21 +42,22 @@ export class MentorRepository extends PrismaClient {
   async findMentorByNameAndRole(
     fullName?: string,
     specialty?: string,
-    specialties?: string[],
   ): Promise<MentorEntity[]> {
-    const Mentors = await this.mentors
+    const mentors = await this.mentors
       .findMany({
         where: {
           deleted: false,
-          fullName: fullName
-            ? { contains: fullName, mode: 'insensitive' }
-            : undefined,
-          specialties: {has: specialty}
+          OR: [
+            { specialties: {has: specialty}} ,
+            { fullName: fullName
+              ? { contains: fullName, mode: 'insensitive' }
+              : undefined}
+          ]
         },
       })
       .catch(handleError);
 
-    return Mentors;
+    return mentors;
   }
 
   async desativateMentorById(id: string): Promise<MentorEntity> {

@@ -1,14 +1,14 @@
 import { applyDecorators, HttpStatus } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { NotFoundEmailSwagger } from '../../not-foundEmail.swagger';
 import { BadRequestEmailSwagger } from '../../bad-requestEmail.swagger';
+import { SuccessSwagger } from '../../success.swagger';
 
 export function SwaggerDeleteTestimony() {
   return applyDecorators(
     ApiResponse({
-      status: HttpStatus.CREATED,
+      status: HttpStatus.OK,
       description: 'Exemplo do retorno de sucesso da rota',
-      type: NotFoundEmailSwagger,
+      type: SuccessSwagger,
     }),
     ApiResponse({
       status: HttpStatus.BAD_REQUEST,

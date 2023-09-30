@@ -2,7 +2,7 @@ import { HttpStatus, applyDecorators } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { LoginSuccessSwagger } from './classes/login-success.swagger';
 import { ForbiddenSwagger } from '../../forbidden.swagger';
-import { BadRequestOnlyMessageSwagger } from '../../bad-request.swagger';
+import { BadRequestEmailSwagger } from '../../bad-requestEmail.swagger';
 
 export function SwaggerLogin() {
   return applyDecorators(
@@ -14,7 +14,7 @@ export function SwaggerLogin() {
     ApiResponse({
       status: HttpStatus.BAD_REQUEST,
       description: 'Modelo de erro',
-      type: BadRequestOnlyMessageSwagger,
+      type: BadRequestEmailSwagger,
     }),
     ApiResponse({
       status: HttpStatus.FORBIDDEN,

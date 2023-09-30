@@ -3,14 +3,9 @@ export class BadRequestSwagger {
   @ApiProperty({ example: 400 })
   statusCode: number;
 
-  @ApiProperty({ example: 'invalid input syntax for type uuid:' })
+  @ApiProperty({ example: 'invalid input for this operation' })
   message: string;
 
   @ApiProperty({ example: 'Bad Request' })
   error: string;
-}
-
-export class BadRequestOnlyMessageSwagger {
-  @ApiProperty({ example: 'E-mail ou senha inválidos' })
-  message: string;
 }
