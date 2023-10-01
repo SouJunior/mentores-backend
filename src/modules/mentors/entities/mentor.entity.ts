@@ -1,3 +1,5 @@
+import { Gender } from "aws-sdk/clients/polly";
+import { Specialties } from "../enums/specialties.enum";
 import { HistoryEntity } from "./history.entity";
 
 export class MentorEntity {
@@ -8,6 +10,8 @@ export class MentorEntity {
   email: string;
   emailConfirmed?: boolean;
   specialties: string[];
+  gender: string
+  aboutMe: string
   profileKey?: string;
   profile?: string;
   accessAttempt?: number;
