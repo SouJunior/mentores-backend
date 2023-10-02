@@ -79,23 +79,17 @@ export class MentorRepository extends PrismaClient {
 
   async updateMentor(id: string, data: UpdateMentorDto): Promise<void> {
     await this.mentors.update({ where: { id }, data }).catch(handleError);
-
-    return;
   }
 
   async updateMentorUrl(id: string, urlImage: string): Promise<void> {
     await this.mentors
       .update({ where: { id }, data: { profile: urlImage } })
       .catch(handleError);
-
-    return;
   }
 
   async registerCompleteToggle(id: string): Promise<void> {
     await this.mentors
       .update({ where: { id }, data: { registerComplete: true } })
       .catch(handleError);
-
-    return;
   }
 }
