@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { handleError } from '../../../shared/utils/handle-error.util';
 import { CreateMentorDto } from '../dtos/create-mentor.dto';
-import { MentorEntity } from '../entities/mentor.entity';
 import { UpdateMentorDto } from '../dtos/update-mentor.dto';
+import { MentorEntity } from '../entities/mentor.entity';
 
 @Injectable()
 export class MentorRepository extends PrismaClient {
@@ -16,10 +16,11 @@ export class MentorRepository extends PrismaClient {
   }
 
   async findMentorByEmail(email: string): Promise<MentorEntity> {
-    return this.mentors.findUnique({
-      where: { email },
-    })
-    .catch(handleError);
+    return this.mentors
+      .findUnique({
+        where: { email },
+      })
+      .catch(handleError);
   }
 
   async findMentorById(id: string) {
@@ -49,11 +50,13 @@ export class MentorRepository extends PrismaClient {
         where: {
           deleted: false,
           OR: [
-            { specialties: {has: specialty}} ,
-            { fullName: fullName
-              ? { contains: fullName, mode: 'insensitive' }
-              : undefined}
-          ]
+            { specialties: { has: specialty } },
+            {
+              fullName: fullName
+                ? { contains: fullName, mode: 'insensitive' }
+                : undefined,
+            },
+          ],
         },
       })
       .catch(handleError);
@@ -75,24 +78,18 @@ export class MentorRepository extends PrismaClient {
   }
 
   async updateMentor(id: string, data: UpdateMentorDto): Promise<void> {
-    await this.mentors
-      .update({ where: { id }, data})
-      .catch(handleError);
-
-    return;
+    await this.mentors.update({ where: { id }, data }).catch(handleError);
   }
 
-  async updateMentorUrl(id: string, urlImage: string) {
+  async updateMentorUrl(id: string, urlImage: string): Promise<void> {
     await this.mentors
-      .update({ where: { id }, data: {profile: urlImage}})
+      .update({ where: { id }, data: { profile: urlImage } })
       .catch(handleError);
-
-    return;
   }
 
-  async registerCompleteToggle(id: string) {
-    await this.mentors.update({ where: { id }, data: {registerComplete: true}}).catch(handleError)
-
-    return
+  async registerCompleteToggle(id: string): Promise<void> {
+    await this.mentors
+      .update({ where: { id }, data: { registerComplete: true } })
+      .catch(handleError);
   }
 }
