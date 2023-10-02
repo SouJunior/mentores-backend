@@ -22,7 +22,7 @@ export class MentorRepository extends PrismaClient {
     .catch(handleError);
   }
 
-  async findMentorById(id: string): Promise<any> {
+  async findMentorById(id: string) {
     return this.mentors
       .findUnique({
         where: { id },
@@ -32,6 +32,7 @@ export class MentorRepository extends PrismaClient {
           dateOfBirth: true,
           email: true,
           specialties: true,
+          registerComplete: true,
           createdAt: true,
           updatedAt: true,
         },
@@ -79,5 +80,19 @@ export class MentorRepository extends PrismaClient {
       .catch(handleError);
 
     return;
+  }
+
+  async updateMentorUrl(id: string, urlImage: string) {
+    await this.mentors
+      .update({ where: { id }, data: {profile: urlImage}})
+      .catch(handleError);
+
+    return;
+  }
+
+  async registerCompleteToggle(id: string) {
+    await this.mentors.update({ where: { id }, data: {registerComplete: true}}).catch(handleError)
+
+    return
   }
 }

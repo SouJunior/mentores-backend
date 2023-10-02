@@ -16,7 +16,7 @@ export function SwaggerCreateMentor() {
       type: BadRequestSwagger,
     }),
     ApiOperation({
-      summary: 'Rota para cadastrar usuário plataforma',
+      summary: 'Rota para cadastrar mentor na plataforma',
     }),
   );
 }

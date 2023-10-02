@@ -1,10 +1,9 @@
 import { applyDecorators, HttpStatus } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { SuccessSwagger } from '../../success.swagger';
-import { BadRequestSwagger } from '../../bad-request.swagger';
-import { NotFoundSwagger } from '../../not-found.swagger';
+import { BadRequestSwagger } from '../bad-request.swagger';
+import { SuccessSwagger } from '../success.swagger';
 
-export function SwaggerGetMentor() {
+export function SwaggerConfirmEmail() {
   return applyDecorators(
     ApiResponse({
       status: HttpStatus.OK,
@@ -16,13 +15,8 @@ export function SwaggerGetMentor() {
       description: 'Modelo de erro',
       type: BadRequestSwagger,
     }),
-    ApiResponse({
-      status: HttpStatus.NOT_FOUND,
-      description: 'Modelo de erro',
-      type: NotFoundSwagger,
-    }),
     ApiOperation({
-      summary: 'Rota para buscar o mentor pelo ID',
+      summary: 'Rota para confirmar o email do usuario',
     }),
   );
 }

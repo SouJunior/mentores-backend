@@ -1,9 +1,9 @@
 import { applyDecorators, HttpStatus } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { BadRequestSwagger } from '../../bad-request.swagger';
-import { SuccessSwagger } from '../../success.swagger';
+import { SuccessSwagger } from '../success.swagger';
+import { BadRequestSwagger } from '../bad-request.swagger';
 
-export function SwaggerConfirmEmail() {
+export function SwaggerRestoreAccount() {
   return applyDecorators(
     ApiResponse({
       status: HttpStatus.OK,
@@ -16,7 +16,8 @@ export function SwaggerConfirmEmail() {
       type: BadRequestSwagger,
     }),
     ApiOperation({
-      summary: 'Rota para confirmar o email do usuario',
+      summary:
+        'Rota para redefinir a senha do usuário que passou pelo processo de recuperação de conta',
     }),
   );
 }

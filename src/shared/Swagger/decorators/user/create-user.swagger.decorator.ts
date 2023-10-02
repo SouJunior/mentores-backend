@@ -1,28 +1,22 @@
 import { applyDecorators, HttpStatus } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { SuccessSwagger } from '../../success.swagger';
 import { BadRequestSwagger } from '../../bad-request.swagger';
-import { NotFoundSwagger } from '../../not-found.swagger';
+import { CreatedSwagger } from '../../created.swagger copy';
 
-export function SwaggerGetMentor() {
+export function SwaggerCreateUser() {
   return applyDecorators(
     ApiResponse({
-      status: HttpStatus.OK,
+      status: HttpStatus.CREATED,
       description: 'Exemplo do retorno de sucesso da rota',
-      type: SuccessSwagger,
+      type: CreatedSwagger,
     }),
     ApiResponse({
       status: HttpStatus.BAD_REQUEST,
       description: 'Modelo de erro',
       type: BadRequestSwagger,
     }),
-    ApiResponse({
-      status: HttpStatus.NOT_FOUND,
-      description: 'Modelo de erro',
-      type: NotFoundSwagger,
-    }),
     ApiOperation({
-      summary: 'Rota para buscar o mentor pelo ID',
+      summary: 'Rota para cadastrar usuário na plataforma',
     }),
   );
 }

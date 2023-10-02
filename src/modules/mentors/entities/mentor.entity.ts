@@ -12,6 +12,7 @@ export class MentorEntity {
   specialties: string[];
   gender: string
   aboutMe: string
+  registerComplete?: boolean
   profileKey?: string;
   profile?: string;
   accessAttempt?: number;

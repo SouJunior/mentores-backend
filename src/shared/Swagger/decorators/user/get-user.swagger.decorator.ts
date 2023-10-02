@@ -1,9 +1,10 @@
 import { applyDecorators, HttpStatus } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { BadRequestSwagger } from '../../bad-request.swagger';
 import { SuccessSwagger } from '../../success.swagger';
+import { BadRequestSwagger } from '../../bad-request.swagger';
+import { NotFoundSwagger } from '../../not-found.swagger';
 
-export function SwaggerRestoreAccount() {
+export function SwaggerGetUser() {
   return applyDecorators(
     ApiResponse({
       status: HttpStatus.OK,
@@ -15,9 +16,13 @@ export function SwaggerRestoreAccount() {
       description: 'Modelo de erro',
       type: BadRequestSwagger,
     }),
+    ApiResponse({
+      status: HttpStatus.NOT_FOUND,
+      description: 'Modelo de erro',
+      type: NotFoundSwagger,
+    }),
     ApiOperation({
-      summary:
-        'Rota para redefinir a senha do usuário que passou pelo processo de recuperação de conta',
+      summary: 'Rota para buscar o usuario pelo ID',
     }),
   );
 }
