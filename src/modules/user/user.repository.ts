@@ -51,9 +51,17 @@ export class UserRepository extends PrismaClient {
       .catch(handleError);
   }
 
-  async updateUser(id: string, data: UpdateUserDto): Promise<void> {
+  async updateUser(id: string, data: UpdateUserDto) {
     await this.users
       .update({ where: { id }, data})
+      .catch(handleError);
+
+    return;
+  }
+
+  async updateUserUrl(id: string, urlImage: string) {
+    await this.users
+      .update({ where: { id }, data: {profile: urlImage}})
       .catch(handleError);
 
     return;

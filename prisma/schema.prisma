@@ -36,6 +36,8 @@ model users {
   fullName       String
   dateOfBirth    DateTime
   password       String
+  gender         String?
+  aboutMe        String?
   email          String   @unique
   emailConfirmed Boolean  @default(false)
   profile        String?

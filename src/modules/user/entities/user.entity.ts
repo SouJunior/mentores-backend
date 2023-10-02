@@ -5,6 +5,8 @@ export class UserEntity {
     password: string;
     email: string;
     emailConfirmed?: boolean;
+    aboutMe: string;
+    gender: string
     profileKey?: string;
     profile?: string;
     accessAttempt?: number;

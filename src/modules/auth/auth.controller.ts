@@ -6,7 +6,7 @@ import { SwaggerLogged } from '../../shared/Swagger/decorators/auth/logged.swagg
 import { SwaggerLogin } from '../../shared/Swagger/decorators/auth/login.swagger.decorator';
 import { MentorEntity } from '../mentors/entities/mentor.entity';
 import { AuthService } from './auth.service';
-import { LoggedMentor } from './decorator/logged-mentor.decorator';
+import { LoggedEntity } from './decorator/loggedEntity.decorator';
 import { InfoLoginDto} from './dtos/info-login.dto';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -27,7 +27,7 @@ export class AuthController {
   @SwaggerLogged()
   @ApiBearerAuth()
   @UseGuards(AuthGuard())
-  async userLogged(@LoggedMentor() mentor: MentorEntity) {
+  async userLogged(@LoggedEntity() mentor: MentorEntity) {
     return mentor;
   }
 }
