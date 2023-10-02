@@ -1,7 +1,9 @@
-import { ArrayMaxSize, ArrayMinSize, IsArray, IsDate, IsEmail, IsNotEmpty, IsOptional, IsString, Matches, MaxDate, MaxLength } from 'class-validator';
+import { ArrayMaxSize, ArrayMinSize, IsArray, IsDate, IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, Matches, MaxDate, MaxLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { Match } from '../decorators/match.decorator';
+import { Specialties } from '../enums/specialties.enum';
+import { Gender } from '../enums/gender.enum';
 
 export class UpdateMentorDto {
 
@@ -43,18 +45,33 @@ export class UpdateMentorDto {
   })
   email?: string;
 
-  @IsArray()
   @IsOptional()
+  @IsArray()
+  @IsEnum(Specialties, { each: true})
   @IsString({ each: true})
   @ArrayMinSize(1)
   @ArrayMaxSize(6)
-  @MaxLength(30, { each: true ,message: 'Maximum of 30 characters exceeded' })
   @ApiProperty({
     required: true,
     type: "String array",
     example: 'Frontend, backend, qa, dev ops',
   })
   specialties?: string[];
+
+  @IsOptional()
+  @IsEnum(Gender)
+  @IsString()
+  @ApiProperty({
+    required: true,
+    type: "String array",
+    example: 'Não binário',
+  })
+  gender?: string;
+
+  @IsString()
+  @IsOptional()
+  @MaxLength(600, {message: 'Maximum text length exceeded'})
+  aboutMe?: string
 
   @IsNotEmpty({ message: "the 'password' field must not be empty" })
   @IsString({ message: 'Only strings are allowed in this field' })
