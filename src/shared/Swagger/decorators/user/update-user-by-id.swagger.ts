@@ -1,15 +1,15 @@
 import { HttpStatus, applyDecorators } from "@nestjs/common";
 import { ApiBody, ApiOperation, ApiResponse } from "@nestjs/swagger";
-import { UpdateMentorDto } from "src/modules/mentors/dtos/update-mentor.dto";
 import { UnauthorizedSwagger } from "../../unauthorized.swagger";
 import { BadRequestSwagger } from "../../bad-request.swagger";
+import { UpdateUserDto } from "src/modules/user/dto/update-user.dto";
 
-export function SwaggerUpdateMentorById() {
+export function SwaggerUpdateUserById() {
     return applyDecorators(
           ApiResponse({
             status: HttpStatus.OK,
             description: 'Exemplo do retorno de sucesso da rota',
-            type: UpdateMentorDto,
+            type: UpdateUserDto,
           }),
           ApiResponse({
             status: HttpStatus.UNAUTHORIZED,
@@ -22,7 +22,7 @@ export function SwaggerUpdateMentorById() {
             type: BadRequestSwagger,
           }),
           ApiOperation({
-            summary: 'Atualizar uma mentor por id.',
+            summary: 'Atualizar uma usuário por id.',
             description: "Todos os campos são opcionais"
           }),
     )

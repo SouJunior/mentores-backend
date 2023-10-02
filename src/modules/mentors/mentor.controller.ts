@@ -15,25 +15,24 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiExcludeEndpoint, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
-import { SwaggerConfirmEmail } from '../../shared/Swagger/decorators/mentor/confirm-email.swagger.decorator';
+import { SwaggerConfirmEmail } from '../../shared/Swagger/decorators/confirm-email.swagger.decorator';
 import { SwaggerCreateMentor } from '../../shared/Swagger/decorators/mentor/create-mentor.swagger.decorator';
 import { SwaggerGetMentor } from '../../shared/Swagger/decorators/mentor/get-mentor.swagger.decorator';
 import { ActiveMentorDto } from './dtos/active-mentor.dto';
 import { CreateMentorDto } from './dtos/create-mentor.dto';
-import { GetByParamDto } from './dtos/get-by-param.dto';
 import { SearchMentorDto } from './dtos/search-mentor.dto';
 import { UpdateMentorDto } from './dtos/update-mentor.dto';
 import { MentorService } from './mentor.service';
 import { SearchByEmailDto } from './dtos/search-by-email.dto';
-import { SwaggerRestoreAccount } from 'src/shared/Swagger/decorators/mentor/restore-account.swagger.decorator';
 import { MentorPassConfirmationDto } from './dtos/mentor-pass-confirmation.dto';
 import { SwaggerRestoreAccountEmail } from 'src/shared/Swagger/decorators/mentor/classes/restoreAccountEmail.swagger';
-import { LoggedMentor } from '../auth/decorator/logged-mentor.decorator';
+import { LoggedEntity } from '../auth/decorator/loggedEntity.decorator';
 import { MentorEntity } from './entities/mentor.entity';
 import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { SwaggerUpdateMentorById } from 'src/shared/Swagger/decorators/mentor/update-mentor-by-id.swagger';
 import { GetByIdDto } from './dtos/get-by-id.dto copy';
+import { SwaggerRestoreAccount } from 'src/shared/Swagger/decorators/restore-account.swagger.decorator';
 
 @ApiTags('mentor')
 @Controller('mentor')
@@ -82,7 +81,7 @@ export class MentorController {
   @SwaggerUpdateMentorById()
   @Put(':id')
   async updateMentor(
-    @LoggedMentor() mentor: MentorEntity,
+    @LoggedEntity() mentor: MentorEntity,
     @Body() data: UpdateMentorDto,
   ) {
     return await this.mentorService.updateMentor(mentor.id, data);
@@ -92,9 +91,9 @@ export class MentorController {
   @UseGuards(AuthGuard())
   @UseInterceptors(FileInterceptor("file"))
   @Post("uploadProfileImage")
-  async uploadProfileImage(@LoggedMentor() Mentor: MentorEntity, @UploadedFile("file") file) {
+  async uploadProfileImage(@LoggedEntity() mentor: MentorEntity, @UploadedFile("file") file) {
     
-    return await this.mentorService.uploadProfileImage(Mentor, file )
+    return await this.mentorService.uploadProfileImage(mentor.id, mentor, file )
   }
 
   @Patch('active')
@@ -106,7 +105,7 @@ export class MentorController {
 
   @ApiExcludeEndpoint()
   @Patch(':id')
-  async desactivateLoggedMentor(@Param() { id }: GetByIdDto) {
+  async desactivateLoggedEntity(@Param() { id }: GetByIdDto) {
     return this.mentorService.desactivateLoggedMentor(id);
   }
 
@@ -123,5 +122,16 @@ export class MentorController {
     @Body() passData: MentorPassConfirmationDto,
   ) {
     return this.mentorService.redefineMentorPassword(queryData, passData);
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+  @Post('completeRegister')
+  async finishMentorRegister(@LoggedEntity() mentor: MentorEntity) {
+    try {
+    return this.mentorService.finishMentorRegister(mentor.id)
+    } catch (error) {
+      console.log(error.message)
+    }
   }
 }

@@ -7,10 +7,10 @@ import { UpdateMentorDto } from './dtos/update-mentor.dto';
 import { MentorEntity } from './entities/mentor.entity';
 import { MentorRepository } from './repository/mentor.repository';
 import { MentorPassConfirmationDto } from './dtos/mentor-pass-confirmation.dto';
-import { CustomMentorsNotFoundException } from './exceptions/notFound.exception';
-import { CustomMentorsBadRequestException } from './exceptions/badRequest.exception';
+import { CustomNotFoundException } from "../../shared/exceptions/notFound.exception"
+import { CustomBadRequestException } from "../../shared/exceptions/badRequest.exception";
 import { FileUploadService } from '../upload/upload.service';
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {Injectable } from '@nestjs/common';
 
 @Injectable()
 export class MentorService {
@@ -29,7 +29,7 @@ export class MentorService {
     );
 
     if (mentorAlreadyExists) {
-      throw new CustomMentorsBadRequestException('User already exists');
+      throw new CustomBadRequestException('User already exists');
     }
 
     data.password = await bcrypt.hash(data.password, 10);
@@ -82,7 +82,7 @@ export class MentorService {
     const mentorExists = await this.mentorRepository.findMentorById(id)
 
     if (!mentorExists) {
-      throw new CustomMentorsNotFoundException("There are no mentor with that id")
+      throw new CustomNotFoundException("There are no mentor with that id")
     }
 
     try {
@@ -91,24 +91,28 @@ export class MentorService {
     return { message: "The mentor was updated successfully", status: 200}
 
     } catch(error) {
-      throw new CustomMentorsBadRequestException("Something went wrong in the database")
+      throw new CustomBadRequestException("Something went wrong in the database")
     }
   }
 
-  async uploadProfileImage(user: UpdateMentorDto, file) {
+  async uploadProfileImage(id: string, mentor: UpdateMentorDto, file) {
 
-    if (file && !user.profileKey) {
-      throw new CustomMentorsBadRequestException("profileKey is required when file is sent")
+    mentor.profileKey = "genericImage"
+    if (file && !mentor.profileKey) {
+      throw new CustomBadRequestException("profileKey is required when file is sent")
     }
 
     if (file) {
-      await this.fileUploadService.deleteFile(user.profileKey);
+      await this.fileUploadService.deleteFile(mentor.profileKey);
       const { Location, key } = await this.fileUploadService.upload(file);
-      user.profile = Location;
-      user.profileKey = key;
+      mentor.profile = Location;
+      mentor.profileKey = key;
+
+      await this.mentorRepository.updateMentorUrl(id, mentor.profile)
+
     }
 
-    delete user.file
+    delete mentor.file
   
     return { message: "The profile image was updated succesfully", status: 200}
   }
@@ -198,4 +202,19 @@ export class MentorService {
       message: 'The account was restored sucessfully',
     };
   }
+
+    async finishMentorRegister(id: string) {
+      const mentor = await this.mentorRepository.findMentorById(id)
+
+      if (mentor.registerComplete) {
+        return {
+          message: 'The user has already finished his registration'
+        }
+      }
+      await this.mentorRepository.registerCompleteToggle(id)
+
+      return {
+        message: "The registration was declared as completed."
+      }
+    }
 }
