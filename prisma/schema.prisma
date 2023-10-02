@@ -5,6 +5,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  
 }
 
 model mentors {
@@ -16,6 +17,8 @@ model mentors {
   email          String   @unique
   emailConfirmed Boolean  @default(false)
   specialties    String[]
+  aboutMe        String?
+  gender         String?  @default("")
   registerComplete Boolean @default(false)
   profile        String?
   profileKey     String?
