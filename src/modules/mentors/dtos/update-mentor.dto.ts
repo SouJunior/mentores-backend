@@ -54,7 +54,7 @@ export class UpdateMentorDto {
   @ApiProperty({
     required: true,
     type: "String array",
-    example: 'Frontend, backend, qa, dev ops',
+    example: 'Front-End, Back-End, QA, Dev Ops',
   })
   specialties?: string[];
 
