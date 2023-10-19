@@ -85,6 +85,10 @@ export class MentorService {
       throw new CustomNotFoundException("There are no mentor with that id")
     }
 
+    if (!data.registerComplete) {
+    data.registerComplete = true;
+    }
+
     try {
     await this.mentorRepository.updateMentor(id, data)
 
