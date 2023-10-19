@@ -1,4 +1,4 @@
-import { ArrayMaxSize, ArrayMinSize, IsArray, IsDate, IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, Matches, MaxDate, MaxLength } from 'class-validator';
+import { ArrayMaxSize, ArrayMinSize, IsArray, IsBoolean, IsDate, IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, Matches, MaxDate, MaxLength, isBoolean } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { Match } from '../decorators/match.decorator';
@@ -72,6 +72,11 @@ export class UpdateMentorDto {
   @IsOptional()
   @MaxLength(600, {message: 'Maximum text length exceeded'})
   aboutMe?: string
+
+  @IsBoolean()
+  @IsOptional()
+  @IsNotEmpty()
+  registerComplete?: boolean
 
   @IsNotEmpty({ message: "the 'password' field must not be empty" })
   @IsString({ message: 'Only strings are allowed in this field' })
