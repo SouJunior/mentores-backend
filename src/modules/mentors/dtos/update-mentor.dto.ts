@@ -87,24 +87,6 @@ export class UpdateMentorDto {
         'Password must have a minimum of 8 characters, a capital letter, a number and a symbol',
     },
   )
-  @ApiProperty({
-    description: 'Senha de Login',
-    example: 'Abcd@123',
-  })
-  @IsOptional()
-  password?: string;
-
-  @IsNotEmpty({ message: "the 'passwordConfirmation' field must not be empty" })
-  @IsString()
-  @ApiProperty({
-    description: 'Confirmação de senha',
-    example: 'Abcd@123',
-  })
-  @Match('password', {
-    message: 'The password does not match with the password confirmation',
-  })
-  @IsOptional()
-  passwordConfirmation?: string;
 
   @IsOptional()
   @IsString()
