@@ -33,7 +33,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { SwaggerUpdateMentorById } from 'src/shared/Swagger/decorators/mentor/update-mentor-by-id.swagger';
 import { GetByIdDto } from './dtos/get-by-id.dto copy';
 import { SwaggerRestoreAccount } from 'src/shared/Swagger/decorators/restore-account.swagger.decorator';
-import { MentorChangePassDto } from './dtos/mentor-change-pass.dto copy';
+import { MentorChangePassDto } from './dtos/mentor-change-pass.dto';
 
 @ApiTags('mentor')
 @Controller('mentor')

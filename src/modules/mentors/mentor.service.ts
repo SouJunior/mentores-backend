@@ -7,11 +7,10 @@ import { UpdateMentorDto } from './dtos/update-mentor.dto';
 import { MentorEntity } from './entities/mentor.entity';
 import { MentorRepository } from './repository/mentor.repository';
 import { MentorPassConfirmationDto } from './dtos/mentor-pass-confirmation.dto';
-import { CustomNotFoundException } from "../../shared/exceptions/notFound.exception"
 import { CustomBadRequestException } from "../../shared/exceptions/badRequest.exception";
 import { FileUploadService } from '../upload/upload.service';
 import {Injectable } from '@nestjs/common';
-import { MentorChangePassDto } from './dtos/mentor-change-pass.dto copy';
+import { MentorChangePassDto } from './dtos/mentor-change-pass.dto';
 
 @Injectable()
 export class MentorService {
