@@ -59,6 +59,16 @@ export class UpdateMentorDto {
   specialties?: string[];
 
   @IsOptional()
+  @IsString()
+  @IsNotEmpty({ message: "the 'role' field must not be empty" })
+  @MaxLength(50, { message: 'Maximum of 50 characters exceeded' })
+  @ApiProperty({
+    required: true,
+    example: 'Cargo X | Empresa Y',
+  })
+  role?: string;
+
+  @IsOptional()
   @IsEnum(Gender)
   @IsString()
   @ApiProperty({

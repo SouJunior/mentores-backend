@@ -16,6 +16,7 @@ model mentors {
   email            String     @unique
   emailConfirmed   Boolean    @default(false)
   specialties      String[]
+  role             String?
   aboutMe          String?
   gender           String?    @default("")
   registerComplete Boolean    @default(false)
