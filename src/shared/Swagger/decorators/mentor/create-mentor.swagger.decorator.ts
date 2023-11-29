@@ -1,7 +1,7 @@
 import { applyDecorators, HttpStatus } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { BadRequestSwagger } from '../../bad-request.swagger';
-import { CreatedSwagger } from '../../created.swagger copy';
+import { CreatedSwagger } from '../../created.swagger';
 
 export function SwaggerCreateMentor() {
   return applyDecorators(

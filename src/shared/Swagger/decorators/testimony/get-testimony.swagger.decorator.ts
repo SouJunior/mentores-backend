@@ -1,14 +1,14 @@
 import { applyDecorators, HttpStatus } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { BadRequestSwagger } from '../../bad-request.swagger';
-import { CreatedSwagger } from '../../created.swagger';
+import { SuccessSwagger } from '../../success.swagger';
 
-export function SwaggerCreateUser() {
+export function SwaggerGetTestimony() {
   return applyDecorators(
     ApiResponse({
-      status: HttpStatus.CREATED,
+      status: HttpStatus.OK,
       description: 'Exemplo do retorno de sucesso da rota',
-      type: CreatedSwagger,
+      type: SuccessSwagger,
     }),
     ApiResponse({
       status: HttpStatus.BAD_REQUEST,
@@ -16,7 +16,7 @@ export function SwaggerCreateUser() {
       type: BadRequestSwagger,
     }),
     ApiOperation({
-      summary: 'Rota para cadastrar usuário na plataforma',
+      summary: 'Rota para exibir depoimentos',
     }),
   );
 }
