@@ -7,10 +7,10 @@ import { UpdateMentorDto } from './dtos/update-mentor.dto';
 import { MentorEntity } from './entities/mentor.entity';
 import { MentorRepository } from './repository/mentor.repository';
 import { MentorPassConfirmationDto } from './dtos/mentor-pass-confirmation.dto';
-import { CustomNotFoundException } from "../../shared/exceptions/notFound.exception"
 import { CustomBadRequestException } from "../../shared/exceptions/badRequest.exception";
 import { FileUploadService } from '../upload/upload.service';
 import {Injectable } from '@nestjs/common';
+import { MentorChangePassDto } from './dtos/mentor-change-pass.dto';
 
 @Injectable()
 export class MentorService {
@@ -82,10 +82,13 @@ export class MentorService {
     const mentorExists = await this.mentorRepository.findMentorById(id)
 
     if (!mentorExists) {
-      throw new CustomNotFoundException("There are no mentor with that id")
+     return {
+      status: 404,
+      message: "There are no mentor with that id"
+     }
     }
 
-    if (!data.registerComplete) {
+     if (!data.registerComplete) {
     data.registerComplete = true;
     }
 
@@ -95,9 +98,34 @@ export class MentorService {
     return { message: "The mentor was updated successfully", status: 200}
 
     } catch(error) {
-      throw new CustomBadRequestException("Something went wrong in the database")
+      return {
+        status: 400,
+        message: "Something went wrong in the database"
+      }
     }
   }
+
+  async changeMentorPassword( mentor: MentorEntity, data: MentorChangePassDto) {
+
+    const loggedMentor = await this.mentorRepository.findFullMentorById(mentor.id)
+
+    const isPassCorrect = await bcrypt.compare(data.oldPassword, loggedMentor.password)
+
+    if (!isPassCorrect) {
+      return {
+        status: 400,
+        message: "Incorrect old password"
+      }
+    }
+
+    loggedMentor.password = await bcrypt.hash(data.password, 10)
+
+    try {
+    await this.mentorRepository.updateMentor(mentor.id, loggedMentor)
+    } catch (error) {
+      return { status: 400, message: "Something went wrong in the database"}
+    }
+    }
 
   async uploadProfileImage(id: string, mentor: UpdateMentorDto, file) {
 

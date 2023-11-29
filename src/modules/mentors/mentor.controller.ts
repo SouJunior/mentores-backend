@@ -33,6 +33,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { SwaggerUpdateMentorById } from 'src/shared/Swagger/decorators/mentor/update-mentor-by-id.swagger';
 import { GetByIdDto } from './dtos/get-by-id.dto copy';
 import { SwaggerRestoreAccount } from 'src/shared/Swagger/decorators/restore-account.swagger.decorator';
+import { MentorChangePassDto } from './dtos/mentor-change-pass.dto';
 
 @ApiTags('mentor')
 @Controller('mentor')
@@ -79,12 +80,22 @@ export class MentorController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard())
   @SwaggerUpdateMentorById()
-  @Put(':id')
+  @Put()
   async updateMentor(
     @LoggedEntity() mentor: MentorEntity,
     @Body() data: UpdateMentorDto,
   ) {
     return await this.mentorService.updateMentor(mentor.id, data);
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+  @Put('change_password')
+  async changeMentorPassword(
+    @LoggedEntity() mentor: MentorEntity,
+    @Body() data: MentorChangePassDto,
+  ) {
+    return await this.mentorService.changeMentorPassword(mentor, data);
   }
 
   @ApiBearerAuth()

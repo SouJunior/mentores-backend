@@ -3,19 +3,61 @@ import { TestimonyRepository } from './repository/testimony.repository';
 import { CreateTestimonyDto } from './dto/create-testimony.dto';
 import {
   dataFormatter,
-  dateFormatter,
 } from '../../shared/utils/formatters.utils';
+import { MentorEntity } from '../mentors/entities/mentor.entity';
+import { MentorRepository } from '../mentors/repository/mentor.repository';
 
 @Injectable()
 export class TestimonyService {
-  constructor(private testimonyRepository: TestimonyRepository) {}
+  constructor(private testimonyRepository: TestimonyRepository,
+    private mentorRepository: MentorRepository) {}
+
+  async getTestimonies() {
+
+    const testimonies = await this.testimonyRepository.findAlltestimony()
+    
+    const mentors = await this.mentorRepository.findAllMentors()
+
+    for (const testimony of testimonies ) {
+      for (const mentor of mentors) {
+        
+        if (!testimony.imageUrl || !testimony.role || !testimony.userName) {
+          let mentorSpecialties = mentor.specialties.join(",")
+
+        if (testimony.mentor_id === mentor.id) {
+          testimony.imageUrl = mentor.profile
+          testimony.role = mentorSpecialties
+          testimony.userName = mentor.fullName
+
+          await this.testimonyRepository.editTestimony(testimony.id, testimony )
+        }
+
+        }
+      }
+    }
+
+    return testimonies
+
+  }
 
   async createTestimony(
     data: CreateTestimonyDto,
+    mentorData: MentorEntity
   ): Promise<{ message: string }> {
-    dataFormatter(data);
+    
+    const mentorSpecialties = mentorData.specialties.join(",")
+    
+    data.userName = mentorData.fullName
+    data.role = mentorSpecialties
+    data.imageUrl = mentorData.profile
 
-    this.testimonyRepository.createNewTestimony(data);
+    try {
+
+    await this.testimonyRepository.createNewTestimony(data, mentorData.id);
+
+    } catch (error: any) {
+      console.log(error)
+    }
 
     return { message: 'Testimony created successfully' };
   }
