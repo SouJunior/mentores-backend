@@ -5,67 +5,71 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  
 }
 
 model mentors {
-  id             String   @id @default(uuid())
-  history        history?
-  fullName       String
-  dateOfBirth    DateTime
-  password       String
-  email          String   @unique
-  emailConfirmed Boolean  @default(false)
-  specialties    String[]
-  aboutMe        String?
-  gender         String?  @default("")
-  registerComplete Boolean @default(false)
-  profile        String?
-  profileKey     String?
-  accessAttempt  Int?     @default(0)
-  code           String? @unique
-  createdAt      DateTime   @default(now())
-  updatedAt      DateTime   @default(now())
-  deleted        Boolean  @default(false)
+  id               String     @id @default(uuid())
+  history          history?
+  fullName         String
+  dateOfBirth      DateTime
+  password         String
+  email            String     @unique
+  emailConfirmed   Boolean    @default(false)
+  specialties      String[]
+  aboutMe          String?
+  gender           String?    @default("")
+  registerComplete Boolean    @default(false)
+  profile          String?
+  profileKey       String?
+  accessAttempt    Int?       @default(0)
+  code             String?    @unique
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @default(now())
+  deleted          Boolean    @default(false)
+  testimony        testimony?
 
   @@index([id])
 }
 
 model users {
-  id             String   @id @default(uuid())
+  id             String    @id @default(uuid())
   fullName       String
   dateOfBirth    DateTime
   password       String
   gender         String?
   aboutMe        String?
-  email          String   @unique
-  emailConfirmed Boolean  @default(false)
+  email          String    @unique
+  emailConfirmed Boolean   @default(false)
   profile        String?
   profileKey     String?
-  accessAttempt  Int?     @default(0)
-  code           String? @unique
-  createdAt      DateTime   @default(now())
-  updatedAt      DateTime   @default(now())
-  deleted       Boolean  @default(false)
-  history       history[]
+  accessAttempt  Int?      @default(0)
+  code           String?   @unique
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @default(now())
+  deleted        Boolean   @default(false)
+  history        history[]
 
   @@index([id])
 }
 
 model history {
-  id             String   @id @default(uuid())
-  mentee_id      String   @unique
-  mentor_id      String   @unique
-  users          users    @relation(fields: [mentee_id], references: [id])
-  mentors        mentors  @relation(fields: [mentor_id], references: [id])
-  duration       String?
-  happened_at    String   @default("")
+  id          String  @id @default(uuid())
+  mentee_id   String  @unique
+  mentor_id   String  @unique
+  users       users   @relation(fields: [mentee_id], references: [id])
+  mentors     mentors @relation(fields: [mentor_id], references: [id])
+  duration    String?
+  happened_at String  @default("")
 }
 
 model testimony {
-  id             String @id @default(uuid())
-  userName       String
-  description    String
-  createdAt      String  @default("")
-  updatedAt      String  @default("")
+  id          String   @id @default(uuid())
+  mentor      mentors? @relation(fields: [mentor_id], references: [id])
+  mentor_id   String   @unique
+  userName    String
+  role        String
+  description String
+  imageUrl    String?  @default("")
+  createdAt   String   @default("")
+  updatedAt   String   @default("")
 }

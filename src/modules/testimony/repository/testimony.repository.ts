@@ -7,8 +7,9 @@ import { dateFormatter } from '../../../shared/utils/formatters.utils';
 
 @Injectable()
 export class TestimonyRepository extends PrismaClient {
-  async createNewTestimony(data: CreateTestimonyDto): Promise<TestimonyEntity> {
+  async createNewTestimony(data: CreateTestimonyDto, mentorId: string): Promise<TestimonyEntity> {
     Object.assign(data, {
+      mentor_id: mentorId,
       createdAt: dateFormatter(),
       updatedAt: dateFormatter(),
     });
@@ -18,7 +19,7 @@ export class TestimonyRepository extends PrismaClient {
 
   async editTestimony(
     id: string,
-    data: CreateTestimonyDto,
+    data: Partial<CreateTestimonyDto>,
   ): Promise<TestimonyEntity> {
     Object.assign(data, {
       updatedAt: dateFormatter(),
@@ -42,7 +43,7 @@ export class TestimonyRepository extends PrismaClient {
   }
 
   async findAlltestimony(): Promise<TestimonyEntity[]> {
-    return this.testimony.findMany().catch(handleError);
+    return this.testimony.findMany({ select: {id: true, mentor_id: true, userName: true, role: true, description: true, imageUrl: true}}).catch(handleError);
   }
 
   async findTestimonyById(id: string): Promise<TestimonyEntity> {
