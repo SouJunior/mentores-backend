@@ -83,6 +83,26 @@ export class UpdateMentorDto {
   @MaxLength(600, {message: 'Maximum text length exceeded'})
   aboutMe?: string
 
+  @IsOptional()
+  @IsString()
+  @IsNotEmpty({ message: "the 'calendlyName' field must not be empty" })
+  @MaxLength(50, { message: 'Maximum of 100 characters exceeded' })
+  @ApiProperty({
+    required: true,
+    example: 'Seu userName no calendly',
+  })
+  calendlyName?: string;
+
+  @IsOptional()
+  @IsString()
+  @IsNotEmpty({ message: "the 'agendaName' field must not be empty" })
+  @MaxLength(50, { message: 'Maximum of 100 characters exceeded' })
+  @ApiProperty({
+    required: true,
+    example: 'O nome da sua agenda criada no calendly para atender os mentorados',
+  })
+  agendaName?: string;
+
   @IsBoolean()
   @IsOptional()
   @IsNotEmpty()

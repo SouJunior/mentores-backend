@@ -18,6 +18,8 @@ model mentors {
   specialties      String[]
   role             String?
   aboutMe          String?
+  calendlyName     String?
+  agendaName       String?
   gender           String?    @default("")
   registerComplete Boolean    @default(false)
   profile          String?
