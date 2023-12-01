@@ -6,8 +6,11 @@ export class MentorEntity {
   email: string;
   emailConfirmed?: boolean;
   specialties: string[];
+  role: string;
   gender: string;
   aboutMe: string;
+  calendlyName?: string;
+  agendaName?: string;
   registerComplete?: boolean;
   profileKey?: string;
   profile?: string;

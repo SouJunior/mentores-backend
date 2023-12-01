@@ -16,7 +16,10 @@ model mentors {
   email            String     @unique
   emailConfirmed   Boolean    @default(false)
   specialties      String[]
+  role             String?
   aboutMe          String?
+  calendlyName     String?
+  agendaName       String?
   gender           String?    @default("")
   registerComplete Boolean    @default(false)
   profile          String?
