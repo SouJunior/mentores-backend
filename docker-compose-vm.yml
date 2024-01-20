@@ -1,5 +1,5 @@
 services:
-  app:
+  mentores_backend:
     image: ${CONTAINER_IMAGE}
     container_name: mentores_backend
     restart: always
