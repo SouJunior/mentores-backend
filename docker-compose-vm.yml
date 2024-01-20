@@ -12,10 +12,10 @@ services:
       - TYPEORM_HOST=database_soujunior
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.vagas-backend.rule=Host(`mentores-backend.soujunior.tech`)"
-      - "traefik.http.routers.vagas-backend.entrypoints=websecure"
-      - "traefik.http.routers.vagas-backend.tls.certresolver=myresolver"
-      - "traefik.http.services.vagas-backend.loadbalancer.server.port=3003"
+      - "traefik.http.routers.mentores-backend.rule=Host(`mentores-backend.soujunior.tech`)"
+      - "traefik.http.routers.mentores-backend.entrypoints=websecure"
+      - "traefik.http.routers.mentores-backend.tls.certresolver=myresolver"
+      - "traefik.http.services.mentores-backend.loadbalancer.server.port=3003"
       - "traefik.http.middlewares.traefik-headers.headers.sslredirect=true"
       - "traefik.http.middlewares.traefik-headers.headers.sslforcehost=true"
       - "traefik.http.middlewares.traefik-headers.headers.sslproxyheaders.X-Forwarded-Proto=https"
