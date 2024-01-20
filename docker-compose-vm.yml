@@ -15,7 +15,7 @@ services:
       - "traefik.http.routers.vagas-backend.rule=Host(`mentores-backend.soujunior.tech`)"
       - "traefik.http.routers.vagas-backend.entrypoints=websecure"
       - "traefik.http.routers.vagas-backend.tls.certresolver=myresolver"
-      - "traefik.http.services.vagas-backend.loadbalancer.server.port=3000"
+      - "traefik.http.services.vagas-backend.loadbalancer.server.port=3003"
       - "traefik.http.middlewares.traefik-headers.headers.sslredirect=true"
       - "traefik.http.middlewares.traefik-headers.headers.sslforcehost=true"
       - "traefik.http.middlewares.traefik-headers.headers.sslproxyheaders.X-Forwarded-Proto=https"
