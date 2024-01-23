@@ -12,7 +12,7 @@ import { LoggedEntity } from '../auth/decorator/loggedEntity.decorator';
 import { MentorEntity } from '../mentors/entities/mentor.entity';
 
 @ApiTags('Testimony')
-@Controller('Testimony')
+@Controller('testimony')
 export class TestimonyController {
   constructor(private testimonyService: TestimonyService) {}
 
