@@ -21,17 +21,14 @@ export class TestimonyService {
     for (const testimony of testimonies ) {
       for (const mentor of mentors) {
         
-        if (!testimony.imageUrl || !testimony.role || !testimony.userName) {
+        if (testimony.mentor_id === mentor.id) {
           let mentorSpecialties = mentor.specialties.join(",")
 
-        if (testimony.mentor_id === mentor.id) {
           testimony.imageUrl = mentor.profile
           testimony.role = mentorSpecialties
           testimony.userName = mentor.fullName
 
           await this.testimonyRepository.editTestimony(testimony.id, testimony )
-        }
-
         }
       }
     }
