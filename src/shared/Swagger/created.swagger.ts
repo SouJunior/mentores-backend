@@ -3,7 +3,7 @@ export class CreatedSwagger {
   @ApiProperty({ example: 201 })
   statusCode: number;
 
-  @ApiProperty({ example: 'Mentor created sucessfully' })
+  @ApiProperty({ example: 'User created sucessfully' })
   message: string;
 
   @ApiProperty({ example: 'Created' })
