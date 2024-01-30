@@ -3,7 +3,7 @@ import { PassportModule } from '@nestjs/passport';
 import { GenerateCodeUtil } from '../../shared/utils/generate-code.util';
 import { MailModule } from '../mails/mail.module';
 import { MentorController } from './mentor.controller';
-import { MentorService } from './mentor.service';
+import { MentorService } from './services/finishMentorRegisterService.service';
 import { MentorRepository } from './repository/mentor.repository';
 import { FileUploadService } from '../upload/upload.service';
 
