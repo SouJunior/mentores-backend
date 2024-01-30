@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { UserService } from './user.service';
+import { UserService } from './services/redefineUserPassword.service';
 import { UserController } from './user.controller';
 import { MailModule } from '../mails/mail.module';
 import { PassportModule } from '@nestjs/passport';
