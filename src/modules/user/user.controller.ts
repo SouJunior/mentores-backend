@@ -25,6 +25,8 @@ import { RedefineUserPasswordService } from './services/redefineUserPassword.ser
 import { UpdateUserService } from './services/updateUser.service';
 import { UploadProfileImageService } from './services/uploadProfileImage.service';
 import { SendRestorationEmailService } from './services/sendRestorationEmail.service';
+import { SwaggerUploadProfileImage } from 'src/shared/Swagger/decorators/uploadProfileImage.swagger';
+import { SwaggerCreateUser } from 'src/shared/Swagger/decorators/user/create-user.swagger.decorator';
 
 @ApiTags("user")
 @Controller('user')
@@ -42,6 +44,7 @@ export class UserController {
     ) {}
 
   @Post()
+  @SwaggerCreateUser()
   create(@Body() createUserDto: CreateUserDto) {
     return this.createUserService.execute(createUserDto);
   }
@@ -84,6 +87,7 @@ export class UserController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard())
   @UseInterceptors(FileInterceptor("file"))
+  @SwaggerUploadProfileImage()
   @Post("uploadProfileImage")
   async uploadProfileImage(@LoggedEntity() user: UserEntity, @UploadedFile("file") file) {
     

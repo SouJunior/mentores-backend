@@ -45,6 +45,9 @@ import { SendRestorationEmailService } from './services/sendRestorationEmail.ser
 import { UpdateMentorService } from './services/updateMentor.service';
 import { UploadProfileImageService } from './services/uploadProfileImage.service';
 import { FinishMentorRegisterService } from './services/finishMentorRegisterService.service';
+import { SwaggerCompleteRegister } from 'src/shared/Swagger/decorators/complete-register.swagger';
+import { SwaggerChangePassword } from 'src/shared/Swagger/decorators/change-password.swagger';
+import { SwaggerUploadProfileImage } from 'src/shared/Swagger/decorators/uploadProfileImage.swagger';
 
 @ApiTags('mentor')
 @Controller('mentor')
@@ -114,6 +117,7 @@ export class MentorController {
 
   @ApiBearerAuth()
   @UseGuards(AuthGuard())
+  @SwaggerChangePassword()
   @Put('change_password')
   async changeMentorPassword(
     @LoggedEntity() mentor: MentorEntity,
@@ -125,6 +129,7 @@ export class MentorController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard())
   @UseInterceptors(FileInterceptor("file"))
+  @SwaggerUploadProfileImage()
   @Post("uploadProfileImage")
   async uploadProfileImage(@LoggedEntity() mentor: MentorEntity, @UploadedFile("file") file) {
     
@@ -161,6 +166,7 @@ export class MentorController {
 
   @ApiBearerAuth()
   @UseGuards(AuthGuard())
+  @SwaggerCompleteRegister()
   @Post('completeRegister')
   async finishMentorRegister(@LoggedEntity() mentor: MentorEntity) {
     try {
