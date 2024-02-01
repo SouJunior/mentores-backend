@@ -1,5 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, Res, UseGuards, Put, UseInterceptors, UploadedFile } from '@nestjs/common';
-import { UserService } from './user.service';
+import { Controller, Get, Post, Body, Patch, Param, Query, Res, UseGuards, Put, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { ApiBearerAuth, ApiExcludeEndpoint, ApiTags } from '@nestjs/swagger';
 import { SwaggerConfirmEmail } from 'src/shared/Swagger/decorators/confirm-email.swagger.decorator';
@@ -17,28 +16,50 @@ import { UserPassConfirmationDto } from './dto/user-pass-confirmation.dto';
 import { SwaggerUpdateUserById } from 'src/shared/Swagger/decorators/user/update-user-by-id.swagger';
 import { SwaggerGetUser } from 'src/shared/Swagger/decorators/user/get-user.swagger.decorator';
 import { SwaggerRestoreAccount } from 'src/shared/Swagger/decorators/restore-account.swagger.decorator';
+import { ActivateUserService } from './services/activateUser.service';
+import { CreateUserService } from './services/createUser.service';
+import { DesactivateLoggedUserService } from './services/deactivateLoggedUser.service';
+import { GetUserByIdService } from './services/findUserById.service';
+import { GetAllUsersService } from './services/getAllUsers.service';
+import { RedefineUserPasswordService } from './services/redefineUserPassword.service';
+import { UpdateUserService } from './services/updateUser.service';
+import { UploadProfileImageService } from './services/uploadProfileImage.service';
+import { SendRestorationEmailService } from './services/sendRestorationEmail.service';
+import { SwaggerUploadProfileImage } from 'src/shared/Swagger/decorators/uploadProfileImage.swagger';
+import { SwaggerCreateUser } from 'src/shared/Swagger/decorators/user/create-user.swagger.decorator';
 
 @ApiTags("user")
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private activateUserService: ActivateUserService,
+    private createUserService: CreateUserService,
+    private deactivateLoggedUserService: DesactivateLoggedUserService,
+    private getUserByIdService: GetUserByIdService,
+    private getAllUsersService: GetAllUsersService,
+    private redefineUserPasswordService: RedefineUserPasswordService,
+    private sendRestorationEmailService: SendRestorationEmailService,
+    private updateUserService: UpdateUserService,
+    private uploadProfileImageService: UploadProfileImageService
+    ) {}
 
   @Post()
+  @SwaggerCreateUser()
   create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
+    return this.createUserService.execute(createUserDto);
   }
 
   @Patch('active')
   @SwaggerConfirmEmail()
   async activeUser(@Query() queryData: ActivateUserDto, @Res() res: Response) {
-    const { data, status } = await this.userService.activateUser(queryData);
+    const { data, status } = await this.activateUserService.execute(queryData);
     return res.status(status).send(data);
   }
 
   @ApiExcludeEndpoint()
   @Get()
   async getAllUsers() {
-    return this.userService.getAllUsers();
+    return this.getAllUsersService.execute();
   }
 
   @Get([':id'])
@@ -47,7 +68,7 @@ export class UserController {
     @Param() { id }: GetByIdDto,
     @Res() res: Response,
   ) {
-    const { status, data } = await this.userService.findUserById(id);
+    const { status, data } = await this.getUserByIdService.execute(id);
 
     return res.status(status).send(data);
   }
@@ -60,29 +81,30 @@ export class UserController {
     @LoggedEntity() user: UserEntity,
     @Body() data: UpdateUserDto,
   ) {
-    return await this.userService.updateUser(user.id, data);
+    return await this.updateUserService.execute(user.id, data);
   }
 
   @ApiBearerAuth()
   @UseGuards(AuthGuard())
   @UseInterceptors(FileInterceptor("file"))
+  @SwaggerUploadProfileImage()
   @Post("uploadProfileImage")
   async uploadProfileImage(@LoggedEntity() user: UserEntity, @UploadedFile("file") file) {
     
-    return await this.userService.uploadProfileImage(user.id, user, file )
+    return await this.uploadProfileImageService.execute(user.id, user, file )
   }
 
   
   @ApiExcludeEndpoint()
   @Patch(':id')
   async desactivateLoggedEntity(@Param() { id }: GetByIdDto) {
-    return this.userService.desactivateLoggedUser(id);
+    return this.deactivateLoggedUserService.execute(id);
   }
 
   @SwaggerRestoreAccountEmail()
   @Post('restoreAccount/:email')
   async restoreAccount(@Param() { email }: SearchByEmailDto) {
-    return this.userService.sendRestorationEmail(email);
+    return this.sendRestorationEmailService.execute(email);
   }
 
   @Patch('restoreAccount/redefinePass')
@@ -91,6 +113,6 @@ export class UserController {
     @Query() queryData: ActivateUserDto,
     @Body() passData: UserPassConfirmationDto,
   ) {
-    return this.userService.redefineUserPassword(queryData, passData);
+    return this.redefineUserPasswordService.execute(queryData, passData);
   }
 }
