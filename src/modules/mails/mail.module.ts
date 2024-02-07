@@ -29,7 +29,7 @@ import { MailService } from './mail.service';
           from: `no-reply <no-reply@mentores-backend.com>`,
         },
         template: {
-          dir: join(__dirname, 'templates'),
+          dir: "./dist/modules/mails/templates",
           adapter: new HandlebarsAdapter(),
           options: {
             strict: true,
