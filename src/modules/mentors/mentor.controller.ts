@@ -122,8 +122,11 @@ export class MentorController {
   async changeMentorPassword(
     @LoggedEntity() mentor: MentorEntity,
     @Body() data: MentorChangePassDto,
+    @Res() res: Response
   ) {
-    return await this.changeMentorPasswordService.execute(mentor, data);
+    const { message, status}  = await this.changeMentorPasswordService.execute(mentor, data);
+
+    return res.status(status).json({ message: message})
   }
 
   @ApiBearerAuth()

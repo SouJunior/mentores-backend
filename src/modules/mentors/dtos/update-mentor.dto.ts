@@ -1,7 +1,6 @@
-import { ArrayMaxSize, ArrayMinSize, IsArray, IsBoolean, IsDate, IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, Matches, MaxDate, MaxLength, isBoolean } from 'class-validator';
+import { ArrayMaxSize, ArrayMinSize, IsArray, IsBoolean, IsDate, IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, Matches, MaxDate, MaxLength} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { Match } from '../decorators/match.decorator';
 import { Specialties } from '../enums/specialties.enum';
 import { Gender } from '../enums/gender.enum';
 
@@ -107,16 +106,6 @@ export class UpdateMentorDto {
   @IsOptional()
   @IsNotEmpty()
   registerComplete?: boolean
-
-  @IsNotEmpty({ message: "the 'password' field must not be empty" })
-  @IsString({ message: 'Only strings are allowed in this field' })
-  @Matches(
-    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()\-_=+{};:,<.>])[a-zA-Z\d!@#$%^&*()\-_=+{};:,<.>.]{8,}$/,
-    {
-      message:
-        'Password must have a minimum of 8 characters, a capital letter, a number and a symbol',
-    },
-  )
 
   @IsOptional()
   @IsString()

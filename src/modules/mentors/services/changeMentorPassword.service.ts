@@ -27,6 +27,12 @@ export class ChangeMentorPasswordService {
 
     try {
     await this.mentorRepository.updateMentor(mentor.id, loggedMentor)
+
+    return {
+      status: 200,
+      message: "Password changed successfully"
+    }
+
     } catch (error) {
       return { status: 400, message: "Something went wrong in the database"}
     }
