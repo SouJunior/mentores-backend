@@ -8,13 +8,16 @@ COPY prisma ./prisma/
 
 RUN npm install
 
+RUN npm rebuild bcrypt
+
 RUN npx prisma generate
+
 
 COPY . .
 
 RUN npm run build
 
-FROM node:19-alpine
+FROM node:18-alpine
 
 COPY --from=builder /user/app/node_modules ./node_modules
 COPY --from=builder /user/app/package*.json ./
