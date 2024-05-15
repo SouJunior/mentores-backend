@@ -1,73 +1,72 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# mentores-backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Projeto Opensource que visa melhorar o match entre Mentores e Juniors.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Observação:
 
-## Description
+>Antes de iniciar a instalação, lembre-se de fazer um fork do repositório oficial e realizar as alterações no repositório "forkado" enviando modificações através de Pull Requests. Nunca modifique diretamente o repositório oficial.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-## Installation
+Clone o projeto:
 
 ```bash
-$ npm install
+  git clone https://github.com/{SEU USUARIO}/mentores-backend.git
 ```
 
-## Running the app
+Entre no diretório do projeto:
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+  cd mentores-backend/
 ```
 
-## Test
+Instale as dependências:
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+  npm install
 ```
 
-## Support
+## Rodando localmente
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+- Verifique se esta com o docker instalado e aberto
 
-## Stay in touch
+Dentro da pasta mentores-backend, rode o seguinte comando:
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```bash
+docker-compose up -d
+```
 
-## License
+com o banco de dados rodando localmente, só precisa pegar as variaveis .env com alguem do projeto.
 
-Nest is [MIT licensed](LICENSE).
+## Como utilizar o mailtrap.
+
+Entre no [Mailtrap](https://mailtrap.io) e crie uma conta, com a conta criada vá em email Testing e clique em my inbox:
+
+![image](https://github.com/wendesongomes/mentores-backend/assets/82889172/f966d27c-6a13-4a7a-90c9-3b3a37500ae8)
+
+Veja a parte de Integration e clique em Show Credentials, vai precisar do Host, Port, Username e Password.
+
+![image](https://github.com/wendesongomes/mentores-backend/assets/82889172/efcbb466-69d9-4264-8553-4b73bfa13eb4)
+![image](https://github.com/wendesongomes/mentores-backend/assets/82889172/c6b59518-f9a7-40d7-817e-d3c429e12fbe)
+
+Agora só utilizar o:
+
+```bash
+npm run dev
+```
+
+### Mailtrap não capturou o email
+
+Caso você tenha feito isso tudo e não recebeu o email no mailtrap faça o seguinte, Na pasta do mentores-backend vá em:
+
+src/modules/mails/mail.module.ts
+
+dentro dela tem um: 
+
+```bash
+secure: true,
+```
+
+![image](https://github.com/wendesongomes/mentores-backend/assets/82889172/0386598d-5053-4189-9e9b-e7d1a4ef1655)
+
+
+troque para false, com isso o mailtrap vai capturar seus emails normalmente.
