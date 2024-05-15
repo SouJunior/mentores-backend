@@ -11,7 +11,7 @@ export class MailService {
 
   async mentorSendEmailConfirmation(mentor: MentorEntity): Promise<void> {
     const { email, fullName, code } = mentor;
-    const url = `${process.env.URL_CONFIRM_EMAIL}code=${code}&email=${email}`;
+    const url = `${process.env.URL_CONFIRM_EMAIL}?code=${code}&email=${email}`;
 
     await this.mailerService
       .sendMail({
@@ -32,9 +32,9 @@ export class MailService {
     const { email, fullName, code } = mentor;
     const { URL_CONFIRM_EMAIL } = process.env;
 
-    const url = `${URL_CONFIRM_EMAIL}code=${code}&email=${email}`;
+    const url = `${URL_CONFIRM_EMAIL}?code=${code}&email=${email}`;
 
-    console.log( this.mailerService)
+    console.log(this.mailerService);
     try {
       await this.mailerService
         .sendMail({
@@ -59,7 +59,7 @@ export class MailService {
     const { email, code } = mentorData;
     const { URL_RESTORATION_EMAIL } = process.env;
 
-    const url = `${URL_RESTORATION_EMAIL}code=${code}&email=${email}`;
+    const url = `${URL_RESTORATION_EMAIL}?code=${code}&email=${email}`;
 
     try {
       await this.mailerService
@@ -81,7 +81,7 @@ export class MailService {
 
   async userSendEmailConfirmation(user: UserEntity): Promise<void> {
     const { email, fullName, code } = user;
-    const url = `${process.env.URL_CONFIRM_EMAIL}code=${code}&email=${email}`;
+    const url = `${process.env.URL_CONFIRM_EMAIL}?code=${code}&email=${email}`;
 
     await this.mailerService
       .sendMail({
@@ -102,7 +102,7 @@ export class MailService {
     const { email, fullName, code } = user;
     const { URL_CONFIRM_EMAIL } = process.env;
 
-    const url = `${URL_CONFIRM_EMAIL}code=${code}&email=${email}`;
+    const url = `${URL_CONFIRM_EMAIL}?code=${code}&email=${email}`;
 
     try {
       await this.mailerService
@@ -128,7 +128,7 @@ export class MailService {
     const { email, code } = userData;
     const { URL_RESTORATION_EMAIL } = process.env;
 
-    const url = `${URL_RESTORATION_EMAIL}code=${code}&email=${email}`;
+    const url = `${URL_RESTORATION_EMAIL}?code=${code}&email=${email}`;
 
     try {
       await this.mailerService
