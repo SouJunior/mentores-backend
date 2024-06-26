@@ -26,7 +26,7 @@ export class AuthService {
     } else {
       info = await this.userRepository.findUserByEmail(email)
     }
-     this.infoConfirm(info, type);
+    await this.infoConfirm(info, type);
     
     const passwordIsValid = await bcrypt.compare(password, info.password);
 
@@ -68,9 +68,9 @@ export class AuthService {
 
       const message = 'Your account is not activated yet. Check your e-mail inbox for instructions'
 
-      if(type == 'mentor') await this.mailService.mentorSendCreationConfirmation(info as MentorEntity);
-      if(type == 'user') await this.mailService.userSendCreationConfirmation(info as UserEntity);
-
+      if(type == 'mentor') await this.mailService.mentorSendCreationConfirmation(info as MentorEntity)
+      if(type == 'user') await this.mailService.userSendCreationConfirmation(info as UserEntity)
+      
       throw new HttpException({ message }, HttpStatus.NOT_FOUND)
 
     }
