@@ -14,6 +14,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
+
   mentores_backend:
     build: .
     container_name: mentores_backend
@@ -29,6 +30,16 @@ services:
     environment:
       - DATABASE_URL=postgresql://docker:ignite@database_soujunior:5432/mentores_backend
 
+  test:
+   build: .
+   volumes:
+      - .:/src
+   environment:
+      - NODE_ENV=test
+   command: npm run test
+   depends_on:
+      - database_soujunior    
+      
 volumes:
   pgdata:
     driver: local
