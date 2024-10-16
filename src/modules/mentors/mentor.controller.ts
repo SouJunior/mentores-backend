@@ -49,6 +49,7 @@ import { SwaggerCompleteRegister } from 'src/shared/Swagger/decorators/complete-
 import { SwaggerChangePassword } from 'src/shared/Swagger/decorators/change-password.swagger';
 import { SwaggerUploadProfileImage } from 'src/shared/Swagger/decorators/uploadProfileImage.swagger';
 import { FetchSchedulesService } from './services/fetch-schedules.service';
+import { TokenMiddleware } from 'src/middlewares/token.middleware';
 
 @ApiTags('mentor')
 @Controller('mentor')
@@ -193,6 +194,7 @@ export class MentorController {
   }
 
   @Get('schedules/:email')
+  @UseGuards(TokenMiddleware)
   async fetchMentorSchedules(@Param() { email }: SearchByEmailDto) {
     return this.fetchSchedulesService.getMentorSchedules(email);
   }

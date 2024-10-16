@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   Query,
   Res,
@@ -19,6 +20,7 @@ import { InfoLoginDto } from './dtos/info-login.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { InitiateOAuthService } from './services/calendlyOAuth.service';
 import { OAuthCallbackService } from './services/calendly-callback.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Controller('auth')
 @ApiTags('Auth')
@@ -27,6 +29,7 @@ export class AuthController {
     private authService: AuthService,
     private readonly initiateOAuthService: InitiateOAuthService,
     private readonly oauthCallbackService: OAuthCallbackService,
+    private jwtService: JwtService
   ) {}
 
   @Post('/login')
@@ -54,8 +57,9 @@ export class AuthController {
   @Get('callback')
   async oauthCallback(
     @Query('code') code: string,
-    @Query('email') email: string,
+    @Query("state") state: string
   ) {
+    const email = state
     return this.oauthCallbackService.execute(code, email);
   }
 }

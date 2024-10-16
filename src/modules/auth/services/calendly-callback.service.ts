@@ -7,8 +7,6 @@ export class OAuthCallbackService {
   constructor(private readonly mentorRepository: MentorRepository) {}
 
   async execute(code: string, email: string) {
-    email = 'hayleigh@kyfavorsnm.com';
-
     if (!email) {
       throw new InternalServerErrorException(
         'Email is required to proceed with OAuth.',
