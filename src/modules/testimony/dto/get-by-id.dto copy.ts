@@ -7,7 +7,7 @@ export class GetByIdDto {
   @IsUUID()
   @IsNotEmpty()
   @ApiProperty({
-    type: 'uuid',
+    type: "uuid",
     required: true,
     example: '2046f12a-37b3-4d17-b210-8b604e632f7e',
   })

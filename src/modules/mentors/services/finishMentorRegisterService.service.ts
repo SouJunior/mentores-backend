@@ -1,22 +1,24 @@
 import { MentorRepository } from '../repository/mentor.repository';
-import { Injectable } from '@nestjs/common';
+import {Injectable } from '@nestjs/common';
 
 @Injectable()
 export class FinishMentorRegisterService {
-  constructor(private mentorRepository: MentorRepository) {}
+  constructor(
+    private mentorRepository: MentorRepository,
+  ) {}
 
-  async execute(id: string) {
-    const mentor = await this.mentorRepository.findMentorById(id);
+    async execute(id: string) {
+      const mentor = await this.mentorRepository.findMentorById(id)
 
-    if (mentor.registerComplete) {
+      if (mentor.registerComplete) {
+        return {
+          message: 'The user has already finished his registration'
+        }
+      }
+      await this.mentorRepository.registerCompleteToggle(id)
+
       return {
-        message: 'The user has already finished his registration',
-      };
+        message: "The registration was declared as completed."
+      }
     }
-    await this.mentorRepository.registerCompleteToggle(id);
-
-    return {
-      message: 'The registration was declared as completed.',
-    };
-  }
 }

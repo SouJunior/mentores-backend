@@ -7,10 +7,8 @@ import { handleError } from 'src/shared/utils/handle-error.util';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(
-    private readonly mentorRepository: MentorRepository,
-    private readonly userRepository: UserRepository,
-  ) {
+  constructor(private readonly mentorRepository: MentorRepository,
+    private readonly userRepository: UserRepository) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
@@ -19,13 +17,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: { email: string }) {
-    const mentor = await this.mentorRepository
-      .findMentorByEmail(payload.email)
-      .catch(handleError);
+    const mentor = await this.mentorRepository.findMentorByEmail(payload.email).catch(handleError);
 
-    const user = await this.userRepository
-      .findUserByEmail(payload.email)
-      .catch(handleError);
+    const user = await this.userRepository.findUserByEmail(payload.email).catch(handleError)
 
     if (!mentor && !user) {
       throw new UnauthorizedException('User not found or not authorized!');
@@ -34,11 +28,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     if (mentor) {
       delete mentor.password;
       return mentor;
-    }
+    } 
 
     if (user) {
       delete user.password;
       return user;
-    }
+    } 
   }
 }

@@ -1,9 +1,11 @@
-import { Injectable } from '@nestjs/common';
-import { MentorRepository } from '../repository/mentor.repository';
+import { Injectable } from "@nestjs/common";
+import { MentorRepository } from "../repository/mentor.repository";
 
 @Injectable()
 export class GetMentorByIdService {
-  constructor(private mentorRepository: MentorRepository) {}
+  constructor(
+    private mentorRepository: MentorRepository,
+  ) {}
 
   async execute(id: string): Promise<any> {
     const user = await this.mentorRepository.findMentorById(id);

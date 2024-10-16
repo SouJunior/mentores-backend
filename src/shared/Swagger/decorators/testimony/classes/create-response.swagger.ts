@@ -7,8 +7,7 @@ export class CreateTestimonyResponseSwagger {
   userName: string;
 
   @ApiProperty({
-    example:
-      'Insira um depoimento sobre sua participação na SouJunior como mentor',
+    example: 'Insira um depoimento sobre sua participação na SouJunior como mentor',
   })
   description: string;
 }

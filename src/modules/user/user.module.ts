@@ -18,20 +18,7 @@ import { UploadProfileImageService } from './services/uploadProfileImage.service
 @Module({
   imports: [MailModule, PassportModule.register({ defaultStrategy: 'jwt' })],
   controllers: [UserController],
-  providers: [
-    ActivateUserService,
-    CreateUserService,
-    DesactivateLoggedUserService,
-    GetUserByIdService,
-    GetAllUsersService,
-    RedefineUserPasswordService,
-    SendRestorationEmailService,
-    UpdateUserService,
-    UploadProfileImageService,
-    UserRepository,
-    GenerateCodeUtil,
-    FileUploadService,
-  ],
-  exports: [UserRepository],
+  providers: [ActivateUserService, CreateUserService, DesactivateLoggedUserService, GetUserByIdService, GetAllUsersService, RedefineUserPasswordService, SendRestorationEmailService, UpdateUserService, UploadProfileImageService, UserRepository, GenerateCodeUtil, FileUploadService],
+  exports: [UserRepository]
 })
 export class UserModule {}

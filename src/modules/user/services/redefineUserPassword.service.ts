@@ -9,12 +9,9 @@ export class RedefineUserPasswordService {
   constructor(private userRepository: UserRepository) {}
 
   async execute(
-    queryData: ActivateUserDto,
-    passData: UserPassConfirmationDto,
+    queryData : ActivateUserDto, passData: UserPassConfirmationDto
   ): Promise<{ message: string }> {
-    const userExists = await this.userRepository.findUserByEmail(
-      queryData.email,
-    );
+    const userExists = await this.userRepository.findUserByEmail(queryData.email);
 
     if (!userExists) {
       return {
@@ -37,7 +34,7 @@ export class RedefineUserPasswordService {
     userExists.password = await bcrypt.hash(passData.password, 10);
 
     userExists.code = null;
-    userExists.accessAttempt = 0;
+    userExists.accessAttempt = 0
 
     await this.userRepository.updateUser(userExists.id, userExists);
 

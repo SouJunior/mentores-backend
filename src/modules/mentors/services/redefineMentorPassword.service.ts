@@ -2,19 +2,18 @@ import * as bcrypt from 'bcrypt';
 import { ActivateMentorDto } from '../dtos/activate-mentor.dto';
 import { MentorRepository } from '../repository/mentor.repository';
 import { MentorPassConfirmationDto } from '../dtos/mentor-pass-confirmation.dto';
-import { Injectable } from '@nestjs/common';
+import {Injectable } from '@nestjs/common';
 
 @Injectable()
 export class RedefineMentorPasswordService {
-  constructor(private mentorRepository: MentorRepository) {}
+  constructor(
+    private mentorRepository: MentorRepository,
+  ) {}
 
   async execute(
-    queryData: ActivateMentorDto,
-    passData: MentorPassConfirmationDto,
+    queryData : ActivateMentorDto, passData: MentorPassConfirmationDto
   ): Promise<{ message: string }> {
-    const mentorExists = await this.mentorRepository.findMentorByEmail(
-      queryData.email,
-    );
+    const mentorExists = await this.mentorRepository.findMentorByEmail(queryData.email);
 
     if (!mentorExists) {
       return {
@@ -37,7 +36,7 @@ export class RedefineMentorPasswordService {
     mentorExists.password = await bcrypt.hash(passData.password, 10);
 
     mentorExists.code = null;
-    mentorExists.accessAttempt = 0;
+    mentorExists.accessAttempt = 0
 
     await this.mentorRepository.updateMentor(mentorExists.id, mentorExists);
 

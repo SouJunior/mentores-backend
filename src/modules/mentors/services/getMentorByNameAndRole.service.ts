@@ -1,10 +1,12 @@
-import { Injectable } from '@nestjs/common';
-import { MentorRepository } from '../repository/mentor.repository';
-import { MentorEntity } from '../entities/mentor.entity';
+import { Injectable } from "@nestjs/common";
+import { MentorRepository } from "../repository/mentor.repository";
+import { MentorEntity } from "../entities/mentor.entity";
 
 @Injectable()
 export class GetMentorByNameAndRoleService {
-  constructor(private mentorRepository: MentorRepository) {}
+  constructor(
+    private mentorRepository: MentorRepository,
+  ) {}
 
   async execute(
     fullName?: string,
@@ -14,7 +16,7 @@ export class GetMentorByNameAndRoleService {
       fullName,
       specialty,
     );
-
+    
     return users;
   }
 }
