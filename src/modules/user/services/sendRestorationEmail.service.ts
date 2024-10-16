@@ -6,11 +6,13 @@ import { ActivateUserDto } from '../dto/activate-user.dto';
 
 @Injectable()
 export class SendRestorationEmailService {
-  constructor(private userRepository: UserRepository,
-  private generateCodeUtil: GenerateCodeUtil,
-  private mailService: MailService) {}
+  constructor(
+    private userRepository: UserRepository,
+    private generateCodeUtil: GenerateCodeUtil,
+    private mailService: MailService,
+  ) {}
 
-async execute(email: string): Promise<{
+  async execute(email: string): Promise<{
     message: string;
     userData?: ActivateUserDto;
   }> {

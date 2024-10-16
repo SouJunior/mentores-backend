@@ -1,4 +1,4 @@
 export enum LoginTypeEnum {
-    USER = 'mentor',
-    COMPANY = 'user',
-  }
+  USER = 'mentor',
+  COMPANY = 'user',
+}

@@ -22,14 +22,14 @@ import { MailService } from './mail.service';
             pass: process.env.MAIL_PASSWORD,
           },
           tls: {
-            rejectUnauthorized: false
-          }
+            rejectUnauthorized: false,
+          },
         },
         defaults: {
           from: `no-reply <no-reply@mentores-backend.com>`,
         },
         template: {
-          dir: join(__dirname, "templates"),
+          dir: join(__dirname, 'templates'),
           adapter: new HandlebarsAdapter(),
           options: {
             strict: true,

@@ -1,11 +1,24 @@
-import { ArrayMaxSize, ArrayMinSize, IsArray, IsBoolean, IsDate, IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, Matches, MaxDate, MaxLength} from 'class-validator';
+import {
+  ArrayMaxSize,
+  ArrayMinSize,
+  IsArray,
+  IsBoolean,
+  IsDate,
+  IsEmail,
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  Matches,
+  MaxDate,
+  MaxLength,
+} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { Specialties } from '../enums/specialties.enum';
 import { Gender } from '../enums/gender.enum';
 
 export class UpdateMentorDto {
-
   @IsOptional()
   @IsString()
   @IsNotEmpty({ message: "the 'fullName' field must not be empty" })
@@ -17,7 +30,7 @@ export class UpdateMentorDto {
   fullName?: string;
 
   @IsOptional()
-  @IsNotEmpty({ message: "The dateOfBirth field must not be empty"})
+  @IsNotEmpty({ message: 'The dateOfBirth field must not be empty' })
   @Transform(({ value }) => new Date(value))
   @IsDate()
   @MaxDate(new Date(), {
@@ -26,7 +39,7 @@ export class UpdateMentorDto {
   @ApiProperty({
     required: true,
     example: '2023-04-06',
-    type: "Date"
+    type: 'Date',
   })
   dateOfBirth?: Date | string;
 
@@ -46,13 +59,13 @@ export class UpdateMentorDto {
 
   @IsOptional()
   @IsArray()
-  @IsEnum(Specialties, { each: true})
-  @IsString({ each: true})
+  @IsEnum(Specialties, { each: true })
+  @IsString({ each: true })
   @ArrayMinSize(1)
   @ArrayMaxSize(6)
   @ApiProperty({
     required: true,
-    type: "String array",
+    type: 'String array',
     example: 'Front-End, Back-End, QA, Dev Ops',
   })
   specialties?: string[];
@@ -72,15 +85,15 @@ export class UpdateMentorDto {
   @IsString()
   @ApiProperty({
     required: true,
-    type: "String array",
+    type: 'String array',
     example: 'Não binário',
   })
   gender?: string;
 
   @IsString()
   @IsOptional()
-  @MaxLength(600, {message: 'Maximum text length exceeded'})
-  aboutMe?: string
+  @MaxLength(600, { message: 'Maximum text length exceeded' })
+  aboutMe?: string;
 
   @IsOptional()
   @IsString()
@@ -98,14 +111,15 @@ export class UpdateMentorDto {
   @MaxLength(50, { message: 'Maximum of 100 characters exceeded' })
   @ApiProperty({
     required: true,
-    example: 'O nome da sua agenda criada no calendly para atender os mentorados',
+    example:
+      'O nome da sua agenda criada no calendly para atender os mentorados',
   })
   agendaName?: string;
 
   @IsBoolean()
   @IsOptional()
   @IsNotEmpty()
-  registerComplete?: boolean
+  registerComplete?: boolean;
 
   @IsOptional()
   @IsString()

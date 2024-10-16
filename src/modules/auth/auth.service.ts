@@ -15,27 +15,27 @@ export class AuthService {
     private jwt: JwtService,
   ) {}
 
-  async execute({ email, password, type}: InfoLoginDto) {
+  async execute({ email, password, type }: InfoLoginDto) {
     let info: InfoEntity;
-    if (type === "mentor") {
-    info = await this.mentorRepository.findMentorByEmail(email);
+    if (type === 'mentor') {
+      info = await this.mentorRepository.findMentorByEmail(email);
     } else {
-      info = await this.userRepository.findUserByEmail(email)
+      info = await this.userRepository.findUserByEmail(email);
     }
-     this.infoConfirm(info);
-    
+    this.infoConfirm(info);
+
     const passwordIsValid = await bcrypt.compare(password, info.password);
 
     if (!passwordIsValid) {
       await this.invalidPassword(info, type);
     }
-    
+
     info.accessAttempt = 0;
-    if (type === "mentor") {
-    await this.mentorRepository.updateMentor(info.id, info);
-  } else {
-    await this.userRepository.updateUser(info.id, info);
-  }
+    if (type === 'mentor') {
+      await this.mentorRepository.updateMentor(info.id, info);
+    } else {
+      await this.userRepository.updateUser(info.id, info);
+    }
 
     delete info.password;
     delete info.code;
@@ -54,17 +54,14 @@ export class AuthService {
 
   infoConfirm(info: InfoEntity) {
     if (!info || info.deleted == true) {
-
-      const message = "invalid e-mail or password"
-      throw new HttpException({ message }, HttpStatus.NOT_FOUND)
-
+      const message = 'invalid e-mail or password';
+      throw new HttpException({ message }, HttpStatus.NOT_FOUND);
     }
 
     if (!info.emailConfirmed) {
-
-      const message = 'Your account is not activated yet. Check your e-mail inbox for instructions'
-      throw new HttpException({ message }, HttpStatus.NOT_FOUND)
-
+      const message =
+        'Your account is not activated yet. Check your e-mail inbox for instructions';
+      throw new HttpException({ message }, HttpStatus.NOT_FOUND);
     }
 
     return;
@@ -75,7 +72,7 @@ export class AuthService {
 
     if (accessAttempt < 5) {
       info.accessAttempt += 1;
-      if (type === "mentor") {
+      if (type === 'mentor') {
         await this.mentorRepository.updateMentor(info.id, info);
       } else {
         await this.userRepository.updateUser(info.id, info);
@@ -85,6 +82,6 @@ export class AuthService {
     const message =
       accessAttemptMessage[accessAttempt + 1] || 'Invalid e-mail or password';
 
-    throw new HttpException({ message }, HttpStatus.NOT_FOUND)
+    throw new HttpException({ message }, HttpStatus.NOT_FOUND);
   }
 }
