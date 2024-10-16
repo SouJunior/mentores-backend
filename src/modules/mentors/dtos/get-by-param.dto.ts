@@ -1,5 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ArrayMinSize, IsArray, IsNotEmpty, IsOptional, IsString, IsUUID, MaxLength } from 'class-validator';
+import {
+  ArrayMinSize,
+  IsArray,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsUUID,
+  MaxLength,
+} from 'class-validator';
 
 export class GetByParamDto {
   @IsOptional()
@@ -23,9 +31,9 @@ export class GetByParamDto {
 
   @IsOptional()
   @IsArray()
-  @IsString({ each: true})
+  @IsString({ each: true })
   @ArrayMinSize(1)
-  @MaxLength(30, { each: true ,message: 'Maximum of 30 characters exceeded' })
+  @MaxLength(30, { each: true, message: 'Maximum of 30 characters exceeded' })
   @ApiProperty({
     required: true,
     example: 'Frontend, backend, qa, dev ops',

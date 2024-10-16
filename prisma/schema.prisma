@@ -18,6 +18,10 @@ model mentors {
   specialties      String[]
   role             String?
   aboutMe          String?
+  calendlyUserUuid String?
+  calendlyRefreshToken String?
+  calendlyAccessToken String?
+  accessTokenExpiration DateTime?
   calendlyName     String?
   agendaName       String?
   gender           String?    @default("")

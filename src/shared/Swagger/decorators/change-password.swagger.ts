@@ -16,8 +16,7 @@ export function SwaggerChangePassword() {
       type: BadRequestSwagger,
     }),
     ApiOperation({
-      summary:
-        'Rota para trocar a senha do mentor',
+      summary: 'Rota para trocar a senha do mentor',
     }),
   );
 }

@@ -1,4 +1,9 @@
-import { Module } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
 import { PrismaService } from '../prisma/service/prisma.service';
@@ -9,6 +14,8 @@ import { UserModule } from './modules/user/user.module';
 import { MailModule } from './modules/mails/mail.module';
 import { TestimonyModule } from './modules/testimony/testimony.module';
 import { MentorModule } from './modules/mentors/mentor.module';
+import { TokenMiddleware } from './middlewares/token.middleware';
+import { MentorController } from './modules/mentors/mentor.controller';
 
 @Module({
   imports: [
@@ -17,9 +24,13 @@ import { MentorModule } from './modules/mentors/mentor.module';
     UserModule,
     AuthModule,
     MailModule,
-    TestimonyModule
+    TestimonyModule,
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(TokenMiddleware).forRoutes(MentorController);
+  }
+}

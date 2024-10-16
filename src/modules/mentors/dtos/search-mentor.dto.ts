@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ArrayMinSize, IsArray, IsOptional, IsString, MaxLength } from 'class-validator';
+import {
+  ArrayMinSize,
+  IsArray,
+  IsOptional,
+  IsString,
+  MaxLength,
+} from 'class-validator';
 
 export class SearchMentorDto {
   @IsString()
@@ -12,7 +18,7 @@ export class SearchMentorDto {
 
   @IsOptional()
   @IsString()
-  @MaxLength(30, {message: 'Maximum of 30 characters exceeded' })
+  @MaxLength(30, { message: 'Maximum of 30 characters exceeded' })
   @ApiProperty({
     required: false,
     example: 'Backend',

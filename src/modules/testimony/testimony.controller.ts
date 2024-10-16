@@ -1,4 +1,13 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateTestimonyDto } from './dto/create-testimony.dto';
 import { SwaggerEditTestimony } from 'src/shared/Swagger/decorators/testimony/edit-testimony.swagger.decorator';
@@ -21,23 +30,26 @@ export class TestimonyController {
     private createTestimonyService: CreateTestimonyService,
     private editTestimonyService: EditTestimonyService,
     private getAllTestimoniesService: GetAllTestimoniesService,
-    private deleteTestimonyService: DeleteTestimonyService
-    ) {}
+    private deleteTestimonyService: DeleteTestimonyService,
+  ) {}
 
   @Get()
   @SwaggerGetTestimony()
   async getTestimonies() {
-    return this.getAllTestimoniesService.execute()
+    return this.getAllTestimoniesService.execute();
   }
 
   @UseGuards(AuthGuard())
   @Post()
   @SwaggerCreateTestimony()
-  async createTestimony(@LoggedEntity() mentor: MentorEntity, @Body() createTestimonyDto: CreateTestimonyDto) {
+  async createTestimony(
+    @LoggedEntity() mentor: MentorEntity,
+    @Body() createTestimonyDto: CreateTestimonyDto,
+  ) {
     return this.createTestimonyService.execute(createTestimonyDto, mentor);
   }
 
-  @Put(":id")
+  @Put(':id')
   @SwaggerEditTestimony()
   async editTestimony(
     @Body() createTestimonyDto: CreateTestimonyDto,
@@ -46,9 +58,9 @@ export class TestimonyController {
     return this.editTestimonyService.execute(id, createTestimonyDto);
   }
 
-  @Delete(":id")
+  @Delete(':id')
   @SwaggerDeleteTestimony()
   async deleteTestimony(@Param() { id }: GetByIdDto) {
-    return this.deleteTestimonyService.execute(id)
+    return this.deleteTestimonyService.execute(id);
   }
 }
