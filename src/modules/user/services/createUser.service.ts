@@ -3,13 +3,15 @@ import { UserRepository } from '../user.repository';
 import { GenerateCodeUtil } from 'src/shared/utils/generate-code.util';
 import { MailService } from 'src/modules/mails/mail.service';
 import { CreateUserDto } from '../dto/create-user.dto';
-import * as bcrypt from "bcrypt"
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class CreateUserService {
-  constructor(private userRepository: UserRepository,
-  private generateCodeUtil: GenerateCodeUtil,
-  private mailService: MailService) {}
+  constructor(
+    private userRepository: UserRepository,
+    private generateCodeUtil: GenerateCodeUtil,
+    private mailService: MailService,
+  ) {}
 
   async execute(data: CreateUserDto) {
     data.dateOfBirth = new Date(data.dateOfBirth);
@@ -32,6 +34,6 @@ export class CreateUserService {
 
     await this.mailService.userSendCreationConfirmation(newUser);
 
-    return { message: 'User created successfully' };;
+    return { message: 'User created successfully' };
   }
 }

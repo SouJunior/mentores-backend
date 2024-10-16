@@ -64,8 +64,8 @@ export class MentorController {
     private sendRestorationEmailService: SendRestorationEmailService,
     private updateMentorService: UpdateMentorService,
     private uploadProfileImageService: UploadProfileImageService,
-    private finishMentorRegisterService: FinishMentorRegisterService
-    ) {}
+    private finishMentorRegisterService: FinishMentorRegisterService,
+  ) {}
 
   @Post()
   @SwaggerCreateMentor()
@@ -83,7 +83,7 @@ export class MentorController {
   @SwaggerGetMentor()
   async findByNameAndRole(
     @Res() res: Response,
-    @Query() { fullName, specialty }: SearchMentorDto
+    @Query() { fullName, specialty }: SearchMentorDto,
   ) {
     const data = await this.getMentorByNameAndRoleService.execute(
       fullName,
@@ -95,10 +95,7 @@ export class MentorController {
 
   @Get([':id'])
   @SwaggerGetMentor()
-  async getMentorById(
-    @Param() { id }: GetByIdDto,
-    @Res() res: Response,
-  ) {
+  async getMentorById(@Param() { id }: GetByIdDto, @Res() res: Response) {
     const { status, data } = await this.getMentorByIdService.execute(id);
 
     return res.status(status).send(data);
@@ -122,27 +119,41 @@ export class MentorController {
   async changeMentorPassword(
     @LoggedEntity() mentor: MentorEntity,
     @Body() data: MentorChangePassDto,
-    @Res() res: Response
+    @Res() res: Response,
   ) {
-    const { message, status}  = await this.changeMentorPasswordService.execute(mentor, data);
+    const { message, status } = await this.changeMentorPasswordService.execute(
+      mentor,
+      data,
+    );
 
-    return res.status(status).json({ message: message})
+    return res.status(status).json({ message: message });
   }
 
   @ApiBearerAuth()
   @UseGuards(AuthGuard())
-  @UseInterceptors(FileInterceptor("file"))
+  @UseInterceptors(FileInterceptor('file'))
   @SwaggerUploadProfileImage()
-  @Post("uploadProfileImage")
-  async uploadProfileImage(@LoggedEntity() mentor: MentorEntity, @UploadedFile("file") file) {
-    
-    return await this.uploadProfileImageService.execute(mentor.id, mentor, file )
+  @Post('uploadProfileImage')
+  async uploadProfileImage(
+    @LoggedEntity() mentor: MentorEntity,
+    @UploadedFile('file') file,
+  ) {
+    return await this.uploadProfileImageService.execute(
+      mentor.id,
+      mentor,
+      file,
+    );
   }
 
   @Patch('active')
   @SwaggerConfirmEmail()
-  async activeMentor(@Query() queryData: ActivateMentorDto, @Res() res: Response) {
-    const { data, status } = await this.activateMentorService.execute(queryData);
+  async activeMentor(
+    @Query() queryData: ActivateMentorDto,
+    @Res() res: Response,
+  ) {
+    const { data, status } = await this.activateMentorService.execute(
+      queryData,
+    );
     return res.status(status).send(data);
   }
 
@@ -173,9 +184,9 @@ export class MentorController {
   @Post('completeRegister')
   async finishMentorRegister(@LoggedEntity() mentor: MentorEntity) {
     try {
-    return this.finishMentorRegisterService.execute(mentor.id)
+      return this.finishMentorRegisterService.execute(mentor.id);
     } catch (error) {
-      console.log(error.message)
+      console.log(error.message);
     }
   }
 }
