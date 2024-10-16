@@ -17,11 +17,29 @@ import { FinishMentorRegisterService } from './services/finishMentorRegisterServ
 import { RedefineMentorPasswordService } from './services/redefineMentorPassword.service';
 import { SendRestorationEmailService } from './services/sendRestorationEmail.service';
 import { UploadProfileImageService } from './services/uploadProfileImage.service';
+import { FetchSchedulesService } from './services/fetch-schedules.service';
 
 @Module({
   imports: [MailModule, PassportModule.register({ defaultStrategy: 'jwt' })],
   controllers: [MentorController],
-  providers: [CreateMentorService, UpdateMentorService, ListAllMentorsService, GetMentorByIdService, GetMentorByNameAndRoleService, ActivateMentorService, ChangeMentorPasswordService, DesactivateLoggedMentorService, FinishMentorRegisterService, RedefineMentorPasswordService, SendRestorationEmailService, UploadProfileImageService, MentorRepository, GenerateCodeUtil, FileUploadService],
+  providers: [
+    CreateMentorService,
+    UpdateMentorService,
+    ListAllMentorsService,
+    GetMentorByIdService,
+    GetMentorByNameAndRoleService,
+    ActivateMentorService,
+    ChangeMentorPasswordService,
+    DesactivateLoggedMentorService,
+    FinishMentorRegisterService,
+    RedefineMentorPasswordService,
+    SendRestorationEmailService,
+    UploadProfileImageService,
+    MentorRepository,
+    GenerateCodeUtil,
+    FileUploadService,
+    FetchSchedulesService,
+  ],
   exports: [MentorRepository],
 })
 export class MentorModule {}

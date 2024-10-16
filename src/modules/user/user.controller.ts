@@ -1,4 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Query, Res, UseGuards, Put, UseInterceptors, UploadedFile } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Query,
+  Res,
+  UseGuards,
+  Put,
+  UseInterceptors,
+  UploadedFile,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { ApiBearerAuth, ApiExcludeEndpoint, ApiTags } from '@nestjs/swagger';
 import { SwaggerConfirmEmail } from 'src/shared/Swagger/decorators/confirm-email.swagger.decorator';
@@ -28,7 +41,7 @@ import { SendRestorationEmailService } from './services/sendRestorationEmail.ser
 import { SwaggerUploadProfileImage } from 'src/shared/Swagger/decorators/uploadProfileImage.swagger';
 import { SwaggerCreateUser } from 'src/shared/Swagger/decorators/user/create-user.swagger.decorator';
 
-@ApiTags("user")
+@ApiTags('user')
 @Controller('user')
 export class UserController {
   constructor(
@@ -40,8 +53,8 @@ export class UserController {
     private redefineUserPasswordService: RedefineUserPasswordService,
     private sendRestorationEmailService: SendRestorationEmailService,
     private updateUserService: UpdateUserService,
-    private uploadProfileImageService: UploadProfileImageService
-    ) {}
+    private uploadProfileImageService: UploadProfileImageService,
+  ) {}
 
   @Post()
   @SwaggerCreateUser()
@@ -64,10 +77,7 @@ export class UserController {
 
   @Get([':id'])
   @SwaggerGetUser()
-  async getUserById(
-    @Param() { id }: GetByIdDto,
-    @Res() res: Response,
-  ) {
+  async getUserById(@Param() { id }: GetByIdDto, @Res() res: Response) {
     const { status, data } = await this.getUserByIdService.execute(id);
 
     return res.status(status).send(data);
@@ -86,15 +96,16 @@ export class UserController {
 
   @ApiBearerAuth()
   @UseGuards(AuthGuard())
-  @UseInterceptors(FileInterceptor("file"))
+  @UseInterceptors(FileInterceptor('file'))
   @SwaggerUploadProfileImage()
-  @Post("uploadProfileImage")
-  async uploadProfileImage(@LoggedEntity() user: UserEntity, @UploadedFile("file") file) {
-    
-    return await this.uploadProfileImageService.execute(user.id, user, file )
+  @Post('uploadProfileImage')
+  async uploadProfileImage(
+    @LoggedEntity() user: UserEntity,
+    @UploadedFile('file') file,
+  ) {
+    return await this.uploadProfileImageService.execute(user.id, user, file);
   }
 
-  
   @ApiExcludeEndpoint()
   @Patch(':id')
   async desactivateLoggedEntity(@Param() { id }: GetByIdDto) {

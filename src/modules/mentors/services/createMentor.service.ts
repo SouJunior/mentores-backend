@@ -1,10 +1,10 @@
-import { Injectable } from "@nestjs/common";
-import { CreateMentorDto } from "../dtos/create-mentor.dto";
-import { CustomBadRequestException } from "src/shared/exceptions/badRequest.exception";
+import { Injectable } from '@nestjs/common';
+import { CreateMentorDto } from '../dtos/create-mentor.dto';
+import { CustomBadRequestException } from 'src/shared/exceptions/badRequest.exception';
 import * as bcrypt from 'bcrypt';
-import { MentorRepository } from "../repository/mentor.repository";
-import { MailService } from "src/modules/mails/mail.service";
-import { GenerateCodeUtil } from "src/shared/utils/generate-code.util";
+import { MentorRepository } from '../repository/mentor.repository';
+import { MailService } from 'src/modules/mails/mail.service';
+import { GenerateCodeUtil } from 'src/shared/utils/generate-code.util';
 
 @Injectable()
 export class CreateMentorService {

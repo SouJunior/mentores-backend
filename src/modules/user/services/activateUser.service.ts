@@ -4,8 +4,7 @@ import { ActivateUserDto } from '../dto/activate-user.dto';
 
 @Injectable()
 export class ActivateUserService {
-  constructor(private userRepository: UserRepository,
-) {}
+  constructor(private userRepository: UserRepository) {}
 
   async execute({ code, email }: ActivateUserDto) {
     const userExists = await this.userRepository.findUserByEmail(email);

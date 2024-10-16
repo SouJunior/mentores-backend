@@ -1,13 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  MaxLength,
-} from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
 
 export class CreateTestimonyDto {
-
   @IsOptional()
   @IsString()
   @IsNotEmpty({ message: "the 'userName' field must not be empty" })
@@ -33,7 +27,8 @@ export class CreateTestimonyDto {
   @MaxLength(400, { message: 'Maximum of 400 characters exceeded' })
   @ApiProperty({
     required: true,
-    example: 'Minha experiência como mentor na SouJunior como (ponha sua especialidade) foi excelente',
+    example:
+      'Minha experiência como mentor na SouJunior como (ponha sua especialidade) foi excelente',
   })
   description: string;
 

@@ -13,7 +13,6 @@ import {
 import { Match } from '../decorators/match.decorator';
 
 export class CreateMentorDto {
-
   @IsString()
   @IsNotEmpty({ message: "the 'fullName' field must not be empty" })
   @MaxLength(100, { message: 'Maximum of 100 characters exceeded' })
@@ -92,5 +91,4 @@ export class CreateMentorDto {
   @Exclude()
   @IsOptional()
   code: string;
-
 }
