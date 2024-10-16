@@ -1,22 +1,22 @@
 import { UpdateMentorDto } from '../dtos/update-mentor.dto';
 import { MentorRepository } from '../repository/mentor.repository';
-import { CustomBadRequestException } from '../../../shared/exceptions/badRequest.exception';
+import { CustomBadRequestException } from "../../../shared/exceptions/badRequest.exception";
 import { FileUploadService } from '../../upload/upload.service';
-import { Injectable } from '@nestjs/common';
+import {Injectable } from '@nestjs/common';
 
 @Injectable()
 export class UploadProfileImageService {
   constructor(
     private mentorRepository: MentorRepository,
-    private fileUploadService: FileUploadService,
+    private fileUploadService: FileUploadService
   ) {}
+  
 
   async execute(id: string, mentor: UpdateMentorDto, file) {
-    mentor.profileKey = 'genericImage';
+
+    mentor.profileKey = "genericImage"
     if (file && !mentor.profileKey) {
-      throw new CustomBadRequestException(
-        'profileKey is required when file is sent',
-      );
+      throw new CustomBadRequestException("profileKey is required when file is sent")
     }
 
     if (file) {
@@ -25,14 +25,12 @@ export class UploadProfileImageService {
       mentor.profile = Location;
       mentor.profileKey = key;
 
-      await this.mentorRepository.updateMentorUrl(id, mentor.profile);
+      await this.mentorRepository.updateMentorUrl(id, mentor.profile)
+
     }
 
-    delete mentor.file;
-
-    return {
-      message: 'The profile image was updated succesfully',
-      status: 200,
-    };
+    delete mentor.file
+  
+    return { message: "The profile image was updated succesfully", status: 200}
   }
 }

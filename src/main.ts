@@ -1,17 +1,17 @@
-import { ValidationPipe } from '@nestjs/common';
+import { ValidationPipe } from "@nestjs/common"
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
-import { json } from 'express';
+import { json } from "express";
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     cors: true,
   });
 
-  app.use(json({ limit: '10mb' }));
+  app.use(json({limit: "10mb"}));
 
   app.useGlobalPipes(
     new ValidationPipe({

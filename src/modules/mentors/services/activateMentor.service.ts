@@ -1,10 +1,12 @@
 import { ActivateMentorDto } from '../dtos/activate-mentor.dto';
 import { MentorRepository } from '../repository/mentor.repository';
-import { Injectable } from '@nestjs/common';
+import {Injectable } from '@nestjs/common';
 
 @Injectable()
 export class ActivateMentorService {
-  constructor(private mentorRepository: MentorRepository) {}
+  constructor(
+    private mentorRepository: MentorRepository,
+  ) {}
 
   async execute({ code, email }: ActivateMentorDto) {
     const mentorExists = await this.mentorRepository.findMentorByEmail(email);

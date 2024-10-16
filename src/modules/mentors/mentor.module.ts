@@ -21,23 +21,7 @@ import { UploadProfileImageService } from './services/uploadProfileImage.service
 @Module({
   imports: [MailModule, PassportModule.register({ defaultStrategy: 'jwt' })],
   controllers: [MentorController],
-  providers: [
-    CreateMentorService,
-    UpdateMentorService,
-    ListAllMentorsService,
-    GetMentorByIdService,
-    GetMentorByNameAndRoleService,
-    ActivateMentorService,
-    ChangeMentorPasswordService,
-    DesactivateLoggedMentorService,
-    FinishMentorRegisterService,
-    RedefineMentorPasswordService,
-    SendRestorationEmailService,
-    UploadProfileImageService,
-    MentorRepository,
-    GenerateCodeUtil,
-    FileUploadService,
-  ],
+  providers: [CreateMentorService, UpdateMentorService, ListAllMentorsService, GetMentorByIdService, GetMentorByNameAndRoleService, ActivateMentorService, ChangeMentorPasswordService, DesactivateLoggedMentorService, FinishMentorRegisterService, RedefineMentorPasswordService, SendRestorationEmailService, UploadProfileImageService, MentorRepository, GenerateCodeUtil, FileUploadService],
   exports: [MentorRepository],
 })
 export class MentorModule {}

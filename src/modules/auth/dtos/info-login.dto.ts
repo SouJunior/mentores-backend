@@ -22,9 +22,7 @@ export class InfoLoginDto {
   })
   password: string;
 
-  @IsEnum(LoginTypeEnum, {
-    message: 'This field only accepts: "mentor" or "user"',
-  })
+  @IsEnum(LoginTypeEnum, { message: 'This field only accepts: "mentor" or "user"' })
   @IsNotEmpty()
   type: LoginTypeEnum;
 }

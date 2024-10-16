@@ -10,17 +10,9 @@ import { EditTestimonyService } from './services/editTestimony.service';
 import { GetAllTestimoniesService } from './services/getTestimonies.service';
 
 @Module({
-  imports: [PassportModule.register({ defaultStrategy: 'jwt' })],
+  imports: [ PassportModule.register({ defaultStrategy: 'jwt' })],
   controllers: [TestimonyController],
-  providers: [
-    CreateTestimonyService,
-    DeleteTestimonyService,
-    EditTestimonyService,
-    GetAllTestimoniesService,
-    TestimonyRepository,
-    MentorRepository,
-    GenerateCodeUtil,
-  ],
+  providers: [CreateTestimonyService, DeleteTestimonyService, EditTestimonyService, GetAllTestimoniesService, TestimonyRepository, MentorRepository, GenerateCodeUtil],
   exports: [TestimonyRepository],
 })
 export class TestimonyModule {}

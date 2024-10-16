@@ -9,3 +9,4 @@ export class CreatedSwagger {
   @ApiProperty({ example: 'Created' })
   statusMessage: string;
 }
+

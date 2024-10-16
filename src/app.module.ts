@@ -17,7 +17,7 @@ import { MentorModule } from './modules/mentors/mentor.module';
     UserModule,
     AuthModule,
     MailModule,
-    TestimonyModule,
+    TestimonyModule
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],
