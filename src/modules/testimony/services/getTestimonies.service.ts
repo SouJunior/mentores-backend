@@ -17,7 +17,7 @@ export class GetAllTestimoniesService {
     for (const testimony of testimonies) {
       for (const mentor of mentors) {
         if (testimony.mentor_id === mentor.id) {
-          let mentorSpecialties = mentor.specialties.join(',');
+          const mentorSpecialties = mentor.specialties.join(',');
 
           testimony.imageUrl = mentor.profile;
           testimony.role = mentorSpecialties;
