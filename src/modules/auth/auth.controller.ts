@@ -1,19 +1,36 @@
-import { Body, Controller, Get, Post, Res, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { SwaggerLogged } from '../../shared/Swagger/decorators/auth/logged.swagger.decorator';
 
 import { SwaggerLogin } from '../../shared/Swagger/decorators/auth/login.swagger.decorator';
 import { MentorEntity } from '../mentors/entities/mentor.entity';
-import { AuthService } from './auth.service';
+import { AuthService } from './services/auth.service';
 import { LoggedEntity } from './decorator/loggedEntity.decorator';
 import { InfoLoginDto } from './dtos/info-login.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { InitiateOAuthService } from './services/calendlyOAuth.service';
+import { OAuthCallbackService } from './services/calendly-callback.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Controller('auth')
 @ApiTags('Auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private readonly initiateOAuthService: InitiateOAuthService,
+    private readonly oauthCallbackService: OAuthCallbackService,
+    private jwtService: JwtService
+  ) {}
 
   @Post('/login')
   @SwaggerLogin()
@@ -29,5 +46,20 @@ export class AuthController {
   @UseGuards(AuthGuard())
   async userLogged(@LoggedEntity() mentor: MentorEntity) {
     return mentor;
+  }
+
+  @Get('connect')
+  async connect(@Query('email') email: string, @Res() res: Response) {
+    const { url } = await this.initiateOAuthService.initiateOAuth(email);
+    return res.redirect(url);
+  }
+
+  @Get('callback')
+  async oauthCallback(
+    @Query('code') code: string,
+    @Query("state") state: string
+  ) {
+    const email = state
+    return this.oauthCallbackService.execute(code, email);
   }
 }

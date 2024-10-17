@@ -48,6 +48,8 @@ import { FinishMentorRegisterService } from './services/finishMentorRegisterServ
 import { SwaggerCompleteRegister } from 'src/shared/Swagger/decorators/complete-register.swagger';
 import { SwaggerChangePassword } from 'src/shared/Swagger/decorators/change-password.swagger';
 import { SwaggerUploadProfileImage } from 'src/shared/Swagger/decorators/uploadProfileImage.swagger';
+import { FetchSchedulesService } from './services/fetch-schedules.service';
+import { TokenMiddleware } from 'src/middlewares/token.middleware';
 
 @ApiTags('mentor')
 @Controller('mentor')
@@ -65,6 +67,7 @@ export class MentorController {
     private updateMentorService: UpdateMentorService,
     private uploadProfileImageService: UploadProfileImageService,
     private finishMentorRegisterService: FinishMentorRegisterService,
+    private fetchSchedulesService: FetchSchedulesService,
   ) {}
 
   @Post()
@@ -90,7 +93,7 @@ export class MentorController {
       specialty,
     );
 
-    return res.status(HttpStatus.OK).send(data);
+    return res.status(HttpStatus.OK).json(data);
   }
 
   @Get([':id'])
@@ -188,5 +191,11 @@ export class MentorController {
     } catch (error) {
       console.log(error.message);
     }
+  }
+
+  @Get('schedules/:email')
+  @UseGuards(TokenMiddleware)
+  async fetchMentorSchedules(@Param() { email }: SearchByEmailDto) {
+    return this.fetchSchedulesService.getMentorSchedules(email);
   }
 }

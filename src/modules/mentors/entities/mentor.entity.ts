@@ -9,6 +9,10 @@ export class MentorEntity {
   role: string;
   gender: string;
   aboutMe: string;
+  calendlyAccessToken: string;
+  accessTokenExpiration: Date;
+  calendlyRefreshToken: string;
+  calendlyUserUuid: string;
   calendlyName?: string;
   agendaName?: string;
   registerComplete?: boolean;

@@ -17,6 +17,9 @@ import { FinishMentorRegisterService } from './services/finishMentorRegisterServ
 import { RedefineMentorPasswordService } from './services/redefineMentorPassword.service';
 import { SendRestorationEmailService } from './services/sendRestorationEmail.service';
 import { UploadProfileImageService } from './services/uploadProfileImage.service';
+import { FetchSchedulesService } from './services/fetch-schedules.service';
+import { RefreshTokenService } from '../auth/services/refresh-token.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [MailModule, PassportModule.register({ defaultStrategy: 'jwt' })],
@@ -37,6 +40,9 @@ import { UploadProfileImageService } from './services/uploadProfileImage.service
     MentorRepository,
     GenerateCodeUtil,
     FileUploadService,
+    FetchSchedulesService,
+    RefreshTokenService,
+    JwtService
   ],
   exports: [MentorRepository],
 })
