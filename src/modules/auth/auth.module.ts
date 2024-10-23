@@ -7,9 +7,9 @@ import { AuthService } from './services/auth.service';
 import { JwtStrategy } from './jtw/jwt.strategy';
 import { UserModule } from '../user/user.module';
 import { MentorModule } from '../mentors/mentor.module';
-import { InitiateOAuthService } from './services/calendlyOAuth.service';
-import { OAuthCallbackService } from './services/calendly-callback.service';
-import { RefreshTokenService } from './services/refresh-token.service';
+import { InitiateOAuthService } from '../calendly/services/calendlyOAuth.service';
+import { OAuthCallbackService } from '../calendly/services/calendly-callback.service';
+import { RefreshTokenService } from '../calendly/services/refresh-token.service';
 
 @Module({
   imports: [
@@ -25,11 +25,8 @@ import { RefreshTokenService } from './services/refresh-token.service';
   controllers: [AuthController],
   providers: [
     AuthService,
-    InitiateOAuthService,
-    OAuthCallbackService,
-    RefreshTokenService,
     JwtStrategy,
   ],
-  exports: [RefreshTokenService, JwtModule],
+  exports: [JwtModule],
 })
 export class AuthModule {}

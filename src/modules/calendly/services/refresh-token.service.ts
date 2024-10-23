@@ -1,35 +1,35 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { MentorRepository } from '../../mentors/repository/mentor.repository';
-import { axiosCallback } from 'src/lib/axios';
+import { CalendlyRepository } from '../repository/calendly.repository';
+import httpAdapter from 'src/lib/adapter/httpAdapter';
 
 @Injectable()
 export class RefreshTokenService {
-  constructor(private readonly mentorRepository: MentorRepository) {}
+  constructor(private readonly calendlyRepository: CalendlyRepository) {}
 
-  async execute(mentorEmail: string) {
-    const mentor = await this.mentorRepository.findMentorByEmail(mentorEmail);
-    if (!mentor || !mentor.calendlyRefreshToken) {
+  async execute(mentorId: string) {
+    const calendlyInfo = await this.calendlyRepository.getCalendlyInfoByMentorId(mentorId);
+    if (!calendlyInfo || !calendlyInfo.calendlyRefreshToken) {
       throw new InternalServerErrorException(
-        'Mentor not found or no refresh token available.',
+        'No refresh token available for this mentor.',
       );
     }
 
     try {
-      const tokenResponse = await axiosCallback.post(
+      const tokenResponse = await httpAdapter.callbackPost(
         '/oauth/token',
         new URLSearchParams({
           grant_type: 'refresh_token',
-          refresh_token: mentor.calendlyRefreshToken,
+          refresh_token: calendlyInfo.calendlyRefreshToken,
           client_id: process.env.SOUJUNIOR_CLIENT_ID,
           client_secret: process.env.SOUJUNIOR_CLIENT_SECRET,
         }),
       );
 
-      const accessToken = tokenResponse.data.access_token;
-      const expiresIn = tokenResponse.data.expires_in;
+      const accessToken = tokenResponse.access_token;
+      const expiresIn = tokenResponse.expires_in;
       const expirationTime = new Date(Date.now() + expiresIn * 1000);
 
-      await this.mentorRepository.updateMentor(mentor.id, {
+      await this.calendlyRepository.updateCalendlyInfo(mentorId, {
         calendlyAccessToken: accessToken,
         accessTokenExpiration: expirationTime,
       });

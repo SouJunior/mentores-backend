@@ -1,20 +1,20 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { MentorRepository } from '../../mentors/repository/mentor.repository';
-import { axiosCallback, axiosInstance } from 'src/lib/axios';
+import { CalendlyRepository } from '../repository/calendly.repository';
+import httpAdapter from 'src/lib/adapter/httpAdapter';
 
 @Injectable()
 export class OAuthCallbackService {
-  constructor(private readonly mentorRepository: MentorRepository) {}
+  constructor(private readonly calendlyRepository: CalendlyRepository) {}
 
-  async execute(code: string, email: string) {
-    if (!email) {
+  async execute(code: string, mentorId: string) {
+    if (!mentorId) {
       throw new InternalServerErrorException(
-        'Email is required to proceed with OAuth.',
+        'Mentor ID is required to proceed with OAuth.',
       );
     }
 
     try {
-      const tokenResponse = await axiosCallback.post(
+      const tokenResponse = await httpAdapter.callbackPost(
         '/oauth/token',
         new URLSearchParams({
           grant_type: 'authorization_code',
@@ -25,17 +25,12 @@ export class OAuthCallbackService {
         }),
       );
 
-      const accessToken = tokenResponse.data.access_token;
-      const refreshToken = tokenResponse.data.refresh_token;
-      const expiresIn = tokenResponse.data.expires_in;
+      const accessToken = tokenResponse.access_token;
+      const refreshToken = tokenResponse.refresh_token;
+      const expiresIn = tokenResponse.expires_in;
       const expirationTime = new Date(Date.now() + expiresIn * 1000);
 
-      const mentor = await this.mentorRepository.findMentorByEmail(email);
-      if (!mentor) {
-        throw new InternalServerErrorException('Mentor not found');
-      }
-
-      await this.mentorRepository.updateMentor(mentor.id, {
+      await this.calendlyRepository.updateCalendlyInfo(mentorId, {
         calendlyAccessToken: accessToken,
         calendlyRefreshToken: refreshToken,
         accessTokenExpiration: expirationTime,

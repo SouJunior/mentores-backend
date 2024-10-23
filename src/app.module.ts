@@ -16,6 +16,7 @@ import { TestimonyModule } from './modules/testimony/testimony.module';
 import { MentorModule } from './modules/mentors/mentor.module';
 import { TokenMiddleware } from './middlewares/token.middleware';
 import { MentorController } from './modules/mentors/mentor.controller';
+import { CalendlyModule } from './modules/calendly/calendly.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { MentorController } from './modules/mentors/mentor.controller';
     AuthModule,
     MailModule,
     TestimonyModule,
+    CalendlyModule,
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],

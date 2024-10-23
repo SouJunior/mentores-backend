@@ -1,8 +1,9 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { NextFunction, Request, Response } from 'express';
 import { JwtService } from '@nestjs/jwt';
-import { RefreshTokenService } from 'src/modules/auth/services/refresh-token.service';
+import { RefreshTokenService } from 'src/modules/calendly/services/refresh-token.service';
 import { MentorRepository } from 'src/modules/mentors/repository/mentor.repository';
+import { CalendlyRepository } from 'src/modules/calendly/repository/calendly.repository';
 
 @Injectable()
 export class TokenMiddleware implements NestMiddleware {
@@ -10,6 +11,7 @@ export class TokenMiddleware implements NestMiddleware {
     private readonly mentorRepository: MentorRepository,
     private readonly refreshTokenService: RefreshTokenService,
     private readonly jwtService: JwtService,
+    private readonly calendlyInfoRepository: CalendlyRepository
   ) {}
 
   async use(req: Request, res: Response, next: NextFunction) {
@@ -36,23 +38,25 @@ export class TokenMiddleware implements NestMiddleware {
       return res.status(404).send('Mentor not found');
     }
 
-    const isExpired = this.isAccessTokenExpired(mentor.accessTokenExpiration);
+    const calendlyInfo = await this.calendlyInfoRepository.getCalendlyInfoByMentorId(mentor.id);
+
+    if (!calendlyInfo || !calendlyInfo.calendlyAccessToken) {
+      return res.status(404).send('Calendly info not found or access token is missing');
+    }
+
+    const isExpired = this.isAccessTokenExpired(calendlyInfo.accessTokenExpiration);
 
     if (isExpired) {
       try {
         await this.refreshTokenService.execute(mentorEmail);
-        const updatedMentor = await this.mentorRepository.findMentorByEmail(
-          mentorEmail,
-        );
-        req.headers[
-          'Authorization'
-        ] = `Bearer ${updatedMentor.calendlyAccessToken}`;
+        const updatedCalendlyInfo = await this.calendlyInfoRepository.getCalendlyInfoByMentorId(mentor.id);
+        req.headers['Authorization'] = `Bearer ${updatedCalendlyInfo.calendlyAccessToken}`;
       } catch (error) {
         console.error('Error refreshing access token:', error.message);
         return res.status(500).send('Could not refresh access token');
       }
     } else {
-      req.headers['Authorization'] = `Bearer ${mentor.calendlyAccessToken}`;
+      req.headers['Authorization'] = `Bearer ${calendlyInfo.calendlyAccessToken}`;
     }
 
     next();
