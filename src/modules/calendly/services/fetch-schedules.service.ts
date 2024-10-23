@@ -1,10 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CalendlyRepository } from '../repository/calendly.repository';
-import httpAdapter from 'src/lib/adapter/httpAdapter';
+import { IHttpAdapter } from 'src/lib/adapter/httpAdapterInterface';
+
 
 @Injectable()
 export class FetchSchedulesService {
-  constructor(private readonly calendlyRepository: CalendlyRepository) {}
+  constructor(
+    private readonly calendlyRepository: CalendlyRepository,
+    @Inject("IHttpAdapter") private readonly httpAdapter: IHttpAdapter
+  ) {}
 
   async getMentorSchedules(mentorId: string) {
     const calendlyInfo = await this.calendlyRepository.getCalendlyInfoByMentorId(mentorId);
@@ -15,7 +19,7 @@ export class FetchSchedulesService {
 
     if (!calendlyInfo.calendlyUserUuid) {
       try {
-        const response = await httpAdapter.get('/users/me', {
+        const response = await this.httpAdapter.get('/users/me', {
           headers: {
             Authorization: `Bearer ${calendlyInfo.calendlyAccessToken}`,
           },
@@ -41,7 +45,7 @@ export class FetchSchedulesService {
     const userUrlUuid = `https://api.calendly.com/users/${calendlyInfo.calendlyUserUuid}`;
 
     try {
-      const response = await httpAdapter.get(
+      const response = await this.httpAdapter.get(
         `/scheduled_events?user=${userUrlUuid}`,
         {
           headers: {

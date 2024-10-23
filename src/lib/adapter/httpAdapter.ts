@@ -1,6 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
+import { IHttpAdapter } from './httpAdapterInterface';
 
-class HttpAdapter {
+class HttpAdapter implements IHttpAdapter {
   private axiosInstance: AxiosInstance;
   private axiosCallback: AxiosInstance;
 
@@ -59,4 +60,4 @@ class HttpAdapter {
   }
 }
 
-export default new HttpAdapter();
+export default HttpAdapter;

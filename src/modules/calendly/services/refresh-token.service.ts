@@ -1,10 +1,14 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CalendlyRepository } from '../repository/calendly.repository';
-import httpAdapter from 'src/lib/adapter/httpAdapter';
+import { IHttpAdapter } from 'src/lib/adapter/httpAdapterInterface';
+
 
 @Injectable()
 export class RefreshTokenService {
-  constructor(private readonly calendlyRepository: CalendlyRepository) {}
+  constructor(
+    private readonly calendlyRepository: CalendlyRepository,
+    @Inject("IHttpAdapter") private readonly httpAdapter: IHttpAdapter
+  ) {}
 
   async execute(mentorId: string) {
     const calendlyInfo = await this.calendlyRepository.getCalendlyInfoByMentorId(mentorId);
@@ -15,7 +19,7 @@ export class RefreshTokenService {
     }
 
     try {
-      const tokenResponse = await httpAdapter.callbackPost(
+      const tokenResponse = await this.httpAdapter.callbackPost(
         '/oauth/token',
         new URLSearchParams({
           grant_type: 'refresh_token',

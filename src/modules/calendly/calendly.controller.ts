@@ -33,8 +33,8 @@ export class CalendlyController {
     }
       
     @Get('connect')
-    async connect(@Query('email') email: string, @Res() res: Response) {
-      const { url } = await this.initiateOAuthService.initiateOAuth(email);
+    async connect(@Query('mentorId') mentorId: string, @Res() res: Response) {
+      const { url } = await this.initiateOAuthService.initiateOAuth(mentorId);
       return res.redirect(url);
     }
   
@@ -43,14 +43,15 @@ export class CalendlyController {
       @Query('code') code: string,
       @Query("state") state: string
     ) {
-      const email = state
-      return this.oauthCallbackService.execute(code, email);
+      const mentorId = state
+      return this.oauthCallbackService.execute(code, mentorId);
     }
 
-    @Get('schedules/:email')
+    @Get('schedules')
+    @UseGuards(AuthGuard())
     @UseGuards(TokenMiddleware)
-    async fetchMentorSchedules(@Param() { email }: SearchByEmailDto) {
-      return this.fetchSchedulesService.getMentorSchedules(email);
+    async fetchMentorSchedules(@LoggedEntity() mentor: MentorEntity) {
+      return this.fetchSchedulesService.getMentorSchedules(mentor.id);
     }
 
     @Post("")
