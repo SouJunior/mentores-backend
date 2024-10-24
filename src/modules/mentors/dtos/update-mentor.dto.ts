@@ -136,5 +136,33 @@ export class UpdateMentorDto {
   profileKey?: string;
 
   @IsOptional()
+  @IsString()
+  @ApiProperty({
+    description: 'Calendly access token',
+  })
+  calendlyAccessToken?: string;
+
+  @IsOptional()
+  @IsDate()
+  @ApiProperty({
+    description: 'Calendly access token expire date',
+  })
+  accessTokenExpiration?: Date;
+
+  @IsOptional()
+  @IsString()
+  @ApiProperty({
+    description: 'Calendly refresh token',
+  })
+  calendlyRefreshToken?: string;
+
+  @IsOptional()
+  @IsString()
+  @ApiProperty({
+    description: 'Calendly mentor account user Uuid',
+  })
+  calendlyUserUuid?: string;
+
+  @IsOptional()
   file?: any;
 }

@@ -15,6 +15,10 @@ export class MentorRepository extends PrismaClient {
     return this.mentors.findMany().catch(handleError);
   }
 
+  async findAllRegisteredMentors(): Promise<MentorEntity[]> {
+    return this.mentors.findMany({where: { registerComplete: true }}).catch(handleError);
+  }
+
   async findMentorByEmail(email: string): Promise<MentorEntity> {
     return this.mentors
       .findUnique({
@@ -44,8 +48,6 @@ export class MentorRepository extends PrismaClient {
           gender: true,
           profile: true,
           aboutMe: true,
-          calendlyName: true,
-          agendaName: true,
           registerComplete: true,
           createdAt: true,
           updatedAt: true,
