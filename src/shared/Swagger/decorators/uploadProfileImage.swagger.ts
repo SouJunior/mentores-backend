@@ -16,8 +16,7 @@ export function SwaggerUploadProfileImage() {
       type: BadRequestSwagger,
     }),
     ApiOperation({
-      summary:
-        'Rota para definir a imagem de perfil do usuário',
+      summary: 'Rota para definir a imagem de perfil do usuário',
     }),
   );
 }

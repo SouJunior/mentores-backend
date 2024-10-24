@@ -2,7 +2,7 @@ import { GenerateCodeUtil } from '../../../shared/utils/generate-code.util';
 import { MailService } from '../../mails/mail.service';
 import { ActivateMentorDto } from '../dtos/activate-mentor.dto';
 import { MentorRepository } from '../repository/mentor.repository';
-import {Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class SendRestorationEmailService {

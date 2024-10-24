@@ -7,7 +7,7 @@ import { SwaggerLogin } from '../../shared/Swagger/decorators/auth/login.swagger
 import { MentorEntity } from '../mentors/entities/mentor.entity';
 import { AuthService } from './auth.service';
 import { LoggedEntity } from './decorator/loggedEntity.decorator';
-import { InfoLoginDto} from './dtos/info-login.dto';
+import { InfoLoginDto } from './dtos/info-login.dto';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('auth')

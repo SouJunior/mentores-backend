@@ -25,10 +25,10 @@ export class MentorRepository extends PrismaClient {
 
   async findFullMentorById(id: string): Promise<MentorEntity> {
     return this.mentors
-    .findUnique({
-      where: { id },
-    })
-    .catch(handleError);
+      .findUnique({
+        where: { id },
+      })
+      .catch(handleError);
   }
 
   async findMentorById(id: string) {

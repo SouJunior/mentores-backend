@@ -9,4 +9,3 @@ export class SuccessSwagger {
   @ApiProperty({ example: 'OK' })
   statusMessage: string;
 }
-

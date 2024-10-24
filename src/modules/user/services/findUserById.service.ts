@@ -3,7 +3,7 @@ import { UserRepository } from '../user.repository';
 
 @Injectable()
 export class GetUserByIdService {
-  constructor(private userRepository: UserRepository,) {}
+  constructor(private userRepository: UserRepository) {}
 
   async execute(id: string): Promise<any> {
     const user = await this.userRepository.findUserById(id);
