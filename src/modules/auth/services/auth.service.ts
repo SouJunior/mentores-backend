@@ -1,11 +1,15 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { MentorRepository } from '../../mentors/repository/mentor.repository';
+import { MailService } from 'src/modules/mails/mail.service';
+import { MentorRepository } from 'src/modules/mentors/repository/mentor.repository';
+import { UserRepository } from 'src/modules/user/user.repository';
 import { InfoLoginDto } from '../dtos/info-login.dto';
-import { accessAttemptMessage } from '../enums/message.enum';
-import { UserRepository } from '../../user/user.repository';
 import { InfoEntity } from '../entity/info.entity';
+import { MentorEntity } from 'src/modules/mentors/entities/mentor.entity';
+import { UserEntity } from 'src/modules/user/entities/user.entity';
+import { accessAttemptMessage } from '../enums/message.enum';
+
 
 @Injectable()
 export class AuthService {
@@ -13,6 +17,7 @@ export class AuthService {
     private mentorRepository: MentorRepository,
     private userRepository: UserRepository,
     private jwt: JwtService,
+    private mailService: MailService,
   ) {}
 
   async execute({ email, password, type }: InfoLoginDto) {
@@ -22,7 +27,7 @@ export class AuthService {
     } else {
       info = await this.userRepository.findUserByEmail(email);
     }
-    this.infoConfirm(info);
+    await this.infoConfirm(info, type);
 
     const passwordIsValid = await bcrypt.compare(password, info.password);
 
@@ -52,15 +57,19 @@ export class AuthService {
     };
   }
 
-  infoConfirm(info: InfoEntity) {
+  async infoConfirm(info: InfoEntity, type: string) {
     if (!info || info.deleted == true) {
       const message = 'invalid e-mail or password';
       throw new HttpException({ message }, HttpStatus.NOT_FOUND);
     }
 
     if (!info.emailConfirmed) {
-      const message =
-        'Your account is not activated yet. Check your e-mail inbox for instructions';
+
+      const message = 'Your account is not activated yet. Check your e-mail inbox for instructions'
+
+      if(type == 'mentor') await this.mailService.mentorSendCreationConfirmation(info as MentorEntity)
+      if(type == 'user') await this.mailService.userSendCreationConfirmation(info as UserEntity)
+
       throw new HttpException({ message }, HttpStatus.NOT_FOUND);
     }
 
