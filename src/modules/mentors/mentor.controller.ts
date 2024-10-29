@@ -48,6 +48,7 @@ import { FinishMentorRegisterService } from './services/finishMentorRegisterServ
 import { SwaggerCompleteRegister } from 'src/shared/Swagger/decorators/complete-register.swagger';
 import { SwaggerChangePassword } from 'src/shared/Swagger/decorators/change-password.swagger';
 import { SwaggerUploadProfileImage } from 'src/shared/Swagger/decorators/uploadProfileImage.swagger';
+import { ListAllRegisteredMentorsService } from './services/listAllRegisteredMentors.service';
 
 @ApiTags('mentor')
 @Controller('mentor')
@@ -65,6 +66,7 @@ export class MentorController {
     private updateMentorService: UpdateMentorService,
     private uploadProfileImageService: UploadProfileImageService,
     private finishMentorRegisterService: FinishMentorRegisterService,
+    private getRegisteredMentorsService: ListAllRegisteredMentorsService
   ) {}
 
   @Post()
@@ -79,6 +81,11 @@ export class MentorController {
     return this.listAllMentorsService.execute();
   }
 
+  @Get('registered')
+  async getRegisteredMentors() {
+    return await this.getRegisteredMentorsService.execute();
+  }
+
   @Get('search')
   @SwaggerGetMentor()
   async findByNameAndRole(
@@ -90,7 +97,7 @@ export class MentorController {
       specialty,
     );
 
-    return res.status(HttpStatus.OK).send(data);
+    return res.status(HttpStatus.OK).json(data);
   }
 
   @Get([':id'])

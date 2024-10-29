@@ -17,6 +17,8 @@ import { FinishMentorRegisterService } from './services/finishMentorRegisterServ
 import { RedefineMentorPasswordService } from './services/redefineMentorPassword.service';
 import { SendRestorationEmailService } from './services/sendRestorationEmail.service';
 import { UploadProfileImageService } from './services/uploadProfileImage.service';
+import { JwtService } from '@nestjs/jwt';
+import { ListAllRegisteredMentorsService } from './services/listAllRegisteredMentors.service';
 
 @Module({
   imports: [MailModule, PassportModule.register({ defaultStrategy: 'jwt' })],
@@ -25,6 +27,7 @@ import { UploadProfileImageService } from './services/uploadProfileImage.service
     CreateMentorService,
     UpdateMentorService,
     ListAllMentorsService,
+    ListAllRegisteredMentorsService,
     GetMentorByIdService,
     GetMentorByNameAndRoleService,
     ActivateMentorService,
@@ -37,6 +40,7 @@ import { UploadProfileImageService } from './services/uploadProfileImage.service
     MentorRepository,
     GenerateCodeUtil,
     FileUploadService,
+    JwtService
   ],
   exports: [MentorRepository],
 })

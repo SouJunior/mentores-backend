@@ -1,14 +1,15 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { MentorRepository } from '../mentors/repository/mentor.repository';
-import { InfoLoginDto } from './dtos/info-login.dto';
-import { accessAttemptMessage } from './enums/message.enum';
-import { UserRepository } from '../user/user.repository';
-import { InfoEntity } from './entity/info.entity';
-import { MailService } from '../mails/mail.service';
-import { MentorEntity } from '../mentors/entities/mentor.entity';
-import { UserEntity } from '../user/entities/user.entity';
+import { MailService } from 'src/modules/mails/mail.service';
+import { MentorRepository } from 'src/modules/mentors/repository/mentor.repository';
+import { UserRepository } from 'src/modules/user/user.repository';
+import { InfoLoginDto } from '../dtos/info-login.dto';
+import { InfoEntity } from '../entity/info.entity';
+import { MentorEntity } from 'src/modules/mentors/entities/mentor.entity';
+import { UserEntity } from 'src/modules/user/entities/user.entity';
+import { accessAttemptMessage } from '../enums/message.enum';
+
 
 @Injectable()
 export class AuthService {
