@@ -12,6 +12,7 @@ import { LoggedEntity } from '../auth/decorator/loggedEntity.decorator';
 import { MentorEntity } from '../mentors/entities/mentor.entity';
 import { GetCalendlyMentorInfoService } from './services/get-calendly-mentor-info.service';
 import { AuthGuard } from '@nestjs/passport';
+import { GetAllCalendlyMentorInfosService } from './services/get-all-calendly-mentor-infos.service';
 
 
 @Controller('calendly')
@@ -23,10 +24,16 @@ export class CalendlyController {
         private readonly fetchSchedulesService: FetchSchedulesService,
         private createCalendlyInfoService: CreateCalendlyInfoService,
         private updateCalendlyInfoService: UpdateCalendlyInfoService,
-        private getCalendlyMentorInfoService: GetCalendlyMentorInfoService
+        private getCalendlyMentorInfoService: GetCalendlyMentorInfoService,
+        private getAllCalendlyMentorInfosService: GetAllCalendlyMentorInfosService
       ) {}
-
+      
     @Get("")
+    async getAllCalendlyMentorInfos () {
+      return await this.getAllCalendlyMentorInfosService.execute();
+    }
+
+    @Get("mentorInfo")
     @UseGuards(AuthGuard())
     async getCalendlyMentorInfo (@LoggedEntity() mentor: MentorEntity) {
       return await this.getCalendlyMentorInfoService.execute(mentor.id);

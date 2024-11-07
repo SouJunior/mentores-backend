@@ -6,6 +6,10 @@ import { CreateCalendlyInfoDto, UpdateCalendlyInfoDto } from "../dto/calendly-in
 export class CalendlyRepository {
   constructor(private readonly prisma: PrismaService) {}
 
+  async getAllCalendlyMentorInfos() {
+    return this.prisma.calendlyInfo.findMany()
+  }
+
   async createCalendlyInfo(
     data: CreateCalendlyInfoDto,
     mentorId: string

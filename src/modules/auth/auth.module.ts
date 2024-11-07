@@ -7,13 +7,12 @@ import { AuthService } from './services/auth.service';
 import { JwtStrategy } from './jtw/jwt.strategy';
 import { UserModule } from '../user/user.module';
 import { MentorModule } from '../mentors/mentor.module';
-import { InitiateOAuthService } from '../calendly/services/calendlyOAuth.service';
-import { OAuthCallbackService } from '../calendly/services/calendly-callback.service';
-import { RefreshTokenService } from '../calendly/services/refresh-token.service';
+import { CalendlyModule } from '../calendly/calendly.module';
 
 @Module({
   imports: [
     MentorModule,
+    CalendlyModule,
     UserModule,
     ConfigModule.forRoot({ isGlobal: true }),
     PassportModule.register({ defaultStrategy: 'jwt' }),
