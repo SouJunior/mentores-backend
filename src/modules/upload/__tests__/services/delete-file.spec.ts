@@ -1,3 +1,4 @@
+import { InternalServerErrorException } from '@nestjs/common';
 import { FileUploadService } from '../../upload.service';
 
 jest.mock('aws-sdk', () => {
@@ -29,5 +30,15 @@ describe('FileUploadService', () => {
       Key: 'some-file-name',
     });
     expect(mockDeleteObject).toHaveBeenCalledTimes(1);
+  });
+
+  it('should throw an InternalServerErrorException on error', async () => {
+    mockDeleteObject.mockReturnValueOnce({
+      promise: jest.fn().mockRejectedValue(new Error('Some error')),
+    });
+
+    await expect(fileUploadService.deleteFile('some-file-name')).rejects.toThrowError(
+      InternalServerErrorException,
+    );
   });
 });
