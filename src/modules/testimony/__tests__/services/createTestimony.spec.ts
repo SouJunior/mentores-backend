@@ -9,12 +9,12 @@ describe('CreateTestimonyService', () => {
   let testimonyRepository: TestimonyRepository;
 
   beforeEach(async () => {
-    // Create mock repository
+    // Cria mock repository
     const mockTestimonyRepository = {
       createNewTestimony: jest.fn(),
     } as Partial<jest.Mocked<TestimonyRepository>>;
 
-    // Create testing module
+    // Cria testing module
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         CreateTestimonyService,
@@ -25,12 +25,12 @@ describe('CreateTestimonyService', () => {
       ],
     }).compile();
 
-    // Get service and repository instances
+    // Pega instancia do service e do repository
     service = module.get<CreateTestimonyService>(CreateTestimonyService);
     testimonyRepository = module.get(TestimonyRepository);
   });
 
-  // Test successful testimony creation
+  // Testa criacao bem sucedida de testimony.
   it('should create a testimony with mentor data', async () => {
     // Arrange: Prepare test data
     const mentorData: MentorEntity = {
@@ -60,10 +60,10 @@ describe('CreateTestimonyService', () => {
       .spyOn(testimonyRepository, 'createNewTestimony')
       .mockResolvedValue(undefined);
 
-    // Act: Execute the service method
+    // Act: Executa o método da service
     const result = await service.execute(createTestimonyDto, mentorData);
 
-    // Assert: Verify the expected behavior
+    // Assert: Verifica comportamento esperado
     expect(testimonyRepository.createNewTestimony).toHaveBeenCalledWith(
       {
         ...createTestimonyDto,
@@ -94,7 +94,6 @@ describe('CreateTestimonyService', () => {
       fullName: 'John Doe',
       profile: 'http://example.com/profile.jpg',
       specialties: ['JavaScript', 'React'],
-      // Add other required mentor properties
       dateOfBirth: new Date(),
       password: 'password',
       email: 'john@example.com',
@@ -105,7 +104,7 @@ describe('CreateTestimonyService', () => {
       aboutMe: 'Test mentor',
     };
 
-    // Simulate repository error
+    // Simula erro no repository
     const mockError = new Error('Repository creation failed');
     jest
       .spyOn(testimonyRepository, 'createNewTestimony')
