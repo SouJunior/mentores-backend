@@ -6,6 +6,7 @@ import { UserRepository } from 'src/modules/user/user.repository';
 import { JwtService } from '@nestjs/jwt';
 import { MailService } from 'src/modules/mails/mail.service';
 import { LoginTypeEnum } from '../../enums/login-type.enum';
+import { CalendlyRepository } from 'src/modules/calendly/repository/calendly.repository';
 
 describe('AuthService', () => {
   let authService: AuthService;
@@ -13,6 +14,7 @@ describe('AuthService', () => {
   let userRepository: UserRepository;
   let jwtService: JwtService;
   let mailService: MailService;
+  let calendlyRepository: CalendlyRepository;
 
   beforeEach(() => {
     mentorRepository = {
@@ -35,6 +37,7 @@ describe('AuthService', () => {
     } as any;
 
     authService = new AuthService(
+      calendlyRepository,
       mentorRepository,
       userRepository,
       jwtService,

@@ -7,6 +7,7 @@ import { InfoLoginDto } from '../../dtos/info-login.dto';
 import { LoginTypeEnum } from '../../enums/login-type.enum';
 import { InfoEntity } from '../../entity/info.entity';
 import * as bcrypt from 'bcrypt';
+import { CalendlyRepository } from 'src/modules/calendly/repository/calendly.repository';
 
 describe('AuthService', () => {
   let authService: AuthService;
@@ -14,6 +15,8 @@ describe('AuthService', () => {
   let userRepository: UserRepository;
   let jwtService: JwtService;
   let mailService: MailService;
+  let calendlyRepository: CalendlyRepository;
+
 
   beforeEach(() => {
     mentorRepository = {
@@ -35,7 +38,12 @@ describe('AuthService', () => {
       userSendCreationConfirmation: jest.fn(),
     } as any;
 
+    calendlyRepository = {
+      getCalendlyInfoByMentorId: jest.fn().mockResolvedValue(null),
+    } as any;
+
     authService = new AuthService(
+      calendlyRepository,
       mentorRepository,
       userRepository,
       jwtService,
@@ -83,6 +91,7 @@ describe('AuthService', () => {
             fullName: mockInfo.fullName,
             dateOfBirth: '1990-01-01',
             specialties: mockInfo.specialties,
+            calendlyName: "",
           },
         },
       });

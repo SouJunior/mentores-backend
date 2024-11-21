@@ -1,4 +1,3 @@
-import { MentorRepository } from 'src/modules/mentors/repository/mentor.repository';
 import { AuthService } from '../../services/auth.service';
 import { UserRepository } from 'src/modules/user/user.repository';
 import { JwtService } from '@nestjs/jwt';
@@ -8,6 +7,8 @@ import { LoginTypeEnum } from '../../enums/login-type.enum';
 import { InfoEntity } from '../../entity/info.entity';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
+import { CalendlyRepository } from 'src/modules/calendly/repository/calendly.repository';
+import { MentorRepository } from 'src/modules/mentors/repository/mentor.repository';
 
 describe('AuthService', () => {
   let authService: AuthService;
@@ -15,6 +16,8 @@ describe('AuthService', () => {
   let userRepository: UserRepository;
   let jwtService: JwtService;
   let mailService: MailService;
+  let calendlyRepository: CalendlyRepository;
+
 
   beforeEach(() => {
     mentorRepository = {
@@ -37,6 +40,7 @@ describe('AuthService', () => {
     } as any;
 
     authService = new AuthService(
+      calendlyRepository,
       mentorRepository,
       userRepository,
       jwtService,
