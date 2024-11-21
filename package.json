@@ -24,8 +24,7 @@
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:migrate:deploy": "prisma migrate deploy",
-    "prisma": "prisma",
-    "prepare": "husky install"
+    "prisma": "prisma"
   },
   "dependencies": {
     "@nestjs-modules/mailer": "^1.8.1",

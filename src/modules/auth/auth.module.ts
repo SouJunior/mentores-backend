@@ -8,10 +8,12 @@ import { JwtStrategy } from './jtw/jwt.strategy';
 import { UserModule } from '../user/user.module';
 import { MentorModule } from '../mentors/mentor.module';
 import HashAdapter from 'src/lib/adapter/hash/hashAdapter';
+import { CalendlyModule } from '../calendly/calendly.module';
 
 @Module({
   imports: [
     MentorModule,
+    CalendlyModule,
     UserModule,
     ConfigModule.forRoot({ isGlobal: true }),
     PassportModule.register({ defaultStrategy: 'jwt' }),
