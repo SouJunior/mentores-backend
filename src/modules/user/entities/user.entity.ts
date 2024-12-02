@@ -2,7 +2,7 @@ export class UserEntity {
   id?: string;
   fullName: string;
   dateOfBirth: string | Date;
-  password: string;
+  password?: string;
   email: string;
   emailConfirmed?: boolean;
   aboutMe: string;

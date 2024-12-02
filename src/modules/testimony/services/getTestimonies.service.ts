@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { MentorRepository } from 'src/modules/mentors/repository/mentor.repository';
+import { MentorRepository } from '../../../modules/mentors/repository/mentor.repository';
 import { TestimonyRepository } from '../repository/testimony.repository';
 
 @Injectable()

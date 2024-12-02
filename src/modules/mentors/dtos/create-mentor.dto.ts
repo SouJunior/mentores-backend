@@ -88,7 +88,6 @@ export class CreateMentorDto {
   })
   passwordConfirmation: string;
 
-  @Exclude()
   @IsOptional()
   code: string;
 }

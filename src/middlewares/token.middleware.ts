@@ -1,9 +1,9 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { NextFunction, Request, Response } from 'express';
 import { JwtService } from '@nestjs/jwt';
-import { RefreshTokenService } from 'src/modules/calendly/services/refresh-token.service';
-import { MentorRepository } from 'src/modules/mentors/repository/mentor.repository';
-import { CalendlyRepository } from 'src/modules/calendly/repository/calendly.repository';
+import { RefreshTokenService } from '../modules/calendly/services/refresh-token.service';
+import { MentorRepository } from '../modules/mentors/repository/mentor.repository';
+import { CalendlyRepository } from '../modules/calendly/repository/calendly.repository';
 
 @Injectable()
 export class TokenMiddleware implements NestMiddleware {
