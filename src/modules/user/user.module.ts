@@ -3,7 +3,7 @@ import { UserController } from './user.controller';
 import { MailModule } from '../mails/mail.module';
 import { PassportModule } from '@nestjs/passport';
 import { UserRepository } from './user.repository';
-import { GenerateCodeUtil } from 'src/shared/utils/generate-code.util';
+import { GenerateCodeUtil } from '../../shared/utils/generate-code.util';
 import { FileUploadService } from '../upload/upload.service';
 import { ActivateUserService } from './services/activateUser.service';
 import { CreateUserService } from './services/createUser.service';

@@ -1,19 +1,21 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { MailService } from 'src/modules/mails/mail.service';
-import { MentorRepository } from 'src/modules/mentors/repository/mentor.repository';
-import { UserRepository } from 'src/modules/user/user.repository';
+import { MailService } from '../../../modules/mails/mail.service';
+import { MentorRepository } from '../../../modules/mentors/repository/mentor.repository';
+import { UserRepository } from '../../../modules/user/user.repository';
 import { InfoLoginDto } from '../dtos/info-login.dto';
 import { InfoEntity } from '../entity/info.entity';
-import { MentorEntity } from 'src/modules/mentors/entities/mentor.entity';
-import { UserEntity } from 'src/modules/user/entities/user.entity';
+import { MentorEntity } from '../../../modules/mentors/entities/mentor.entity';
+import { UserEntity } from '../../../modules/user/entities/user.entity';
 import { accessAttemptMessage } from '../enums/message.enum';
+import { CalendlyRepository } from '../../../modules/calendly/repository/calendly.repository';
 
 
 @Injectable()
 export class AuthService {
   constructor(
+    private calendlyRepository: CalendlyRepository,
     private mentorRepository: MentorRepository,
     private userRepository: UserRepository,
     private jwt: JwtService,
@@ -24,6 +26,7 @@ export class AuthService {
     let info: InfoEntity;
     if (type === 'mentor') {
       info = await this.mentorRepository.findMentorByEmail(email);
+      
     } else {
       info = await this.userRepository.findUserByEmail(email);
     }
@@ -41,6 +44,15 @@ export class AuthService {
     } else {
       await this.userRepository.updateUser(info.id, info);
     }
+
+    const calendlyMentorData = await this.calendlyRepository.getCalendlyInfoByMentorId(info.id)
+
+    if (!calendlyMentorData) {
+      info.calendlyName = ""
+    } else {
+      info.calendlyName = calendlyMentorData.calendlyName
+    }
+
 
     delete info.password;
     delete info.code;

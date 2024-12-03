@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Exclude, Transform } from 'class-transformer';
+import { Transform } from 'class-transformer';
 import {
   IsDate,
   IsEmail,
@@ -53,6 +53,7 @@ export class CreateMentorDto {
   @MaxLength(100, { message: 'Maximum of 100 characters exceeded' })
   @IsNotEmpty({ message: "the 'emailConfirm' field must not be empty" })
   @Transform(({ value }) => value.toLowerCase())
+  @IsOptional()
   @ApiProperty({
     required: true,
     example: 'fulano.de.tal@dominio.com',
@@ -60,7 +61,7 @@ export class CreateMentorDto {
   @Match('email', {
     message: 'The emails dont match',
   })
-  emailConfirm: string;
+  emailConfirm?: string;
 
   @IsNotEmpty({ message: "the 'password' field must not be empty" })
   @IsString({ message: 'Only strings are allowed in this field' })
@@ -79,6 +80,7 @@ export class CreateMentorDto {
 
   @IsNotEmpty({ message: "the 'passwordConfirmation' field must not be empty" })
   @IsString()
+  @IsOptional()
   @ApiProperty({
     description: 'Confirmação de senha',
     example: 'Abcd@123',
@@ -86,9 +88,8 @@ export class CreateMentorDto {
   @Match('password', {
     message: 'The password does not match with the password confirmation',
   })
-  passwordConfirmation: string;
+  passwordConfirmation?: string;
 
-  @Exclude()
   @IsOptional()
-  code: string;
+  code?: string;
 }

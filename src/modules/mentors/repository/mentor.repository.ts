@@ -79,7 +79,7 @@ export class MentorRepository extends PrismaClient {
     return mentors;
   }
 
-  async desativateMentorById(id: string): Promise<MentorEntity> {
+  async deactivateMentorById(id: string): Promise<MentorEntity> {
     return this.mentors
       .update({
         where: {
