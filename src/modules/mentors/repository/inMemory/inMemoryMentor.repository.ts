@@ -1,15 +1,13 @@
-import { Injectable } from "@nestjs/common";
-import { MentorEntity } from "../../entities/mentor.entity";
-import { CreateMentorDto } from "../../dtos/create-mentor.dto";
-import { UpdateMentorDto } from "../../dtos/update-mentor.dto";
-import { MentorRepository } from "../mentor.repository";
-
+import { Injectable } from '@nestjs/common';
+import { MentorEntity } from '../../entities/mentor.entity';
+import { CreateMentorDto } from '../../dtos/create-mentor.dto';
+import { UpdateMentorDto } from '../../dtos/update-mentor.dto';
 
 @Injectable()
 export class InMemoryMentorRepository {
-  private mentors: MentorEntity[] = [];
+  public mentors: MentorEntity[] = [];
   private idCounter = 1;
-
+  constructor() {}
   async createNewMentor(data: CreateMentorDto): Promise<MentorEntity> {
     const newMentor: MentorEntity = {
       id: String(this.idCounter++),
@@ -34,11 +32,17 @@ export class InMemoryMentorRepository {
   }
 
   async findMentorByEmail(email: string): Promise<MentorEntity | null> {
-    return this.mentors.find((mentor) => mentor.email === email && !mentor.deleted) || null;
+    return (
+      this.mentors.find(
+        (mentor) => mentor.email === email && !mentor.deleted,
+      ) || null
+    );
   }
 
   async findFullMentorById(id: string): Promise<MentorEntity | null> {
-    return this.mentors.find((mentor) => mentor.id === id && !mentor.deleted) || null;
+    return (
+      this.mentors.find((mentor) => mentor.id === id && !mentor.deleted) || null
+    );
   }
 
   async findMentorById(id: string) {
@@ -122,3 +126,4 @@ export class InMemoryMentorRepository {
     }
   }
 }
+
