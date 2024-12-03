@@ -6,7 +6,7 @@ export class DesactivateLoggedMentorService {
   constructor(private mentorRepository: MentorRepository) {}
 
   async execute(id: string): Promise<{ message: string }> {
-    await this.mentorRepository.desativateMentorById(id);
+    await this.mentorRepository.deactivateMentorById(id);
 
     return { message: 'Mentor deactivated successfully' };
   }

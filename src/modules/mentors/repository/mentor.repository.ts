@@ -16,7 +16,9 @@ export class MentorRepository extends PrismaClient {
   }
 
   async findAllRegisteredMentors(): Promise<MentorEntity[]> {
-    return this.mentors.findMany({where: { registerComplete: true }}).catch(handleError);
+    return this.mentors
+      .findMany({ where: { registerComplete: true } })
+      .catch(handleError);
   }
 
   async findMentorByEmail(email: string): Promise<MentorEntity> {
@@ -79,7 +81,7 @@ export class MentorRepository extends PrismaClient {
     return mentors;
   }
 
-  async desativateMentorById(id: string): Promise<MentorEntity> {
+  async deactivateMentorById(id: string): Promise<MentorEntity> {
     return this.mentors
       .update({
         where: {
