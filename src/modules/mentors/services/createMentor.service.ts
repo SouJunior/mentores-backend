@@ -13,7 +13,7 @@ export class CreateMentorService {
     private mailService: MailService, // private Encrypt
   ) {}
 
-  async execute(data: CreateMentorDto): Promise<{ message: string }> {
+  async execute(data: CreateMentorDto): Promise<{ message: string, statusCode: number }> {
     data.dateOfBirth = new Date(data.dateOfBirth);
     const generateCodeUtil = new GenerateCodeUtil();
     const mentorAlreadyExists = await this.mentorRepository.findMentorByEmail(
@@ -34,6 +34,6 @@ export class CreateMentorService {
 
     await this.mailService.mentorSendCreationConfirmation(newMentor);
 
-    return { message: 'Mentor created successfully' };
+    return { message: 'Mentor created successfully', statusCode: 201 };
   }
 }

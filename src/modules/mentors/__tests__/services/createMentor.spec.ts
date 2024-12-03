@@ -127,7 +127,7 @@ it('Deve lançar erro caso a data de nascimento seja inválida', async () => {
   expect(inMemoryMentorRepository.mentors.length).toEqual(0);
 });
 
-it('Deve garantir que a senha do mentor foi hashada corretamente', async () => {
+it('Deve garantir que a senha do mentor foi "hashada" corretamente', async () => {
   const mentorData: CreateMentorDto = {
     email: 'hash.password@example.com',
     password: 'Password@123',
