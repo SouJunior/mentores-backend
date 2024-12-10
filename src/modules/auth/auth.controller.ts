@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  HttpException,
   Post,
   Res,
   UseGuards,
@@ -27,9 +28,17 @@ export class AuthController {
   @Post('/login')
   @SwaggerLogin()
   async login(@Body() loginData: InfoLoginDto, @Res() res: Response) {
-    const { status, data } = await this.authService.execute(loginData);
-
-    return res.status(status).send(data);
+    try {
+      const { status, data } = await this.authService.execute(loginData);
+      
+      return res.status(status).send(data);
+    } catch (error) {
+      if (error instanceof HttpException) {
+        return res.status(error.getStatus()).send(error.getResponse());
+      } else {
+        return res.status(500).send({ message: 'Internal Server Error' });
+      }
+    }
   }
 
   @Get('/user-logged')
