@@ -11,7 +11,6 @@ import { UserEntity } from 'src/modules/user/entities/user.entity';
 import { accessAttemptMessage } from '../enums/message.enum';
 import { CalendlyRepository } from 'src/modules/calendly/repository/calendly.repository';
 
-
 @Injectable()
 export class AuthService {
   constructor(
@@ -26,7 +25,6 @@ export class AuthService {
     let info: InfoEntity;
     if (type === 'mentor') {
       info = await this.mentorRepository.findMentorByEmail(email);
-      
     } else {
       info = await this.userRepository.findUserByEmail(email);
     }
@@ -45,14 +43,14 @@ export class AuthService {
       await this.userRepository.updateUser(info.id, info);
     }
 
-    const calendlyMentorData = await this.calendlyRepository.getCalendlyInfoByMentorId(info.id)
+    const calendlyMentorData =
+      await this.calendlyRepository.getCalendlyInfoByMentorId(info.id);
 
     if (!calendlyMentorData) {
-      info.calendlyName = ""
+      info.calendlyName = '';
     } else {
-      info.calendlyName = calendlyMentorData.calendlyName
+      info.calendlyName = calendlyMentorData.calendlyName;
     }
-
 
     delete info.password;
     delete info.code;
@@ -76,11 +74,15 @@ export class AuthService {
     }
 
     if (!info.emailConfirmed) {
+      const message =
+        'Your account is not activated yet. Check your e-mail inbox for instructions';
 
-      const message = 'Your account is not activated yet. Check your e-mail inbox for instructions'
-
-      if(type == 'mentor') await this.mailService.mentorSendCreationConfirmation(info as MentorEntity)
-      if(type == 'user') await this.mailService.userSendCreationConfirmation(info as UserEntity)
+      if (type == 'mentor')
+        await this.mailService.mentorSendCreationConfirmation(
+          info as MentorEntity,
+        );
+      if (type == 'user')
+        await this.mailService.userSendCreationConfirmation(info as UserEntity);
 
       throw new HttpException({ message }, HttpStatus.NOT_FOUND);
     }
