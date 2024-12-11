@@ -90,7 +90,7 @@ export class MailService {
 
   async mentorSendAccountDeletionNotice(mentor: MentorEntity): Promise<void> {
     // Desestruturar mentor
-    const { email, fullName, code } = mentor;
+    const { email, fullName } = mentor;
 
     // url para logar e reativar a conta
     const loginUrl = process.env.LOGIN_URL;

@@ -165,9 +165,10 @@ export class MentorController {
   }
 
   @ApiExcludeEndpoint()
-  @Patch(':id')
-  async deactivateLoggedEntity(@Param() { id }: GetByIdDto) {
-    return this.deactivateLoggedMentorService.execute(id);
+  @UseGuards(AuthGuard())
+  @Patch()
+  async deactivateLoggedEntity(@LoggedEntity() mentor: MentorEntity) {
+    return this.deactivateLoggedMentorService.execute(mentor);
   }
 
   @SwaggerRestoreAccountEmail()
