@@ -19,9 +19,14 @@ import { SendRestorationEmailService } from './services/sendRestorationEmail.ser
 import { UploadProfileImageService } from './services/uploadProfileImage.service';
 import { JwtService } from '@nestjs/jwt';
 import { ListAllRegisteredMentorsService } from './services/listAllRegisteredMentors.service';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
-  imports: [MailModule, PassportModule.register({ defaultStrategy: 'jwt' })],
+  imports: [
+    MailModule,
+    PassportModule.register({ defaultStrategy: 'jwt' }),
+    ScheduleModule.forRoot(),
+  ],
   controllers: [MentorController],
   providers: [
     CreateMentorService,
