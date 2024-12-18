@@ -19,7 +19,7 @@ export class DeactivateLoggedMentorService {
 
     await this.mailService.mentorSendAccountDeletionNotice(mentor);
 
-    // await this.mentorRepository.deactivateMentorById(mentor.id);
+    await this.mentorRepository.deactivateMentorById(mentor.id);
 
     return { message: 'Email sent successfully' };
   }
