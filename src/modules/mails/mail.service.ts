@@ -34,7 +34,6 @@ export class MailService {
 
     const url = `${URL_CONFIRM_EMAIL}?code=${code}&email=${email}`;
 
-    console.log(this.mailerService);
     try {
       await this.mailerService
         .sendMail({

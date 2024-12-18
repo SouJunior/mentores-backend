@@ -138,8 +138,6 @@ describe('Create mentor (E2E)', () => {
                 fullName: "Incomplete Data",
                 email: "incomplete@instrete.com",
             });
-
-            console.log(response.body)
     
         expect(response.statusCode).toBe(400);
         
@@ -164,6 +162,43 @@ describe('Create mentor (E2E)', () => {
             "Password must have a minimum of 8 characters, a capital letter, a number and a symbol"
         );
     });
+
+    test("[POST] /mentor - Error when email format is invalid", async () => {
+        const response = await request(app.getHttpServer())
+            .post("/mentor")
+            .send({
+                fullName: "Invalid Email",
+                email: "invalid-email",
+                emailConfirm: "invalid-email",
+                dateOfBirth: "1990-01-01",
+                password: "Xandao@2024",
+                passwordConfirmation: "Xandao@2024"
+            });
+    
+        expect(response.statusCode).toBe(400);
+        expect(response.body.message).toContain("Invalid e-mail format");
+    });
+
+    test("[POST] /mentor - Error when name exceeds character limit", async () => {
+        const longName = "A".repeat(101);
+        const response = await request(app.getHttpServer())
+            .post("/mentor")
+            .send({
+                fullName: longName,
+                email: "longname@instrete.com",
+                emailConfirm: "longname@instrete.com",
+                dateOfBirth: "1990-01-01",
+                password: "Xandao@2024",
+                passwordConfirmation: "Xandao@2024"
+            });
+    
+        expect(response.statusCode).toBe(400);
+        expect(response.body.message).toContain("Maximum of 100 characters exceeded");
+    });    
+
+    afterEach(async () => {
+        await prisma.mentors.deleteMany()
+      })
 
     afterAll(async () => {
         await app.close();
