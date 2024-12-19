@@ -73,6 +73,7 @@ export class MentorRepository extends PrismaClient {
           profile: true,
           aboutMe: true,
           registerComplete: true,
+          deleted: true,
           createdAt: true,
           updatedAt: true,
         },

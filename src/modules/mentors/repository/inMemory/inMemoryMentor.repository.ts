@@ -47,8 +47,8 @@ export class InMemoryMentorRepository {
 
   async findMentorById(id: string) {
     const mentor = this.mentors.find(
-      (mentor) => mentor.id === id && !mentor.deleted,
-    );
+      (mentor) => mentor.id === id);
+
     if (!mentor) return null;
 
     const {
@@ -61,6 +61,7 @@ export class InMemoryMentorRepository {
       profile,
       aboutMe,
       registerComplete,
+      deleted,
       createdAt,
       updatedAt,
     } = mentor;
@@ -75,6 +76,7 @@ export class InMemoryMentorRepository {
       profile,
       aboutMe,
       registerComplete,
+      deleted,
       createdAt,
       updatedAt,
     };
@@ -93,7 +95,7 @@ export class InMemoryMentorRepository {
     );
   }
 
-  async desativateMentorById(id: string): Promise<MentorEntity | null> {
+  async deactivateMentorById(id: string): Promise<MentorEntity | null> {
     const mentor = this.mentors.find((mentor) => mentor.id === id);
     if (mentor) {
       mentor.deleted = true;

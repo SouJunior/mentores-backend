@@ -44,7 +44,7 @@ describe('CreateMentorService', () => {
       }),
     );
     expect(inMemoryMentorRepository.mentors.length).toEqual(1);
-    expect(result).toEqual({ message: 'Mentor created successfully' });
+    expect(result).toEqual({ message: 'Mentor created successfully', statusCode: 201 });
   });
 
   it('Deve lançar erro caso o mentor já exista', async () => {
@@ -89,8 +89,9 @@ describe('CreateMentorService', () => {
     };
 
     const result = await createMentorService.execute(mentorData as any);
+
     expect(inMemoryMentorRepository.mentors.length).toEqual(1);
-    expect(result).toEqual({ message: 'Mentor created successfully' });
+    expect(result).toEqual({ message: 'Mentor created successfully' , statusCode: 201});
   });
 
 it('Deve lançar erro caso a senha não seja forte o suficiente', async () => {
@@ -144,6 +145,6 @@ it('Deve garantir que a senha do mentor foi "hashada" corretamente', async () =>
 
   expect(createdMentor.password).toMatch(/^\$2[ayb]\$.{56}$/);
 
-  expect(result).toEqual({ message: 'Mentor created successfully' });
+  expect(result).toEqual({ message: 'Mentor created successfully' , statusCode: 201});
 });
 });
