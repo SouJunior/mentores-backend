@@ -128,7 +128,7 @@ export class MailService {
         .sendMail({
           to: email,
           subject: 'Lembrete de desativação de conta - SouJunior',
-          template: './secondDeactivationNotice',
+          template: './secondDeactivationNotification',
           context: {
             name: fullName,
           },
@@ -149,7 +149,7 @@ export class MailService {
         .sendMail({
           to: email,
           subject: 'Sua conta será permanentemente desativada - SouJunior',
-          template: './thirdDeactivationNotice',
+          template: './thirdDeactivationNotification',
           context: {
             name: fullName,
           },

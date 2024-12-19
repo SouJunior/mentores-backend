@@ -17,6 +17,7 @@ import { MentorModule } from './modules/mentors/mentor.module';
 import { TokenMiddleware } from './middlewares/token.middleware';
 import { MentorController } from './modules/mentors/mentor.controller';
 import { CalendlyModule } from './modules/calendly/calendly.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { CalendlyModule } from './modules/calendly/calendly.module';
     MailModule,
     TestimonyModule,
     CalendlyModule,
+    ScheduleModule,
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],
