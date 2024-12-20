@@ -53,7 +53,6 @@ export class DeactivateLoggedMentorService {
     }
   }
 
-  // Usa o cron para verificar todo dia à meia noite se há alterações nos mentores desativados.
   @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
   async handleDeactivationNotifications() {
     try {
