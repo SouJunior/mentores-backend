@@ -94,7 +94,6 @@ export class MailService {
 
     // url para logar e reativar a conta
     const loginUrl = process.env.LOGIN_URL;
-    // TODO: SOLICITAR A URL PARA LOGIN
 
     try {
       await this.mailerService
@@ -105,9 +104,8 @@ export class MailService {
           context: {
             name: fullName,
             loginUrl,
-            // Para testar, irei deixar a hora de exclusão daqui a 1 hora.
             deletionDate: new Date(
-              Date.now() + 1 * 60 * 1000, // 1 minuto (para fins de testes)
+              Date.now() + 1 * 60 * 1000,
             ).toLocaleDateString('pt-BR'),
           },
         })
@@ -119,7 +117,6 @@ export class MailService {
     return;
   }
 
-  //TODO: IMPLEMENTAR
   async mentorSendSecondDeactivationNotice(mentor: MentorEntity) {
     const { email, fullName } = mentor;
 
@@ -140,7 +137,6 @@ export class MailService {
     return;
   }
 
-  //TODO: IMPLEMENTAR
   async mentorSendThirdDeactivationNotice(mentor: MentorEntity) {
     const { email, fullName } = mentor;
 
