@@ -1,8 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import {
+  ArrayMaxSize,
+  ArrayMinSize,
+  IsArray,
+  IsBoolean,
   IsDate,
   IsEmail,
+  IsEnum,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -11,6 +16,7 @@ import {
   MaxLength,
 } from 'class-validator';
 import { Match } from '../decorators/match.decorator';
+import { Specialties } from '../enums/specialties.enum';
 
 export class CreateMentorDto {
   @IsString()
@@ -92,4 +98,22 @@ export class CreateMentorDto {
 
   @IsOptional()
   code?: string;
+
+  @IsOptional()
+  @IsArray()
+  @IsEnum(Specialties, { each: true })
+  @IsString({ each: true })
+  @ArrayMinSize(1)
+  @ArrayMaxSize(6)
+  @ApiProperty({
+    required: true,
+    type: 'String array',
+    example: 'Front-End, Back-End, QA, Dev Ops',
+  })
+  specialties?: string[];
+
+  @IsBoolean()
+  @IsOptional()
+  @IsNotEmpty()
+  registerComplete?: boolean;
 }

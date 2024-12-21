@@ -10,7 +10,7 @@ import { GenerateCodeUtil } from '../../../shared/utils/generate-code.util';
 export class CreateMentorService {
   constructor(
     private mentorRepository: MentorRepository,
-    private mailService: MailService, // private Encrypt
+    private mailService: MailService,
   ) {}
 
   async execute(data: CreateMentorDto): Promise<{ message: string, statusCode: number }> {

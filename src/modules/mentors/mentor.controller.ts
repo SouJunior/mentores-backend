@@ -175,7 +175,7 @@ export class MentorController {
 
   @ApiExcludeEndpoint()
   @Patch(':id')
-  async deactivateLoggedEntity(@Param() { id }: GetByIdDto) {
+  async deactivateEntity(@Param() { id }: GetByIdDto) {
     return this.deactivateLoggedMentorService.execute(id);
   }
 
