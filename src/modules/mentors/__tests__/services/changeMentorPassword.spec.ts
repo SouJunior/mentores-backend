@@ -117,8 +117,6 @@ describe('ChangeMentorPasswordService', () => {
     };
   
     const result = await changeMentorPasswordService.execute(mentor, dto);
-
-    console.log(result)
   
     expect(result.status).toBe(400);
     expect(result.message).toBe('The password does not match with the password confirmation');

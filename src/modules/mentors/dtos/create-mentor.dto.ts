@@ -9,6 +9,7 @@ import {
   IsEmail,
   IsEnum,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
   Matches,
@@ -111,6 +112,10 @@ export class CreateMentorDto {
     example: 'Front-End, Back-End, QA, Dev Ops',
   })
   specialties?: string[];
+
+  @IsNumber()
+  @IsOptional()
+  accessAttempt?: number
 
   @IsBoolean()
   @IsOptional()
