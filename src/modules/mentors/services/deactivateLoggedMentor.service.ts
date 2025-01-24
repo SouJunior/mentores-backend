@@ -1,3 +1,14 @@
+/**
+ * Serviço responsável por gerenciar a desativação de mentores e o envio de notificações.
+ * Implementa um sistema automatizado que envia três níveis de notificações em diferentes
+ * períodos após a desativação inicial da conta.
+ *
+ * Principais funcionalidades:
+ * - Desativação da conta do mentor
+ * - Envio automático de notificações em intervalos específicos
+ * - Monitoramento e registro de todas as operações
+ */
+
 /* eslint-disable prettier/prettier */
 import { MailService } from 'src/modules/mails/mail.service';
 import { MentorRepository } from '../repository/mentor.repository';
@@ -7,9 +18,22 @@ import { Cron, CronExpression } from '@nestjs/schedule';
 
 @Injectable()
 export class DeactivateLoggedMentorService {
-  // TESTING THRESHOLDS (in minutes)
+  /**
+   * Logger para registro de operações e erros do serviço
+   * @private
+   */
   private readonly logger = new Logger(DeactivateLoggedMentorService.name);
+
+  /**
+   * Número de dias após a desativação para enviar a segunda notificação
+   * @private
+   */
   private readonly SECOND_NOTICE_DAYS = 15;
+
+  /**
+   * Número de dias após a desativação para enviar a terceira notificação
+   * @private
+   */
   private readonly THIRD_NOTICE_DAYS = 28;
 
   constructor(
@@ -17,6 +41,13 @@ export class DeactivateLoggedMentorService {
     private mailService: MailService,
   ) {}
 
+  /**
+   * Executa o processo de desativação da conta do mentor.
+   *
+   * @param mentor - Entidade do mentor a ser desativado
+   * @returns Objeto contendo mensagem de confirmação da desativação
+   * @throws Error quando o mentor não é encontrado ou ocorre falha no processo
+   */
   async execute(mentor: MentorEntity): Promise<{ message: string }> {
     try {
       const mentorExists = await this.mentorRepository.findMentorById(
@@ -27,11 +58,11 @@ export class DeactivateLoggedMentorService {
         throw new Error('Mentor not found');
       }
 
-      // Set deleted status and deactivation date
+      // Define o status como desativado e registra a data
       await this.mentorRepository.deactivateMentorById(mentor.id);
 
       try {
-        // Send first notification immediately
+        // Envia primeira notificação imediatamente após desativação
         await this.mailService.mentorSendFirstDeactivationNotice(mentor);
         this.logger.log(
           `Primeira notificação enviada com sucesso para mentor ${mentor.id}`,
@@ -53,6 +84,11 @@ export class DeactivateLoggedMentorService {
     }
   }
 
+  /**
+   * Método agendado que executa diariamente à meia-noite.
+   * Verifica e processa o envio de notificações para mentores desativados
+   * com base no tempo decorrido desde a desativação.
+   */
   @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
   async handleDeactivationNotifications() {
     try {
@@ -85,12 +121,19 @@ export class DeactivateLoggedMentorService {
     }
   }
 
+  /**
+   * Processa o envio de notificações com base no número de dias desde a desativação.
+   * Implementa uma margem de 1 dia para garantir o envio das notificações.
+   *
+   * @param mentor - Entidade do mentor para envio da notificação
+   * @param daysSince - Número de dias desde a desativação da conta
+   */
   private async processNotification(
     mentor: MentorEntity,
     daysSince: number,
   ): Promise<void> {
     try {
-      // Verifica se está exatamente no dia 15 (com margem de 1 dia para garantir envio da notificacao)
+      // Verifica período para segunda notificação (15 dias)
       if (
         daysSince >= this.SECOND_NOTICE_DAYS &&
         daysSince < this.SECOND_NOTICE_DAYS + 1
@@ -101,7 +144,7 @@ export class DeactivateLoggedMentorService {
         await this.mailService.mentorSendSecondDeactivationNotice(mentor);
       }
 
-      // Verifica se está exatamente no dia 28 (com marge de 1 dia para garantir envio da notificacao)
+      // Verifica período para terceira notificação (28 dias)
       if (
         daysSince >= this.THIRD_NOTICE_DAYS &&
         daysSince < this.THIRD_NOTICE_DAYS + 1
@@ -119,15 +162,24 @@ export class DeactivateLoggedMentorService {
     }
   }
 
-  // cria propriedade para pegar os dias desde a desativação da conta
+  /**
+   * Calcula o número de dias decorridos desde a data de desativação.
+   *
+   * @param deactivationDate - Data em que a conta foi desativada
+   * @returns Número de dias desde a desativação
+   */
   private getDaysSinceDeactivation(deactivationDate: Date): number {
-    // agora
     const now = new Date();
     const diffTime = now.getTime() - deactivationDate.getTime();
-    // retorna a quantidade de dias
     return Math.floor(diffTime / (1000 * 60 * 60 * 24));
   }
 
+  /**
+   * Formata data e hora no padrão brasileiro.
+   *
+   * @param date - Data a ser formatada
+   * @returns String no formato dd/mm/yy HH:mm:ss
+   */
   private formatDateTime(date: Date): string {
     return date.toLocaleString('pt-BR', {
       day: '2-digit',
