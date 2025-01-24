@@ -36,7 +36,7 @@ import { MentorChangePassDto } from './dtos/mentor-change-pass.dto';
 import { ActivateMentorService } from './services/activateMentor.service';
 import { ChangeMentorPasswordService } from './services/changeMentorPassword.service';
 import { CreateMentorService } from './services/createMentor.service';
-import { DesactivateLoggedMentorService } from './services/deactivateLoggedMentor.service';
+import { DeactivateLoggedMentorService } from './services/deactivateLoggedMentor.service';
 import { GetMentorByIdService } from './services/getMentorById.service';
 import { GetMentorByNameAndRoleService } from './services/getMentorByNameAndRole.service';
 import { ListAllMentorsService } from './services/listAllMentors.service';
@@ -57,7 +57,7 @@ export class MentorController {
     private activateMentorService: ActivateMentorService,
     private changeMentorPasswordService: ChangeMentorPasswordService,
     private createMentorService: CreateMentorService,
-    private deactivateLoggedMentorService: DesactivateLoggedMentorService,
+    private deactivateLoggedMentorService: DeactivateLoggedMentorService,
     private getMentorByIdService: GetMentorByIdService,
     private getMentorByNameAndRoleService: GetMentorByNameAndRoleService,
     private listAllMentorsService: ListAllMentorsService,
@@ -66,7 +66,7 @@ export class MentorController {
     private updateMentorService: UpdateMentorService,
     private uploadProfileImageService: UploadProfileImageService,
     private finishMentorRegisterService: FinishMentorRegisterService,
-    private getRegisteredMentorsService: ListAllRegisteredMentorsService
+    private getRegisteredMentorsService: ListAllRegisteredMentorsService,
   ) {}
 
   @Post()
@@ -165,9 +165,10 @@ export class MentorController {
   }
 
   @ApiExcludeEndpoint()
-  @Patch(':id')
-  async desactivateLoggedEntity(@Param() { id }: GetByIdDto) {
-    return this.deactivateLoggedMentorService.execute(id);
+  @UseGuards(AuthGuard())
+  @Patch()
+  async deactivateLoggedEntity(@LoggedEntity() mentor: MentorEntity) {
+    return this.deactivateLoggedMentorService.execute(mentor);
   }
 
   @SwaggerRestoreAccountEmail()

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style type="text/css">
+    @import url('https://fonts.googleapis.com/css2?family=Radio+Canada:ital,wght@0,300..700;1,300..700&display=swap');
+
+    .table-container {
+      padding: 56px 64px;
+    }
+
+    .td-logo {
+      padding-bottom: 16px;
+    }
+
+    h2 {
+      font-size: 32px;
+      line-height: 38.4px;
+      padding-bottom: 8px;
+    }
+
+    h3 {
+      font-size: 24px;
+      line-height: 28.8px;
+      padding-bottom: 40px;
+    }
+
+    .td-message {
+      padding-bottom: 16px;
+    }
+
+    .p-message {
+      font-size: 16px;
+      line-height: 22.4px;
+      font-family: 'Radio Canada', sans-serif;
+      margin: 0;
+    }
+
+    .td-card {
+      border-radius: 8px;
+      vertical-align: top;
+      min-width: 177px;
+    }
+
+    h4 {
+      font-size: 20px;
+      line-height: 24px;
+      padding-bottom: 8px;
+      font-family: 'Radio Canada', sans-serif;
+      margin: 0;
+      font-weight: 500;
+    }
+
+    .p-card {
+      font-size: 14px;
+      line-height: 16.8px;
+      font-family: 'Radio Canada', sans-serif;
+      margin: 0;
+    }
+
+    .card-icon {
+      margin-bottom: 64px;
+    }
+
+    .card-icon-img {
+      max-width: 100%;
+      border: 0;
+      padding: 0;
+      margin: 0;
+    }
+
+    .td-button {
+      padding: 40px 0;
+    }
+
+    .p-footer {
+      font-family: 'Radio Canada', sans-serif;
+      margin: 0;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    /* Responsive-table */
+    .responsive-table {
+      display: block;
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    @media screen and (max-width: 770px) {
+      .responsive-table tr {
+        display: block;
+      }
+
+      .responsive-table td {
+        display: block;
+        margin-bottom: 16px;
+      }
+
+      .card-icon {
+        margin-bottom: 32px;
+      }
+
+      .card-icon td {
+        margin: 0;
+      }
+
+      .td-card {
+        max-width: 100%;
+      }
+    }
+
+    /* End Responsive-table */
+    @media screen and (max-width: 480px) {
+      .table-container {
+        padding: 40px 32px;
+      }
+
+      .td-logo {
+        padding-bottom: 8px;
+      }
+
+      h2 {
+        font-size: 24px;
+        line-height: 28.8px;
+        padding-bottom: 4px;
+      }
+
+      h3 {
+        font-size: 20px;
+        line-height: 24px;
+        padding-bottom: 32px;
+      }
+
+      .td-message {
+        padding-bottom: 8px;
+      }
+
+      .p-message {
+        font-size: 14px;
+        line-height: 16.8px;
+      }
+
+      .td-button {
+        padding: 24px 0;
+      }
+    }
+  </style>
+</head>
+
+<body style="
+  margin: 0;
+  padding: 0;
+  font-family: 'Radio Canada', sans-serif;
+  background-color: #F5F5F7;
+  color: #323232;">
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+    <tr>
+      <td align="center">
+        <table class="table-container" cellpadding="0" cellspacing="0" border="0" style="
+          max-width: 800px;
+          font-family: 'Radio Canada', sans-serif;
+          background-color: #ffffff;">
+          <!-- Logo -->
+          <tr>
+            <td class="td-logo" align="center">
+              <img src="Logo.svg" alt="Logo da SouJunior" style="max-width: 100%">
+            </td>
+          </tr>
+          <!-- Title -->
+          <tr>
+            <td align="center">
+              <h2 style="
+                font-family: 'Radio Canada', sans-serif;
+                margin: 0;
+                font-weight: 600;">
+                Não perca a sua última chance
+              </h2>
+            </td>
+          </tr>
+          <!-- Subtitle -->
+          <tr>
+            <td align="center">
+              <h3 style="
+                font-family: 'Radio Canada', sans-serif;
+                margin: 0;
+                font-weight: 500;">
+                Realize seu login!
+              </h3>
+            </td>
+          </tr>
+          <!-- Message -->
+          <tr>
+            <td class="td-message" align="left">
+              <p class="p-message">
+                Olá, ${nome}!
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td align="left">
+              <p class="p-message">
+                Notamos que sua <strong>conta</strong> na nossa plataforma <strong>está prestes a ser excluída</strong>,
+                mas gostaríamos muito que você continuasse conosco. Veja o que <strong>você pode perder</strong> ao
+                deixar de fazer parte da SouJunior:
+              </p>
+            </td>
+          </tr>
+          <!-- Cards -->
+          <tr>
+            <td style="padding: 40px 0;">
+              <table class="responsive-table" cellpadding="16px" cellspacing="0" border="0">
+                <tr>
+                  <!-- Card 1 -->
+                  <td class="td-card" bgcolor="#FBF2E5">
+                    <table class="card-icon" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td align="center" style="border-radius: 8px;">
+                          <img class="card-icon-img" src="icon-network-orange.svg" alt="Ícone de network">
+                        </td>
+                      </tr>
+                    </table>
+                    <table cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td align="left">
+                          <h4>Networking e Comunidade</h4>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="left">
+                          <p class="p-card">
+                            Oportunidade de ampliar sua rede de contatos e criar novas oportunidades de colaboração e
+                            crescimento.
+                          </p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                  <!-- Espaço horizontal -->
+                  <td style="
+                    width: 22.5px;
+                    padding: 0;">
+                  </td>
+                  <!-- Card 2 -->
+                  <td class="td-card" bgcolor="#FBF2E5">
+                    <table class="card-icon" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td align="center" style="border-radius: 8px;">
+                          <img class="card-icon-img" src="icon-achievement.svg" alt="Ícone de conquista">
+                        </td>
+                      </tr>
+                    </table>
+                    <table cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td align="left">
+                          <h4>Reforço da Boa Reputação</h4>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="left">
+                          <p class="p-card">
+                            Ser um mentor voluntário destaca seu compromisso com o desenvolvimento profissional e a
+                            responsabilidade social.
+                          </p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                  <!-- Espaço horizontal -->
+                  <td style="
+                    width: 22.5px;
+                    padding: 0;">
+                  </td>
+                  <!-- Card 3 -->
+                  <td class="td-card" bgcolor="#FBF2E5">
+                    <table class="card-icon" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td align="center" style="border-radius: 8px;">
+                          <img class="card-icon-img" src="icon-badge.svg" alt="Ícone de credencial">
+                        </td>
+                      </tr>
+                    </table>
+                    <table cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td align="left">
+                          <h4>Desenvolvimento Profissional</h4>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="left">
+                          <p class="p-card">
+                            Chance de aprimorar suas próprias habilidades de liderança, comunicação e resolução de
+                            problemas.
+                          </p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <!-- Message -->
+          <tr>
+            <td class="td-message" align="left">
+              <p class="p-message">
+                Nós temos crescido muito, juntos, e sua contribuição como mentor tem sido incrível.
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td class="td-message" align="left">
+              <p class="p-message">
+                Entretanto, se não verificarmos nenhuma atividade na sua conta <strong>nas próximas 48 horas</strong>,
+                ela será permanentemente excluída. Isso significa que <strong>todo o seu histórico, conquistas e
+                  conexões serão perdidos.</strong>
+              </p>
+            </td>
+          </tr>
+          <tr>
+          <tr>
+            <td align="left">
+              <p class="p-message">
+                Não deixe isso acontecer! Você pode <strong>evitar a exclusão</strong> simplesmente <strong>realizando o
+                  login na plataforma.</strong>
+              </p>
+            </td>
+          </tr>
+          <!-- Button -->
+          <tr>
+            <td align="center">
+              <table cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td class="td-button" align="center">
+                    <a href="http://localhost:3000/login" style="
+                      display: block;
+                      font-family: 'Radio Canada', sans-serif;
+                      padding: 12.5px 24px;
+                      border: 2px solid #003986;
+                      border-radius: 8px;
+                      background-color: #003986;
+                      color: #FFFFFF;
+                      font-size: 16px;
+                      font-weight: 500;
+                      text-decoration: none;">
+                      Realizar login e reativar conta
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <!-- Footer -->
+          <tr>
+            <td align="center">
+              <p class="p-footer">
+                Caso o e-mail tenha sido enviado por engano, apenas ignore-o.
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td align="center">
+              <p class="p-footer" style="margin-top: 16px;">
+                Por favor, não responda a este e-mail.
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+
+</html>

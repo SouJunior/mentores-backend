@@ -12,16 +12,21 @@ import { GetMentorByIdService } from './services/getMentorById.service';
 import { GetMentorByNameAndRoleService } from './services/getMentorByNameAndRole.service';
 import { ActivateMentorService } from './services/activateMentor.service';
 import { ChangeMentorPasswordService } from './services/changeMentorPassword.service';
-import { DesactivateLoggedMentorService } from './services/deactivateLoggedMentor.service';
+import { DeactivateLoggedMentorService } from './services/deactivateLoggedMentor.service';
 import { FinishMentorRegisterService } from './services/finishMentorRegisterService.service';
 import { RedefineMentorPasswordService } from './services/redefineMentorPassword.service';
 import { SendRestorationEmailService } from './services/sendRestorationEmail.service';
 import { UploadProfileImageService } from './services/uploadProfileImage.service';
 import { JwtService } from '@nestjs/jwt';
 import { ListAllRegisteredMentorsService } from './services/listAllRegisteredMentors.service';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
-  imports: [MailModule, PassportModule.register({ defaultStrategy: 'jwt' })],
+  imports: [
+    MailModule,
+    PassportModule.register({ defaultStrategy: 'jwt' }),
+    ScheduleModule.forRoot(),
+  ],
   controllers: [MentorController],
   providers: [
     CreateMentorService,
@@ -32,7 +37,7 @@ import { ListAllRegisteredMentorsService } from './services/listAllRegisteredMen
     GetMentorByNameAndRoleService,
     ActivateMentorService,
     ChangeMentorPasswordService,
-    DesactivateLoggedMentorService,
+    DeactivateLoggedMentorService,
     FinishMentorRegisterService,
     RedefineMentorPasswordService,
     SendRestorationEmailService,
@@ -40,7 +45,7 @@ import { ListAllRegisteredMentorsService } from './services/listAllRegisteredMen
     MentorRepository,
     GenerateCodeUtil,
     FileUploadService,
-    JwtService
+    JwtService,
   ],
   exports: [MentorRepository],
 })

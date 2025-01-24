@@ -7,6 +7,17 @@ import { MentorEntity } from '../entities/mentor.entity';
 
 @Injectable()
 export class MentorRepository extends PrismaClient {
+  async findDeactivatedMentors(): Promise<MentorEntity[]> {
+    // achar os mentores desativados
+    return this.mentors
+      .findMany({
+        where: {
+          deleted: true,
+        },
+      })
+      .catch(handleError);
+  }
+
   async createNewMentor(data: CreateMentorDto): Promise<MentorEntity> {
     return this.mentors.create({ data }).catch(handleError);
   }
@@ -16,7 +27,9 @@ export class MentorRepository extends PrismaClient {
   }
 
   async findAllRegisteredMentors(): Promise<MentorEntity[]> {
-    return this.mentors.findMany({where: { registerComplete: true }}).catch(handleError);
+    return this.mentors
+      .findMany({ where: { registerComplete: true } })
+      .catch(handleError);
   }
 
   async findMentorByEmail(email: string): Promise<MentorEntity> {
@@ -79,7 +92,7 @@ export class MentorRepository extends PrismaClient {
     return mentors;
   }
 
-  async desativateMentorById(id: string): Promise<MentorEntity> {
+  async deactivateMentorById(id: string): Promise<MentorEntity> {
     return this.mentors
       .update({
         where: {
@@ -87,6 +100,7 @@ export class MentorRepository extends PrismaClient {
         },
         data: {
           deleted: true,
+          updatedAt: new Date(),
         },
       })
       .catch(handleError);
