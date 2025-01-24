@@ -57,7 +57,7 @@ describe('DeactivateLoggedMentorService', () => {
           id: 'mentor1',
           fullName: 'Test Mentor',
           email: 'test@example.com',
-          password: 'hashedPassword',
+          password: '',
           dateOfBirth: new Date('1990-01-01'),
           specialties: ['Specialty1'],
           role: 'Mentor',
