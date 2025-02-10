@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CalendlyRepository } from '../repository/calendly.repository';
-import { IHttpAdapter } from 'src/lib/adapter/httpAdapterInterface';
+import { IHttpAdapter } from '../../../lib/adapter/httpAdapterInterface';
 
 
 @Injectable()
@@ -33,14 +33,11 @@ export class FetchSchedulesService {
 
         calendlyInfo.calendlyUserUuid = mentorUuid;
 
-        console.log('Fetched mentor UUID:', mentorUuid);
       } catch (error: any) {
         console.error('Error fetching mentor UUID:', error.response?.data);
         throw new Error('Could not fetch mentor UUID from Calendly');
       }
     }
-
-    console.log('Fetching scheduled events for user UUID:', calendlyInfo.calendlyUserUuid);
 
     const userUrlUuid = `https://api.calendly.com/users/${calendlyInfo.calendlyUserUuid}`;
 

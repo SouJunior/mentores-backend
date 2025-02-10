@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateTestimonyDto } from '../dto/create-testimony.dto';
-import { MentorEntity } from 'src/modules/mentors/entities/mentor.entity';
+import { MentorEntity } from '../../../modules/mentors/entities/mentor.entity';
 import { TestimonyRepository } from '../repository/testimony.repository';
 
 @Injectable()

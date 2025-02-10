@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { TestimonyRepository } from '../repository/testimony.repository';
 import { CreateTestimonyDto } from '../dto/create-testimony.dto';
-import { dataFormatter } from 'src/shared/utils/formatters.utils';
+import { dataFormatter } from '../../../shared/utils/formatters.utils';
 
 @Injectable()
 export class EditTestimonyService {
