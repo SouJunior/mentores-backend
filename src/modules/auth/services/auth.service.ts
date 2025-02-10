@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { MailService } from '../../../modules/mails/mail.service';
@@ -9,7 +9,10 @@ import { InfoEntity } from '../entity/info.entity';
 import { MentorEntity } from '../../../modules/mentors/entities/mentor.entity';
 import { UserEntity } from '../../../modules/user/entities/user.entity';
 import { accessAttemptMessage } from '../enums/message.enum';
+
+import IHashAdapter from 'src/lib/adapter/hash/hashAdapterInterface';
 import { CalendlyRepository } from '../../../modules/calendly/repository/calendly.repository';
+
 
 
 @Injectable()
@@ -20,6 +23,7 @@ export class AuthService {
     private userRepository: UserRepository,
     private jwt: JwtService,
     private mailService: MailService,
+    @Inject("IHashAdapter") private readonly hashAdapter: IHashAdapter
   ) {}
 
   async execute({ email, password, type }: InfoLoginDto) {
@@ -32,8 +36,9 @@ export class AuthService {
     }
     await this.infoConfirm(info, type);
 
-    const passwordIsValid = await bcrypt.compare(password, info.password);
-
+    // const passwordIsValid = await bcrypt.compare(password, info.password); * Versão antiga
+    const passwordIsValid = await this.hashAdapter.compareHash(password, info.password);
+    
     if (!passwordIsValid) {
       await this.invalidPassword(info, type);
     }
