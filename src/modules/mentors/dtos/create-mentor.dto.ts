@@ -1,9 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Exclude, Transform } from 'class-transformer';
+import { Transform } from 'class-transformer';
 import {
+  ArrayMaxSize,
+  ArrayMinSize,
+  IsArray,
+  IsBoolean,
   IsDate,
   IsEmail,
+  IsEnum,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
   Matches,
@@ -11,6 +17,7 @@ import {
   MaxLength,
 } from 'class-validator';
 import { Match } from '../decorators/match.decorator';
+import { Specialties } from '../enums/specialties.enum';
 
 export class CreateMentorDto {
   @IsString()
@@ -53,6 +60,7 @@ export class CreateMentorDto {
   @MaxLength(100, { message: 'Maximum of 100 characters exceeded' })
   @IsNotEmpty({ message: "the 'emailConfirm' field must not be empty" })
   @Transform(({ value }) => value.toLowerCase())
+  @IsOptional()
   @ApiProperty({
     required: true,
     example: 'fulano.de.tal@dominio.com',
@@ -60,7 +68,7 @@ export class CreateMentorDto {
   @Match('email', {
     message: 'The emails dont match',
   })
-  emailConfirm: string;
+  emailConfirm?: string;
 
   @IsNotEmpty({ message: "the 'password' field must not be empty" })
   @IsString({ message: 'Only strings are allowed in this field' })
@@ -79,6 +87,7 @@ export class CreateMentorDto {
 
   @IsNotEmpty({ message: "the 'passwordConfirmation' field must not be empty" })
   @IsString()
+  @IsOptional()
   @ApiProperty({
     description: 'Confirmação de senha',
     example: 'Abcd@123',
@@ -86,9 +95,30 @@ export class CreateMentorDto {
   @Match('password', {
     message: 'The password does not match with the password confirmation',
   })
-  passwordConfirmation: string;
+  passwordConfirmation?: string;
 
-  @Exclude()
   @IsOptional()
-  code: string;
+  code?: string;
+
+  @IsOptional()
+  @IsArray()
+  @IsEnum(Specialties, { each: true })
+  @IsString({ each: true })
+  @ArrayMinSize(1)
+  @ArrayMaxSize(6)
+  @ApiProperty({
+    required: true,
+    type: 'String array',
+    example: 'Front-End, Back-End, QA, Dev Ops',
+  })
+  specialties?: string[];
+
+  @IsNumber()
+  @IsOptional()
+  accessAttempt?: number
+
+  @IsBoolean()
+  @IsOptional()
+  @IsNotEmpty()
+  registerComplete?: boolean;
 }

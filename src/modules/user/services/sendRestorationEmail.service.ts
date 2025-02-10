@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { UserRepository } from '../user.repository';
-import { GenerateCodeUtil } from 'src/shared/utils/generate-code.util';
+import { GenerateCodeUtil } from '../../../shared/utils/generate-code.util';
 import { MailService } from '../../mails/mail.service';
 import { ActivateUserDto } from '../dto/activate-user.dto';
 

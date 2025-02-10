@@ -2,13 +2,13 @@ export class MentorEntity {
   id?: string;
   fullName: string;
   dateOfBirth: string | Date;
-  password: string;
+  password?: string;
   email: string;
   emailConfirmed?: boolean;
-  specialties: string[];
-  role: string;
-  gender: string;
-  aboutMe: string;
+  specialties?: string[];
+  role?: string;
+  gender?: string;
+  aboutMe?: string;
   registerComplete?: boolean;
   profileKey?: string;
   profile?: string;
