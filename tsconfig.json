@@ -20,5 +20,5 @@
     "esModuleInterop": true,
     "moduleResolution": "node",
   },
-  "include": ["src/**/*.ts", "test/**/*.ts"]
+  "include": ["src/**/*.ts", "test/**/*.ts", "e2e/activate-mentor.e2e.spec.ts", "e2e/authenticate-mentor.e2e.spec.ts", "e2e/change-mentor-password.e2e.spec.ts", "e2e/create-mentor.e2e.spec.ts", "e2e/list-all-mentors.e2e.spec.ts"]
 }

@@ -2,10 +2,11 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { CreateMentorService } from '../../services/createMentor.service';
 import { MailService } from 'src/modules/mails/mail.service';
 import { InMemoryMentorRepository } from '../../repository/inMemory/inMemoryMentor.repository';
-import { CreateMentorDto } from '../../dtos/create-mentor.dto';
 import { MentorRepository } from '../../repository/mentor.repository';
 import { plainToClass } from 'class-transformer';
 import { validate } from 'class-validator';
+import { makeMentor } from 'src/test/factories/make-mentor';
+import { CreateMentorDto } from '../../dtos/create-mentor.dto';
 
 const mockMailService = {
   mentorSendCreationConfirmation: vi.fn(),
@@ -27,15 +28,10 @@ describe('CreateMentorService', () => {
     vi.clearAllMocks();
   });
 
-  it('Deve criar um mentor e enviar um e-mail de confirmação', async () => {
-    const mentorData: CreateMentorDto = {
-      email: 'mentor@example.com',
-      password: 'password123',
-      fullName: 'Mentor Test',
-      dateOfBirth: new Date('1990-01-01'),
-    };
+  it('Should create a mentor and send a confirmation e-mail', async () => {
+    const mentorData = makeMentor({ email: 'mentor@example.com', fullName: 'Mentor Test' });
 
-    const result = await createMentorService.execute(mentorData as any);
+    const result = await createMentorService.execute(mentorData);
     expect(mockMailService.mentorSendCreationConfirmation).toHaveBeenCalledWith(
       expect.objectContaining({
         email: 'mentor@example.com',
@@ -47,13 +43,8 @@ describe('CreateMentorService', () => {
     expect(result).toEqual({ message: 'Mentor created successfully', statusCode: 201 });
   });
 
-  it('Deve lançar erro caso o mentor já exista', async () => {
-    const mentorData: CreateMentorDto = {
-      email: 'mentor@example.com',
-      password: 'password123',
-      fullName: 'Mentor Test',
-      dateOfBirth: new Date('1990-01-01'),
-    };
+  it('Should throw and error if the mentor already exists', async () => {
+    const mentorData = makeMentor({ email: 'mentor@example.com' });
 
     await createMentorService.execute(mentorData);
 
@@ -63,88 +54,65 @@ describe('CreateMentorService', () => {
     expect(inMemoryMentorRepository.mentors.length).toEqual(1);
   });
 
-  it('Deve lançar erro caso o e-mail seja inválido', async () => {
-    const invalidMentorData: CreateMentorDto = {
-      email: 'invalid-email',
-      password: 'Password@123',
-      fullName: 'Invalid Email Test',
-      dateOfBirth: new Date('1990-01-01'),
-    };
+  it('Should throw and error if the e-mail is invalid', async () => {
+    const invalidMentorData = makeMentor({ email: 'invalid-email' });
 
     const mentorDto = plainToClass(CreateMentorDto, invalidMentorData);
     const errors = await validate(mentorDto);
-  
+
     expect(errors.length).toBeGreaterThan(0);
     expect(errors[0].constraints?.isEmail).toBeDefined();
 
     expect(inMemoryMentorRepository.mentors.length).toEqual(0);
   });
 
-  it('Deve criar um mentor mesmo com campos opcionais ausentes', async () => {
-    const mentorData: CreateMentorDto = {
-      email: 'mentor.optional@example.com',
-      password: 'password123',
-      fullName: 'Mentor Optional Test',
-      dateOfBirth: new Date('1990-01-01'),
-    };
+  it('Should create a mentor even without optional fields', async () => {
+    const mentorData = makeMentor({ aboutMe: undefined });
 
-    const result = await createMentorService.execute(mentorData as any);
+    const result = await createMentorService.execute(mentorData);
 
     expect(inMemoryMentorRepository.mentors.length).toEqual(1);
-    expect(result).toEqual({ message: 'Mentor created successfully' , statusCode: 201});
+    expect(result).toEqual({ message: 'Mentor created successfully', statusCode: 201 });
   });
 
-it('Deve lançar erro caso a senha não seja forte o suficiente', async () => {
-  const weakPasswordData: CreateMentorDto = {
-    email: 'weak.password@example.com',
-    password: '12345',
-    fullName: 'Weak Password Test',
-    dateOfBirth: new Date('1990-01-01'),
-  };
+  it('Should throw an error if the password is not strong enough', async () => {
+    const weakPasswordData = makeMentor({ password: '12345' });
 
-  const mentorDto = plainToClass(CreateMentorDto, weakPasswordData);
-  const errors = await validate(mentorDto);
-  
-  expect(errors.length).toBeGreaterThan(0);
-  expect(errors[0].constraints?.matches).toBeDefined();
-  
-  expect(inMemoryMentorRepository.mentors.length).toEqual(0);
-});
+    const mentorDto = plainToClass(CreateMentorDto, weakPasswordData);
+    const errors = await validate(mentorDto);
 
-it('Deve lançar erro caso a data de nascimento seja inválida', async () => {
-  const invalidDateData: CreateMentorDto = {
-    email: 'invalid.date@example.com',
-    password: 'Password@123',
-    fullName: 'Invalid Date Test',
-    dateOfBirth: new Date('2090-01-01'),
-  };
+    expect(errors.length).toBeGreaterThan(0);
+    expect(errors[0].constraints?.matches).toBeDefined();
 
-  const mentorDto = plainToClass(CreateMentorDto, invalidDateData);
-  const errors = await validate(mentorDto);
-  
-  expect(errors.length).toBeGreaterThan(0);
-  expect(errors[0].constraints?.maxDate).toBeDefined();
-  
-  expect(inMemoryMentorRepository.mentors.length).toEqual(0);
-});
+    expect(inMemoryMentorRepository.mentors.length).toEqual(0);
+  });
 
-it('Deve garantir que a senha do mentor foi "hashada" corretamente', async () => {
-  const mentorData: CreateMentorDto = {
-    email: 'hash.password@example.com',
-    password: 'Password@123',
-    fullName: 'Hash Password Test',
-    dateOfBirth: new Date('1990-01-01'),
-  };
+  it('Should throw and error if the date of birth is invalid', async () => {
+    const invalidDateData = makeMentor({ dateOfBirth: new Date('2090-01-01').toISOString() });
 
-  const mentorDto = plainToClass(CreateMentorDto, mentorData);
-  const errors = await validate(mentorDto);
-  expect(errors.length).toBe(0);
+    const mentorDto = plainToClass(CreateMentorDto, invalidDateData);
+    const errors = await validate(mentorDto);
 
-  const result = await createMentorService.execute(mentorData as any);
-  const createdMentor = inMemoryMentorRepository.mentors[0];
+    expect(errors.length).toBeGreaterThan(0);
+    expect(errors[0].constraints?.maxDate).toBeDefined();
 
-  expect(createdMentor.password).toMatch(/^\$2[ayb]\$.{56}$/);
+    expect(inMemoryMentorRepository.mentors.length).toEqual(0);
+  });
 
-  expect(result).toEqual({ message: 'Mentor created successfully' , statusCode: 201});
-});
+  it('Should grant that the mentor password was hashed correctly', async () => {
+    const mentorData = makeMentor({ email: 'hash.password@example.com', password: 'Password@123' });
+
+    const mentorDto = plainToClass(CreateMentorDto, mentorData);
+    const errors = await validate(mentorDto);
+
+    console.log(errors)
+    expect(errors.length).toBe(0);
+
+    const result = await createMentorService.execute(mentorData);
+    const createdMentor = inMemoryMentorRepository.mentors[0];
+
+    expect(createdMentor.password).toMatch(/^\$2[ayb]\$.{56}$/);
+
+    expect(result).toEqual({ message: 'Mentor created successfully', statusCode: 201 });
+  });
 });
