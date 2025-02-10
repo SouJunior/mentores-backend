@@ -25,5 +25,6 @@ import { CalendlyModule } from './modules/calendly/calendly.module';
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],
+  exports: [PrismaService]
 })
 export class AppModule {}

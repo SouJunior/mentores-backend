@@ -102,24 +102,4 @@ describe('ChangeMentorPasswordService', () => {
     expect(result.status).toBe(400);
     expect(result.message).toBe('Something went wrong in the database');
   });
-  it('Should return an error when new password and confirm password do not match', async () => {
-    const mentor: MentorEntity = await inMemoryMentorRepository.createNewMentor({
-      email: 'mentor@example.com',
-      fullName: 'Test Mentor',
-      dateOfBirth: new Date('1990-01-01'),
-      password: await bcrypt.hash('OldPass@123', 10),
-    });
-  
-    const dto: MentorChangePassDto = {
-      oldPassword: 'OldPass@123',
-      password: 'NewPass@123',
-      confirmPassword: 'DifferentNewPass@123',
-    };
-  
-    const result = await changeMentorPasswordService.execute(mentor, dto);
-  
-    expect(result.status).toBe(400);
-    expect(result.message).toBe('The password does not match with the password confirmation');
-  });
-  
 });

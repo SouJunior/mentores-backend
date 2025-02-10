@@ -16,7 +16,6 @@ import {
   MaxDate,
   MaxLength,
 } from 'class-validator';
-import { Match } from '../decorators/match.decorator';
 import { Specialties } from '../enums/specialties.enum';
 
 export class CreateMentorDto {
@@ -38,7 +37,7 @@ export class CreateMentorDto {
     required: true,
     example: '2023-04-06',
   })
-  dateOfBirth: Date;
+  dateOfBirth: Date | string;
 
   @IsString({ message: 'Only strings are allowed in this field' })
   @IsEmail(undefined, {
@@ -52,23 +51,6 @@ export class CreateMentorDto {
     example: 'fulano.de.tal@dominio.com',
   })
   email: string;
-
-  @IsString({ message: 'Only strings are allowed in this field' })
-  @IsEmail(undefined, {
-    message: 'Invalid e-mail format',
-  })
-  @MaxLength(100, { message: 'Maximum of 100 characters exceeded' })
-  @IsNotEmpty({ message: "the 'emailConfirm' field must not be empty" })
-  @Transform(({ value }) => value.toLowerCase())
-  @IsOptional()
-  @ApiProperty({
-    required: true,
-    example: 'fulano.de.tal@dominio.com',
-  })
-  @Match('email', {
-    message: 'The emails dont match',
-  })
-  emailConfirm?: string;
 
   @IsNotEmpty({ message: "the 'password' field must not be empty" })
   @IsString({ message: 'Only strings are allowed in this field' })
@@ -84,18 +66,6 @@ export class CreateMentorDto {
     example: 'Abcd@123',
   })
   password: string;
-
-  @IsNotEmpty({ message: "the 'passwordConfirmation' field must not be empty" })
-  @IsString()
-  @IsOptional()
-  @ApiProperty({
-    description: 'Confirmação de senha',
-    example: 'Abcd@123',
-  })
-  @Match('password', {
-    message: 'The password does not match with the password confirmation',
-  })
-  passwordConfirmation?: string;
 
   @IsOptional()
   code?: string;
