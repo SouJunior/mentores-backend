@@ -81,6 +81,7 @@ export class FetchSchedulesService {
         startTime: event.start_time,
         endTime: event.end_time,
         duration: this.calculateDuration(event.start_time, event.end_time),
+        joinUrl: event.location?.join_url || 'No meeting link provided',
         participants
       });
     }
