@@ -65,6 +65,8 @@ export class FetchSchedulesService {
           Authorization: `Bearer ${accessToken}`,
         },
       });
+
+      const eventId = event.uri.split('/').pop();
   
       const participants = inviteesResponse.collection.map(invitee => ({
         name: invitee.name,
@@ -82,6 +84,7 @@ export class FetchSchedulesService {
         endTime: event.end_time,
         duration: this.calculateDuration(event.start_time, event.end_time),
         joinUrl: event.location?.join_url || 'No meeting link provided',
+        eventUrl: `https://calendly.com/app/scheduled_events/user/me?period=upcoming&uuid=${eventId}`,
         participants
       });
     }
