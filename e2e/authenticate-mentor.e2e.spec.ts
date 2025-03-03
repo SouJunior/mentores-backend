@@ -202,7 +202,7 @@ test("[POST] /auth/login - Fails for deleted accounts", async () => {
             dateOfBirth: new Date("1988-02-23"),
             password: await hash("Xandao@2024", 10),
             emailConfirmed: true,
-            deleted: true, // Conta deletada
+            deleted: true,
         },
     });
 

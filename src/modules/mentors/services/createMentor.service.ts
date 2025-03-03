@@ -27,9 +27,6 @@ export class CreateMentorService {
     data.password = await bcrypt.hash(data.password, 10);
     data.code = generateCodeUtil.create();
 
-    delete data.passwordConfirmation;
-    delete data.emailConfirm;
-
     const newMentor = await this.mentorRepository.createNewMentor(data);
 
     await this.mailService.mentorSendCreationConfirmation(newMentor);
