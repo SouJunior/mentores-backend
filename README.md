@@ -68,6 +68,12 @@ secure: true,
 
 ## DevOps
 
+> [!WARNING]
+> GitHub workflow de CI sendo executado ao fazer push para main, duplicando validação que foi feita na PR antes do merge
+
+> [!TIP]
+> Atualizar "Docker Image CI" workflow, removendo "on: push: branches: [main]"
+
 ```mermaid
 sequenceDiagram
     actor Dev as Desenvolvedores
