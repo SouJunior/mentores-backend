@@ -66,6 +66,11 @@ dentro dela tem um:
 secure: true,
 ```
 
+![image](https://github.com/wendesongomes/mentores-backend/assets/82889172/0386598d-5053-4189-9e9b-e7d1a4ef1655)
+
+
+troque para false, com isso o mailtrap vai capturar seus emails normalmente.
+
 ## DevOps
 
 > [!WARNING]
@@ -100,8 +105,3 @@ sequenceDiagram
     end
     deactivate Actions
 ```
-
-![image](https://github.com/wendesongomes/mentores-backend/assets/82889172/0386598d-5053-4189-9e9b-e7d1a4ef1655)
-
-
-troque para false, com isso o mailtrap vai capturar seus emails normalmente.
