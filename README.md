@@ -66,6 +66,35 @@ dentro dela tem um:
 secure: true,
 ```
 
+## DevOps
+
+```mermaid
+sequenceDiagram
+    actor Dev as Desenvolvedores
+    participant Git as GitHub
+    participant Actions as GitHub Actions
+    participant ECR as AWS ECR
+
+    Dev->>Git: Abre Pull Request (PR) para main
+    Git->>Actions: Novo Evento: PR criada
+    Actions-->>Git: Cria imagem Docker
+    
+    Note over Dev,ECR: Loop de desenvolvimento
+    
+    Dev->>Git: Aprova e mergeia PR para main
+    Git->>Actions: Novo Evento: Branch main atualizada
+    activate Actions
+    par "Docker Image CI" workflow
+        Actions-->>Git: Cria imagem Docker
+    and "Docker Image CI for AWS" workflow
+        Actions->>Actions: Cria imagem Docker
+        Actions->>ECR: Atualiza imagem Docker em AWS ECR
+        ECR-->>Actions: Imagem Docker atualizada em AWS ECR
+        Actions-->>Git: Deploy de Produção atualizado
+    end
+    deactivate Actions
+```
+
 ![image](https://github.com/wendesongomes/mentores-backend/assets/82889172/0386598d-5053-4189-9e9b-e7d1a4ef1655)
 
 
