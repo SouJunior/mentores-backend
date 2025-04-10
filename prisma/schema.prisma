@@ -27,6 +27,7 @@ model mentors {
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @default(now())
   deleted          Boolean        @default(false)
+  deactivatedDays  Int            @default(0)
   testimony        testimony?
   calendlyInfo     calendlyInfo?  @relation("MentorCalendlyInfo")
 

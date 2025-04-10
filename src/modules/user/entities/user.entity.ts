@@ -5,8 +5,8 @@ export class UserEntity {
   password?: string;
   email: string;
   emailConfirmed?: boolean;
-  aboutMe: string;
-  gender: string;
+  aboutMe?: string;
+  gender?: string;
   profileKey?: string;
   profile?: string;
   accessAttempt?: number;
@@ -14,4 +14,5 @@ export class UserEntity {
   createdAt?: string | Date;
   updatedAt?: string | Date;
   deleted?: boolean;
+  deactivatedDays?: number;
 }

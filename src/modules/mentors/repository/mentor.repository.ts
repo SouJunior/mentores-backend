@@ -52,7 +52,7 @@ export class MentorRepository extends PrismaClient {
 
   async findAllRegisteredMentors(): Promise<MentorEntity[]> {
     return this.mentors
-      .findMany({ where: { registerComplete: true } })
+      .findMany({ where: { registerComplete: true, deleted: false } })
       .catch(handleError);
   }
 

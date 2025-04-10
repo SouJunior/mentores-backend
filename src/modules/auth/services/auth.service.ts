@@ -1,6 +1,5 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import * as bcrypt from 'bcrypt';
 import { MailService } from '../../../modules/mails/mail.service';
 import { MentorRepository } from '../../../modules/mentors/repository/mentor.repository';
 import { UserRepository } from '../../../modules/user/user.repository';
@@ -42,6 +41,7 @@ export class AuthService {
     }
 
     info.accessAttempt = 0;
+    info.deleted = false
     if (type === 'mentor') {
       await this.mentorRepository.updateMentor(info.id, info);
     } else {
@@ -73,7 +73,7 @@ export class AuthService {
   }
 
   async infoConfirm(info: InfoEntity, type: string) {
-    if (!info || info.deleted == true) {
+    if (!info || (info.deleted == true && info.deactivatedDays > 30)) {
       const message = 'invalid e-mail or password';
       throw new HttpException({ message }, HttpStatus.NOT_FOUND);
     }

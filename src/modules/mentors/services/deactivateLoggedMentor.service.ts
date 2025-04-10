@@ -27,6 +27,7 @@ export class DeactivateLoggedMentorService {
       }
 
       await this.mentorRepository.deactivateMentorById(mentor.id);
+      await this.mentorRepository.updateMentor(mentor.id, { deactivatedDays: 0});
 
       try {
         await this.mailService.mentorSendFirstDeactivationNotice(mentor);
@@ -94,6 +95,7 @@ export class DeactivateLoggedMentorService {
         this.logger.log(
           `Enviando segunda notificação para mentor ${mentor.id}`,
         );
+        await this.mentorRepository.updateMentor(mentor.id, { deactivatedDays: daysSince});
         await this.mailService.mentorSendSecondDeactivationNotice(mentor);
       }
 
@@ -104,6 +106,7 @@ export class DeactivateLoggedMentorService {
         this.logger.log(
           `Enviando terceira notificação para mentor ${mentor.id}`,
         );
+        await this.mentorRepository.updateMentor(mentor.id, { deactivatedDays: daysSince});
         await this.mailService.mentorSendThirdDeactivationNotice(mentor);
       }
     } catch (error) {
