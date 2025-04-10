@@ -66,7 +66,7 @@ export class MentorController {
     private updateMentorService: UpdateMentorService,
     private uploadProfileImageService: UploadProfileImageService,
     private finishMentorRegisterService: FinishMentorRegisterService,
-    private getRegisteredMentorsService: ListAllRegisteredMentorsService
+    private getRegisteredMentorsService: ListAllRegisteredMentorsService,
   ) {}
 
   @Post()
@@ -174,9 +174,10 @@ export class MentorController {
   }
 
   @ApiExcludeEndpoint()
-  @Patch(':id')
-  async deactivateEntity(@Param() { id }: GetByIdDto) {
-    return this.deactivateLoggedMentorService.execute(id);
+  @UseGuards(AuthGuard())
+  @Patch()
+  async deactivateLoggedEntity(@LoggedEntity() mentor: MentorEntity) {
+    return this.deactivateLoggedMentorService.execute(mentor);
   }
 
   @SwaggerRestoreAccountEmail()
