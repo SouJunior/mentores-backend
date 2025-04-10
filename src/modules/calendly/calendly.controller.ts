@@ -3,7 +3,7 @@ import { OAuthCallbackService } from './services/calendly-callback.service';
 import { InitiateOAuthService } from './services/calendlyOAuth.service';
 import { FetchSchedulesService } from './services/fetch-schedules.service';
 import { Response } from 'express';
-import { TokenMiddleware } from 'src/middlewares/token.middleware';
+import { TokenMiddleware } from '../../middlewares/token.middleware';
 import { SearchByEmailDto } from './dto/search-by-email.dto';
 import { CreateCalendlyInfoDto, UpdateCalendlyInfoDto } from './dto/calendly-info-dto';
 import { CreateCalendlyInfoService } from './services/create-calendly-info.service';

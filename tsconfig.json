@@ -6,7 +6,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "target": "ES2021",
+    "target": "es2022",
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
@@ -17,5 +17,8 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
-  }
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+  },
+  "include": ["src/**/*.ts", "test/**/*.ts", "e2e/activate-mentor.e2e.spec.ts", "e2e/authenticate-mentor.e2e.spec.ts", "e2e/change-mentor-password.e2e.spec.ts", "e2e/create-mentor.e2e.spec.ts", "e2e/list-all-mentors.e2e.spec.ts"]
 }

@@ -1,6 +1,6 @@
 import { HttpStatus, applyDecorators } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { UpdateMentorDto } from 'src/modules/mentors/dtos/update-mentor.dto';
+import { UpdateMentorDto } from '../../../../modules/mentors/dtos/update-mentor.dto';
 import { UnauthorizedSwagger } from '../../unauthorized.swagger';
 import { BadRequestSwagger } from '../../bad-request.swagger';
 

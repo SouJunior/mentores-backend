@@ -1,6 +1,6 @@
 import { Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CalendlyRepository } from '../repository/calendly.repository';
-import { IHttpAdapter } from 'src/lib/adapter/httpAdapterInterface';
+import { IHttpAdapter } from '../../../lib/adapter/httpAdapterInterface';
 
 
 @Injectable()
