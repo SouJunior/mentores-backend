@@ -14,21 +14,21 @@ import {
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { ApiBearerAuth, ApiExcludeEndpoint, ApiTags } from '@nestjs/swagger';
-import { SwaggerConfirmEmail } from 'src/shared/Swagger/decorators/confirm-email.swagger.decorator';
+import { SwaggerConfirmEmail } from '../../shared/Swagger/decorators/confirm-email.swagger.decorator';
 import { ActivateUserDto } from './dto/activate-user.dto';
 import { Response } from 'express';
 import { GetByIdDto } from '../testimony/dto/get-by-id.dto copy';
 import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { SwaggerRestoreAccountEmail } from 'src/shared/Swagger/decorators/mentor/classes/restoreAccountEmail.swagger';
+import { SwaggerRestoreAccountEmail } from '../../shared/Swagger/decorators/mentor/classes/restoreAccountEmail.swagger';
 import { SearchByEmailDto } from '../mentors/dtos/search-by-email.dto';
 import { UserEntity } from './entities/user.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { LoggedEntity } from '../auth/decorator/loggedEntity.decorator';
 import { UserPassConfirmationDto } from './dto/user-pass-confirmation.dto';
-import { SwaggerUpdateUserById } from 'src/shared/Swagger/decorators/user/update-user-by-id.swagger';
-import { SwaggerGetUser } from 'src/shared/Swagger/decorators/user/get-user.swagger.decorator';
-import { SwaggerRestoreAccount } from 'src/shared/Swagger/decorators/restore-account.swagger.decorator';
+import { SwaggerUpdateUserById } from '../../shared/Swagger/decorators/user/update-user-by-id.swagger';
+import { SwaggerGetUser } from '../../shared/Swagger/decorators/user/get-user.swagger.decorator';
+import { SwaggerRestoreAccount } from '../../shared/Swagger/decorators/restore-account.swagger.decorator';
 import { ActivateUserService } from './services/activateUser.service';
 import { CreateUserService } from './services/createUser.service';
 import { DesactivateLoggedUserService } from './services/deactivateLoggedUser.service';
@@ -38,8 +38,8 @@ import { RedefineUserPasswordService } from './services/redefineUserPassword.ser
 import { UpdateUserService } from './services/updateUser.service';
 import { UploadProfileImageService } from './services/uploadProfileImage.service';
 import { SendRestorationEmailService } from './services/sendRestorationEmail.service';
-import { SwaggerUploadProfileImage } from 'src/shared/Swagger/decorators/uploadProfileImage.swagger';
-import { SwaggerCreateUser } from 'src/shared/Swagger/decorators/user/create-user.swagger.decorator';
+import { SwaggerUploadProfileImage } from '../../shared/Swagger/decorators/uploadProfileImage.swagger';
+import { SwaggerCreateUser } from '../../shared/Swagger/decorators/user/create-user.swagger.decorator';
 
 @ApiTags('user')
 @Controller('user')

@@ -7,6 +7,7 @@ import { AuthService } from './services/auth.service';
 import { JwtStrategy } from './jtw/jwt.strategy';
 import { UserModule } from '../user/user.module';
 import { MentorModule } from '../mentors/mentor.module';
+import HashAdapter from 'src/lib/adapter/hash/hashAdapter';
 import { CalendlyModule } from '../calendly/calendly.module';
 
 @Module({
@@ -25,6 +26,10 @@ import { CalendlyModule } from '../calendly/calendly.module';
   providers: [
     AuthService,
     JwtStrategy,
+    {
+      provide: "IHashAdapter",
+      useClass: HashAdapter
+    }
   ],
   exports: [JwtModule],
 })

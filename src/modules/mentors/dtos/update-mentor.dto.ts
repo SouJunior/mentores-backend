@@ -7,9 +7,9 @@ import {
   IsEmail,
   IsEnum,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
-  Matches,
   MaxDate,
   MaxLength,
 } from 'class-validator';
@@ -162,6 +162,13 @@ export class UpdateMentorDto {
     description: 'Calendly mentor account user Uuid',
   })
   calendlyUserUuid?: string;
+
+  @IsOptional()
+  @IsNumber()
+  @ApiProperty({
+    description: "Days of mentor's account deactivation.",
+  })
+  deactivatedDays?: number
 
   @IsOptional()
   file?: any;

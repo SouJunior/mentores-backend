@@ -25,4 +25,5 @@ COPY --from=builder /user/app/dist ./dist
 
 EXPOSE 3000
 
+ENV DATABASE_URL=${DATABASE_URL}
 CMD ["npm","run","start:prod"]

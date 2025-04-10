@@ -1,7 +1,7 @@
 import { Injectable, InternalServerErrorException } from "@nestjs/common";
 import { CalendlyRepository } from "../repository/calendly.repository";
 import { UpdateCalendlyInfoDto } from "../dto/calendly-info-dto";
-import { MentorRepository } from "src/modules/mentors/repository/mentor.repository";
+import { MentorRepository } from "../../../modules/mentors/repository/mentor.repository";
 
 
 @Injectable()
