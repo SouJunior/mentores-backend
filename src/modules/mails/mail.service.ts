@@ -78,6 +78,74 @@ export class MailService {
     return;
   }
 
+  async mentorSendFirstDeactivationNotice(mentor: MentorEntity): Promise<void> {
+    const { email, fullName } = mentor;
+
+    const loginUrl = process.env.LOGIN_URL;
+
+    try {
+      await this.mailerService
+        .sendMail({
+          to: email,
+          subject: 'Conta em processo de exclusão - SouJunior',
+          template: './firstDeactivationNotification',
+          context: {
+            name: fullName,
+            loginUrl,
+            deletionDate: new Date(
+              Date.now() + 1 * 60 * 1000,
+            ).toLocaleDateString('pt-BR'),
+          },
+        })
+        .catch(handleError);
+    } catch (error) {
+      console.log(error.message);
+    }
+
+    return;
+  }
+
+  async mentorSendSecondDeactivationNotice(mentor: MentorEntity) {
+    const { email, fullName } = mentor;
+
+    try {
+      await this.mailerService
+        .sendMail({
+          to: email,
+          subject: 'Lembrete de desativação de conta - SouJunior',
+          template: './secondDeactivationNotification',
+          context: {
+            name: fullName,
+          },
+        })
+        .catch(handleError);
+    } catch (error) {
+      console.log(error.message);
+    }
+    return;
+  }
+
+  async mentorSendThirdDeactivationNotice(mentor: MentorEntity) {
+    const { email, fullName } = mentor;
+
+    try {
+      await this.mailerService
+        .sendMail({
+          to: email,
+          subject: 'Sua conta será permanentemente desativada - SouJunior',
+          template: './thirdDeactivationNotification',
+          context: {
+            name: fullName,
+          },
+        })
+        .catch(handleError);
+    } catch (error) {
+      console.log(error.message);
+    }
+
+    return;
+  }
+
   async userSendEmailConfirmation(user: UserEntity): Promise<void> {
     const { email, fullName, code } = user;
     const url = `${process.env.URL_CONFIRM_EMAIL}?code=${code}&email=${email}`;
