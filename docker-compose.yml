@@ -1,18 +1,24 @@
-version: '3.9'
+version: "3.9"
 
 services:
   database_soujunior:
-    image: postgres
+    image: postgres:15-alpine
     container_name: database_soujunior
     restart: always
     ports:
       - 5432:5432
     environment:
-      - POSTGRES_USER=docker
-      - POSTGRES_PASSWORD=ignite
-      - POSTGRES_DB=mentores_backend
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: ignite
+      POSTGRES_DB: mentores_backend
+      PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data/pgdata
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U docker -d mentores_backend"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   mentores_backend:
     build: .
@@ -20,14 +26,17 @@ services:
     restart: always
     ports:
       - 3000:3000
-    volumes:
-      - .:/usr/app
     depends_on:
-      - database_soujunior
+      database_soujunior:
+        condition: service_healthy
     env_file:
       - .env
     environment:
-      - DATABASE_URL=postgresql://docker:ignite@database_soujunior:5432/mentores_backend
+      DATABASE_URL: postgresql://docker:ignite@database_soujunior:5432/mentores_backend
+    command: >
+      sh -c "npx prisma generate &&
+            npx prisma migrate deploy &&
+            npm run start:prod"
 
 volumes:
   pgdata:

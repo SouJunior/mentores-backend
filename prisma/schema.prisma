@@ -4,34 +4,49 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = env("DATABASE_URL_LOCAL")
 }
 
 model mentors {
-  id               String     @id @default(uuid())
+  id               String         @id @default(uuid())
   history          history?
   fullName         String
   dateOfBirth      DateTime
   password         String
-  email            String     @unique
-  emailConfirmed   Boolean    @default(false)
+  email            String         @unique
+  emailConfirmed   Boolean        @default(false)
   specialties      String[]
   role             String?
   aboutMe          String?
-  calendlyName     String?
-  agendaName       String?
-  gender           String?    @default("")
-  registerComplete Boolean    @default(false)
+  gender           String?        @default("")
+  registerComplete Boolean        @default(false)
   profile          String?
   profileKey       String?
-  accessAttempt    Int?       @default(0)
-  code             String?    @unique
-  createdAt        DateTime   @default(now())
-  updatedAt        DateTime   @default(now())
-  deleted          Boolean    @default(false)
+  accessAttempt    Int?           @default(0)
+  code             String?        @unique
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @default(now())
+  deleted          Boolean        @default(false)
+  deactivatedDays  Int            @default(0)
   testimony        testimony?
+  calendlyInfo     calendlyInfo?  @relation("MentorCalendlyInfo")
+  deactivatedAt DateTime?
+  accountDeletionFeedback accountDeletionFeedback?
 
   @@index([id])
+}
+
+model calendlyInfo {
+  id                   String    @id @default(uuid())
+  mentorId            String    @unique
+  calendlyUserUuid    String?
+  calendlyRefreshToken String?
+  calendlyAccessToken  String?
+  accessTokenExpiration DateTime?
+  calendlyName        String?
+  agendaName          String?
+
+  mentor              mentors?   @relation("MentorCalendlyInfo", fields: [mentorId], references: [id],onDelete: Cascade )
 }
 
 model users {
@@ -75,4 +90,16 @@ model testimony {
   imageUrl    String?  @default("")
   createdAt   String   @default("")
   updatedAt   String   @default("")
+}
+
+model accountDeletionFeedback {
+  id                     String   @id @default(uuid())
+  mentor                 mentors? @relation(fields: [mentor_id], references: [id])
+  mentor_id              String   @unique
+  reasonOption           String
+  reasonText             String?
+  usabilityRating        String
+  satisfactionRating     String
+  userExperienceFeedback String?
+  createdAt              DateTime @default(now())
 }

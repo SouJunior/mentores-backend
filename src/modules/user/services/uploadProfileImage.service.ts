@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { UserRepository } from '../user.repository';
 import { UpdateUserDto } from '../dto/update-user.dto';
-import { CustomBadRequestException } from 'src/shared/exceptions/badRequest.exception';
+import { CustomBadRequestException } from '../../../shared/exceptions/badRequest.exception';
 import { FileUploadService } from '../../upload/upload.service';
 
 @Injectable()

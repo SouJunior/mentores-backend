@@ -30,11 +30,12 @@ Check the following steps once you have completed it
 - [ ] Accept review comments
 
 **Test Configuration**:
-* Hardware:
-* Used Tools:
-  * Docker
-  * NodeJS
-* NodeJS Version:
+
+- Hardware:
+- Used Tools:
+  - Docker
+  - NodeJS
+- NodeJS Version:
 
 # Checklist:
 

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Delete, Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
 import { GenerateCodeUtil } from '../../shared/utils/generate-code.util';
 import { MailModule } from '../mails/mail.module';
@@ -12,24 +12,34 @@ import { GetMentorByIdService } from './services/getMentorById.service';
 import { GetMentorByNameAndRoleService } from './services/getMentorByNameAndRole.service';
 import { ActivateMentorService } from './services/activateMentor.service';
 import { ChangeMentorPasswordService } from './services/changeMentorPassword.service';
-import { DesactivateLoggedMentorService } from './services/deactivateLoggedMentor.service';
+import { DeleteMentorService } from './services/deleteMentor.service';
 import { FinishMentorRegisterService } from './services/finishMentorRegisterService.service';
 import { RedefineMentorPasswordService } from './services/redefineMentorPassword.service';
 import { SendRestorationEmailService } from './services/sendRestorationEmail.service';
 import { UploadProfileImageService } from './services/uploadProfileImage.service';
+import { JwtService } from '@nestjs/jwt';
+import { ListAllRegisteredMentorsService } from './services/listAllRegisteredMentors.service';
+import { ScheduleModule } from '@nestjs/schedule';
+import { GetMentorBySingleQueryService } from './services/getMentorBySingleQuery.service';
 
 @Module({
-  imports: [MailModule, PassportModule.register({ defaultStrategy: 'jwt' })],
+  imports: [
+    MailModule,
+    PassportModule.register({ defaultStrategy: 'jwt' }),
+    ScheduleModule.forRoot(),
+  ],
   controllers: [MentorController],
   providers: [
     CreateMentorService,
     UpdateMentorService,
     ListAllMentorsService,
+    ListAllRegisteredMentorsService,
     GetMentorByIdService,
     GetMentorByNameAndRoleService,
+    GetMentorBySingleQueryService,
     ActivateMentorService,
     ChangeMentorPasswordService,
-    DesactivateLoggedMentorService,
+    DeleteMentorService,
     FinishMentorRegisterService,
     RedefineMentorPasswordService,
     SendRestorationEmailService,
@@ -37,6 +47,7 @@ import { UploadProfileImageService } from './services/uploadProfileImage.service
     MentorRepository,
     GenerateCodeUtil,
     FileUploadService,
+    JwtService,
   ],
   exports: [MentorRepository],
 })

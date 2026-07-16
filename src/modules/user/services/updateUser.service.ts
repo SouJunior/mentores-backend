@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { UserRepository } from '../user.repository';
 import { UpdateUserDto } from '../dto/update-user.dto';
-import { CustomNotFoundException } from 'src/shared/exceptions/notFound.exception';
-import { CustomBadRequestException } from 'src/shared/exceptions/badRequest.exception';
+import { CustomNotFoundException } from '../../../shared/exceptions/notFound.exception';
+import { CustomBadRequestException } from '../../../shared/exceptions/badRequest.exception';
 
 @Injectable()
 export class UpdateUserService {

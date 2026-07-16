@@ -9,7 +9,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { FileUploadService } from './upload.service';
-import { UploadSwagger } from 'src/shared/Swagger/decorators/upload/upload.swagger.decorator';
+import { UploadSwagger } from '../../shared/Swagger/decorators/upload/upload.swagger.decorator';
 
 @ApiTags('Upload')
 @ApiBearerAuth()

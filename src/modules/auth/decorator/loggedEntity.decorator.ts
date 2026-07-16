@@ -18,17 +18,17 @@ export const LoggedEntity = createParamDecorator((_, ctx: ExecutionContext) => {
     entityObject = mentorObject;
   }
 
+  if (!entityObject) {
+    throw new UnauthorizedException(
+      'User does not have permission to access this route',
+    );
+  }
+
   delete entityObject.password;
   delete entityObject.code;
   delete entityObject.emailConfirmed;
   delete entityObject.deleted;
   delete entityObject.accessAttempt;
 
-  if (entityObject) {
-    return entityObject;
-  }
-
-  throw new UnauthorizedException(
-    'User does not have permission to access this route',
-  );
+  return entityObject;
 });

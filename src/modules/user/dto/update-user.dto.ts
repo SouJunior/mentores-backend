@@ -10,7 +10,7 @@ import {
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { Match } from 'src/modules/mentors/decorators/match.decorator';
+import { Match } from '../../../modules/mentors/decorators/match.decorator';
 
 export class UpdateUserDto {
   @IsString()

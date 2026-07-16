@@ -11,7 +11,7 @@ export class MailService {
 
   async mentorSendEmailConfirmation(mentor: MentorEntity): Promise<void> {
     const { email, fullName, code } = mentor;
-    const url = `${process.env.URL_CONFIRM_EMAIL}?code=${code}&email=${email}`;
+    const url = `${process.env.URL_CONFIRM_EMAIL_LOCAL}?code=${code}&email=${email}`;
 
     await this.mailerService
       .sendMail({
@@ -30,11 +30,10 @@ export class MailService {
 
   async mentorSendCreationConfirmation(mentor: MentorEntity) {
     const { email, fullName, code } = mentor;
-    const { URL_CONFIRM_EMAIL } = process.env;
+    const { URL_CONFIRM_EMAIL_LOCAL } = process.env;
 
-    const url = `${URL_CONFIRM_EMAIL}?code=${code}&email=${email}`;
+    const url = `${URL_CONFIRM_EMAIL_LOCAL}?code=${code}&email=${email}`;
 
-    console.log(this.mailerService);
     try {
       await this.mailerService
         .sendMail({
@@ -69,6 +68,74 @@ export class MailService {
           template: './restoreEmail',
           context: {
             url,
+          },
+        })
+        .catch(handleError);
+    } catch (error) {
+      console.log(error.message);
+    }
+
+    return;
+  }
+
+  async mentorSendFirstDeactivationNotice(mentor: MentorEntity): Promise<void> {
+    const { email, fullName } = mentor;
+
+    const loginUrl = process.env.LOGIN_URL;
+
+    try {
+      await this.mailerService
+        .sendMail({
+          to: email,
+          subject: 'Conta em processo de exclusão - SouJunior',
+          template: './firstDeactivationNotification',
+          context: {
+            name: fullName,
+            loginUrl,
+            deletionDate: new Date(
+              Date.now() + 1 * 60 * 1000,
+            ).toLocaleDateString('pt-BR'),
+          },
+        })
+        .catch(handleError);
+    } catch (error) {
+      console.log(error.message);
+    }
+
+    return;
+  }
+
+  async mentorSendSecondDeactivationNotice(mentor: MentorEntity) {
+    const { email, fullName } = mentor;
+
+    try {
+      await this.mailerService
+        .sendMail({
+          to: email,
+          subject: 'Lembrete de desativação de conta - SouJunior',
+          template: './secondDeactivationNotification',
+          context: {
+            name: fullName,
+          },
+        })
+        .catch(handleError);
+    } catch (error) {
+      console.log(error.message);
+    }
+    return;
+  }
+
+  async mentorSendThirdDeactivationNotice(mentor: MentorEntity) {
+    const { email, fullName } = mentor;
+
+    try {
+      await this.mailerService
+        .sendMail({
+          to: email,
+          subject: 'Sua conta será permanentemente desativada - SouJunior',
+          template: './thirdDeactivationNotification',
+          context: {
+            name: fullName,
           },
         })
         .catch(handleError);

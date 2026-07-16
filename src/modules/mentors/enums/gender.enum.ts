@@ -4,7 +4,7 @@ export enum Gender {
   transMale = 'Homem Trans',
   transFemale = 'Mulher Trans',
   biGender = 'Bigênero',
-  genderFluid = 'Gênero-fluido',
+  genderFluid = 'Gênero Fluido',
   nonBinary = 'Não Binário',
   agender = 'Agênero',
   preferNotToSay = 'Prefiro não dizer',

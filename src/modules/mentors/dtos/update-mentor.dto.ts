@@ -7,9 +7,9 @@ import {
   IsEmail,
   IsEnum,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
-  Matches,
   MaxDate,
   MaxLength,
 } from 'class-validator';
@@ -20,7 +20,7 @@ import { Gender } from '../enums/gender.enum';
 
 export class UpdateMentorDto {
   @IsOptional()
-  @IsString()
+  @IsString({ message: 'Only strings are allowed in this field' })
   @IsNotEmpty({ message: "the 'fullName' field must not be empty" })
   @MaxLength(100, { message: 'Maximum of 100 characters exceeded' })
   @ApiProperty({
@@ -134,6 +134,41 @@ export class UpdateMentorDto {
     description: 'Chave para remoção da imagem do perfil',
   })
   profileKey?: string;
+
+  @IsOptional()
+  @IsString()
+  @ApiProperty({
+    description: 'Calendly access token',
+  })
+  calendlyAccessToken?: string;
+
+  @IsOptional()
+  @IsDate()
+  @ApiProperty({
+    description: 'Calendly access token expire date',
+  })
+  accessTokenExpiration?: Date;
+
+  @IsOptional()
+  @IsString()
+  @ApiProperty({
+    description: 'Calendly refresh token',
+  })
+  calendlyRefreshToken?: string;
+
+  @IsOptional()
+  @IsString()
+  @ApiProperty({
+    description: 'Calendly mentor account user Uuid',
+  })
+  calendlyUserUuid?: string;
+
+  @IsOptional()
+  @IsNumber()
+  @ApiProperty({
+    description: "Days of mentor's account deactivation.",
+  })
+  deactivatedDays?: number
 
   @IsOptional()
   file?: any;

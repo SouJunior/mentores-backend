@@ -10,7 +10,7 @@ import {
   MaxDate,
   MaxLength,
 } from 'class-validator';
-import { Match } from 'src/modules/mentors/decorators/match.decorator';
+import { Match } from '../../../modules/mentors/decorators/match.decorator';
 
 export class CreateUserDto {
   @IsString()

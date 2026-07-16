@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style type="text/css">
+    @import url('https://fonts.googleapis.com/css2?family=Radio+Canada:ital,wght@0,300..700;1,300..700&display=swap');
+
+    .table-container {
+      padding: 56px 64px;
+    }
+
+    .td-logo {
+      padding-bottom: 16px;
+    }
+
+    h2 {
+      font-size: 32px;
+      line-height: 38.4px;
+      padding-bottom: 8px;
+    }
+
+    h3 {
+      font-size: 24px;
+      line-height: 28.8px;
+    }
+
+    .td-ilustration {
+      padding: 40px 0;
+    }
+
+    .td-message {
+      padding-bottom: 16px;
+    }
+
+    .p-message {
+      font-size: 16px;
+      line-height: 22.4px;
+      font-family: 'Radio Canada', sans-serif;
+      margin: 0;
+    }
+
+    .td-button {
+      padding: 40px 0;
+    }
+
+    .p-footer {
+      font-family: 'Radio Canada', sans-serif;
+      margin: 0;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    @media screen and (max-width: 480px) {
+      .table-container {
+        padding: 40px 32px;
+      }
+
+      .td-logo {
+        padding-bottom: 8px;
+      }
+
+      h2 {
+        font-size: 24px;
+        line-height: 28.8px;
+        padding-bottom: 4px;
+      }
+
+      h3 {
+        font-size: 20px;
+        line-height: 24px;
+      }
+
+      .td-ilustration {
+        padding: 24px 0 32px 0;
+      }
+
+      .td-message {
+        padding-bottom: 8px;
+      }
+
+      .p-message {
+        font-size: 14px;
+        line-height: 16.8px;
+      }
+
+      .td-button {
+        padding: 24px 0;
+      }
+    }
+  </style>
+</head>
+
+<body style="
+  margin: 0;
+  padding: 0;
+  font-family: 'Radio Canada', sans-serif;
+  background-color: #F5F5F7;
+  color: #323232;">
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+    <tr>
+      <td align="center">
+        <table class="table-container" cellpadding="0" cellspacing="0" border="0" style="
+          font-family: 'Radio Canada', sans-serif;
+          max-width: 800px;
+          background-color: #ffffff;">
+          <!-- Logo -->
+          <tr>
+            <td class="td-logo" align="center">
+              <img src="logo.svg" alt="Logo da SouJunior" style="max-width: 100%">
+            </td>
+          </tr>
+          <!-- Title -->
+          <tr>
+            <td align="center">
+              <h2 style="
+                font-family: 'Radio Canada', sans-serif;
+                margin: 0;
+                font-weight: 600;">
+                Pedido de exclusão enviado
+              </h2>
+            </td>
+          </tr>
+          <!-- Subtitle -->
+          <tr>
+            <td align="center">
+              <h3 style="
+                font-family: 'Radio Canada', sans-serif;
+                margin: 0;
+                font-weight: 500;">
+                Sua conta foi desativada e será removida em breve
+              </h3>
+            </td>
+          </tr>
+          <!-- Ilustration -->
+          <tr>
+            <td class="td-ilustration" align="center">
+              <img src="ilustration.svg" alt="Imagem ilustrativa de um robô" style="max-width: 100%;">
+            </td>
+          </tr>
+          <!-- Message -->
+          <tr>
+            <td class="td-message" align="left">
+              <p class="p-message">
+                Sua conta para mentor(a) da SouJunior recebeu um pedido de exclusão. A partir de agora, <strong>seu
+                  perfil não ficará visível</strong> para agendamentos de mentorias.
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td class="td-message" align="left">
+              <p class="p-message">
+                Lembrando que essa ação ainda não é definitiva. Você terá <strong>30 dias para reconsiderar</strong> sua
+                saída da SouJunior. Caso deseje reativar, faça o login novamente.
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td align="left">
+              <p class="p-message">
+                Após esse período, não será possível recuperar sua conta.
+              </p>
+            </td>
+          </tr>
+          <!-- Button -->
+          <tr>
+            <td align="center">
+              <table cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td class="td-button" align="center">
+                    <a href="http://localhost:3001/login" style="
+                      display: block;
+                      font-family: 'Radio Canada', sans-serif;
+                      padding: 12.5px 24px;
+                      border: 2px solid #003986;
+                      border-radius: 8px;
+                      color: #003986;
+                      font-size: 16px;
+                      font-weight: 500;
+                      text-decoration: none;">
+                      Realizar login e reativar conta
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <!-- Footer -->
+          <tr>
+            <td align="center">
+              <p class="p-footer">
+                Caso não tenha sido você quem solicitou a exclusão, entre em contato com o <a
+                  href="http://localhost:3000/faq" style="color: #003986;">suporte</a>.
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td align="center">
+              <p class="p-footer" style="margin-top: 16px;">
+                Por favor, não responda a este e-mail.
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+
+</html>

@@ -2,7 +2,7 @@ import { HttpStatus, applyDecorators } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { UnauthorizedSwagger } from '../../unauthorized.swagger';
 import { BadRequestSwagger } from '../../bad-request.swagger';
-import { UpdateUserDto } from 'src/modules/user/dto/update-user.dto';
+import { UpdateUserDto } from '../../../../modules/user/dto/update-user.dto';
 
 export function SwaggerUpdateUserById() {
   return applyDecorators(

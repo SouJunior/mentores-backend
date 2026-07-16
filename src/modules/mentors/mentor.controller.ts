@@ -24,19 +24,19 @@ import { SearchMentorDto } from './dtos/search-mentor.dto';
 import { UpdateMentorDto } from './dtos/update-mentor.dto';
 import { SearchByEmailDto } from './dtos/search-by-email.dto';
 import { MentorPassConfirmationDto } from './dtos/mentor-pass-confirmation.dto';
-import { SwaggerRestoreAccountEmail } from 'src/shared/Swagger/decorators/mentor/classes/restoreAccountEmail.swagger';
+import { SwaggerRestoreAccountEmail } from '../../shared/Swagger/decorators/mentor/classes/restoreAccountEmail.swagger';
 import { LoggedEntity } from '../auth/decorator/loggedEntity.decorator';
 import { MentorEntity } from './entities/mentor.entity';
 import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { SwaggerUpdateMentorById } from 'src/shared/Swagger/decorators/mentor/update-mentor-by-id.swagger';
+import { SwaggerUpdateMentorById } from '../../shared/Swagger/decorators/mentor/update-mentor-by-id.swagger';
 import { GetByIdDto } from './dtos/get-by-id.dto copy';
-import { SwaggerRestoreAccount } from 'src/shared/Swagger/decorators/restore-account.swagger.decorator';
+import { SwaggerRestoreAccount } from '../../shared/Swagger/decorators/restore-account.swagger.decorator';
 import { MentorChangePassDto } from './dtos/mentor-change-pass.dto';
 import { ActivateMentorService } from './services/activateMentor.service';
 import { ChangeMentorPasswordService } from './services/changeMentorPassword.service';
 import { CreateMentorService } from './services/createMentor.service';
-import { DesactivateLoggedMentorService } from './services/deactivateLoggedMentor.service';
+import { DeleteMentorService } from './services/deleteMentor.service';
 import { GetMentorByIdService } from './services/getMentorById.service';
 import { GetMentorByNameAndRoleService } from './services/getMentorByNameAndRole.service';
 import { ListAllMentorsService } from './services/listAllMentors.service';
@@ -45,9 +45,11 @@ import { SendRestorationEmailService } from './services/sendRestorationEmail.ser
 import { UpdateMentorService } from './services/updateMentor.service';
 import { UploadProfileImageService } from './services/uploadProfileImage.service';
 import { FinishMentorRegisterService } from './services/finishMentorRegisterService.service';
-import { SwaggerCompleteRegister } from 'src/shared/Swagger/decorators/complete-register.swagger';
-import { SwaggerChangePassword } from 'src/shared/Swagger/decorators/change-password.swagger';
-import { SwaggerUploadProfileImage } from 'src/shared/Swagger/decorators/uploadProfileImage.swagger';
+import { SwaggerCompleteRegister } from '../../shared/Swagger/decorators/complete-register.swagger';
+import { SwaggerChangePassword } from '../../shared/Swagger/decorators/change-password.swagger';
+import { SwaggerUploadProfileImage } from '../../shared/Swagger/decorators/uploadProfileImage.swagger';
+import { ListAllRegisteredMentorsService } from './services/listAllRegisteredMentors.service';
+import { GetMentorBySingleQueryService } from './services/getMentorBySingleQuery.service';
 
 @ApiTags('mentor')
 @Controller('mentor')
@@ -56,7 +58,7 @@ export class MentorController {
     private activateMentorService: ActivateMentorService,
     private changeMentorPasswordService: ChangeMentorPasswordService,
     private createMentorService: CreateMentorService,
-    private deactivateLoggedMentorService: DesactivateLoggedMentorService,
+    private deleteMentorService: DeleteMentorService,
     private getMentorByIdService: GetMentorByIdService,
     private getMentorByNameAndRoleService: GetMentorByNameAndRoleService,
     private listAllMentorsService: ListAllMentorsService,
@@ -65,18 +67,34 @@ export class MentorController {
     private updateMentorService: UpdateMentorService,
     private uploadProfileImageService: UploadProfileImageService,
     private finishMentorRegisterService: FinishMentorRegisterService,
+    private getRegisteredMentorsService: ListAllRegisteredMentorsService,
+    private getMentorBySingleQueryService: GetMentorBySingleQueryService,
   ) {}
 
   @Post()
   @SwaggerCreateMentor()
-  async createMentor(@Body() createMentorDto: CreateMentorDto) {
-    return this.createMentorService.execute(createMentorDto);
+  async createMentor(
+    @Body() createMentorDto: CreateMentorDto,
+    @Res() res: Response
+  ) {
+    const { message, statusCode } = await this.createMentorService.execute(createMentorDto);
+
+    return res.json({ message: message }).status(statusCode)
   }
 
   @ApiExcludeEndpoint()
   @Get()
-  async getAllMentors() {
-    return this.listAllMentorsService.execute();
+  async getAllMentors(
+    @Res() res: Response
+  ) {
+    const mentorsList = await this.listAllMentorsService.execute();
+
+    return res.json(mentorsList).status(200)
+  }
+
+  @Get('registered')
+  async getRegisteredMentors() {
+    return await this.getRegisteredMentorsService.execute();
   }
 
   @Get('search')
@@ -90,7 +108,20 @@ export class MentorController {
       specialty,
     );
 
-    return res.status(HttpStatus.OK).send(data);
+    return res.status(HttpStatus.OK).json(data);
+  }
+
+  @Get('singlequery')
+  @SwaggerGetMentor()
+  async findMentorWithSingleQuery(
+    @Res() res: Response,
+    @Query('query') query: string,
+  ) {
+    const data = await this.getMentorBySingleQueryService.execute(
+      query
+    );
+
+    return res.status(HttpStatus.OK).json(data);
   }
 
   @Get([':id'])
@@ -158,9 +189,12 @@ export class MentorController {
   }
 
   @ApiExcludeEndpoint()
-  @Patch(':id')
-  async desactivateLoggedEntity(@Param() { id }: GetByIdDto) {
-    return this.deactivateLoggedMentorService.execute(id);
+  @UseGuards(AuthGuard())
+  @Patch("delete-mentor")
+  async deleteMentor(
+    @LoggedEntity() mentor: MentorEntity
+  ) {
+    return this.deleteMentorService.execute(mentor);
   }
 
   @SwaggerRestoreAccountEmail()

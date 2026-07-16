@@ -1,4 +1,5 @@
-
+junior-tasks
+AGENTS.md
 # Logs
 logs
 *.log
@@ -142,3 +143,4 @@ dist
 .svelte-kit
 
 # End of https://www.toptal.com/developers/gitignore/api/node
+.qodo

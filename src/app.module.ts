@@ -1,4 +1,6 @@
-import { Module } from '@nestjs/common';
+import {
+  Module,
+} from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
 import { PrismaService } from '../prisma/service/prisma.service';
@@ -9,6 +11,9 @@ import { UserModule } from './modules/user/user.module';
 import { MailModule } from './modules/mails/mail.module';
 import { TestimonyModule } from './modules/testimony/testimony.module';
 import { MentorModule } from './modules/mentors/mentor.module';
+import { CalendlyModule } from './modules/calendly/calendly.module';
+import { ScheduleModule } from '@nestjs/schedule';
+import { AccountDeletionFeedbackModule } from './modules/account-deletion-feedback/account-deletion-feedback.module';
 
 @Module({
   imports: [
@@ -18,8 +23,12 @@ import { MentorModule } from './modules/mentors/mentor.module';
     AuthModule,
     MailModule,
     TestimonyModule,
+    CalendlyModule,
+    ScheduleModule,
+    AccountDeletionFeedbackModule,
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],
+  exports: [PrismaService]
 })
 export class AppModule {}

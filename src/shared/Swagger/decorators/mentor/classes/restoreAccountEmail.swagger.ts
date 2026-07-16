@@ -1,7 +1,7 @@
 import { HttpStatus, applyDecorators } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { BadRequestEmailSwagger } from 'src/shared/Swagger/bad-requestEmail.swagger';
-import { NotFoundEmailSwagger } from 'src/shared/Swagger/not-foundEmail.swagger';
+import { BadRequestEmailSwagger } from '../../../../../shared/Swagger/bad-requestEmail.swagger';
+import { NotFoundEmailSwagger } from '../../../../../shared/Swagger/not-foundEmail.swagger';
 
 export function SwaggerRestoreAccountEmail() {
   return applyDecorators(

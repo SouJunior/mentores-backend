@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { UserRepository } from '../user.repository';
-import { GenerateCodeUtil } from 'src/shared/utils/generate-code.util';
-import { MailService } from 'src/modules/mails/mail.service';
+import { GenerateCodeUtil } from '../../../shared/utils/generate-code.util';
+import { MailService } from '../../../modules/mails/mail.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 

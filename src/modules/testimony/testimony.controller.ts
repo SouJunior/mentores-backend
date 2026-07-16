@@ -10,11 +10,11 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateTestimonyDto } from './dto/create-testimony.dto';
-import { SwaggerEditTestimony } from 'src/shared/Swagger/decorators/testimony/edit-testimony.swagger.decorator';
-import { SwaggerDeleteTestimony } from 'src/shared/Swagger/decorators/testimony/delete-testimony.swagger.decorator';
+import { SwaggerEditTestimony } from '../../shared/Swagger/decorators/testimony/edit-testimony.swagger.decorator';
+import { SwaggerDeleteTestimony } from '../../shared/Swagger/decorators/testimony/delete-testimony.swagger.decorator';
 import { GetByIdDto } from './dto/get-by-id.dto copy';
-import { SwaggerGetTestimony } from 'src/shared/Swagger/decorators/testimony/get-testimony.swagger.decorator';
-import { SwaggerCreateTestimony } from 'src/shared/Swagger/decorators/testimony/create-testimony.swagger.decorator';
+import { SwaggerGetTestimony } from '../../shared/Swagger/decorators/testimony/get-testimony.swagger.decorator';
+import { SwaggerCreateTestimony } from '../../shared/Swagger/decorators/testimony/create-testimony.swagger.decorator';
 import { AuthGuard } from '@nestjs/passport';
 import { LoggedEntity } from '../auth/decorator/loggedEntity.decorator';
 import { MentorEntity } from '../mentors/entities/mentor.entity';

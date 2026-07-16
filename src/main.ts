@@ -7,8 +7,14 @@ import { AppModule } from './app.module';
 import { json } from 'express';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
-    cors: true,
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+
+  app.enableCors({
+    origin: [
+    process.env.REMOTE_FRONTEND_URL,
+    process.env.LOCAL_FRONTEND_URL,
+  ],
+    credentials: true,
   });
 
   app.use(json({ limit: '10mb' }));
